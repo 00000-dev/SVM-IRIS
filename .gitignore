@@ -1,0 +1,8 @@
+__pycache__/
+*.pyc
+*.exe
+*.zip
+*.pdf
+archive/
+database.sqlite
+HHWHW
