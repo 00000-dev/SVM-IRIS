@@ -1,0 +1,1230 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>IRIS BOTANICA AI</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+
+        /* =========================
+           GLOBAL
+        ========================= */
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: #f8f6f0;
+            color: #222;
+            font-family: "Montserrat", Arial, sans-serif;
+            overflow-x: hidden;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button,
+        input {
+            font-family: inherit;
+        }
+
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        header {
+            height: 72px;
+            border-top: 1px solid #d9d3c7;
+            border-bottom: 1px solid #ddd8cf;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 5.5%;
+
+            background: rgba(250, 248, 243, 0.96);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-flower {
+            font-size: 30px;
+            font-family: "Cormorant Garamond", serif;
+            color: #777b68;
+        }
+
+        .logo-text {
+            font-family: "Cormorant Garamond", serif;
+            font-size: 20px;
+            letter-spacing: 4px;
+            color: #24221e;
+        }
+
+        nav {
+            display: flex;
+            gap: 34px;
+            align-items: center;
+        }
+
+        nav a {
+            font-size: 9px;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            padding: 25px 0;
+            position: relative;
+        }
+
+        nav a.active {
+            color: #9a7a3d;
+        }
+
+        nav a.active::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 9px;
+            height: 1px;
+            background: #b49761;
+        }
+
+
+        /* =========================
+           HERO
+        ========================= */
+
+        .hero {
+            position: relative;
+            min-height: 465px;
+            padding: 48px 9.5% 35px;
+
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 55px;
+
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: "";
+            position: absolute;
+            width: 500px;
+            height: 500px;
+
+            left: -245px;
+            top: 70px;
+
+            background-image: url("/images/SENTOSA.jpg");
+            background-size: cover;
+            background-position: center;
+
+            opacity: 0.86;
+
+            border-radius: 50%;
+            filter: blur(0.2px);
+
+            transform: rotate(-12deg);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+
+            padding-left: 65px;
+            padding-top: 18px;
+        }
+
+        .eyebrow {
+            font-size: 8px;
+            letter-spacing: 2.5px;
+            color: #7c806d;
+            font-weight: 600;
+            margin-bottom: 18px;
+        }
+
+        h1 {
+            font-family: "Cormorant Garamond", serif;
+            font-size: 39px;
+            line-height: 1.03;
+            font-weight: 500;
+            max-width: 470px;
+            margin-bottom: 18px;
+        }
+
+        h1 em {
+            font-style: italic;
+        }
+
+        .hero-description {
+            font-size: 10px;
+            line-height: 1.75;
+            max-width: 420px;
+            color: #44423e;
+            margin-bottom: 18px;
+        }
+
+        .collection-button {
+            display: inline-block;
+
+            background: #5e674e;
+            color: white;
+
+            padding: 9px 16px;
+
+            font-size: 8px;
+            letter-spacing: 1px;
+
+            border-radius: 3px;
+
+            transition: 0.3s;
+        }
+
+        .collection-button:hover {
+            background: #414a37;
+            transform: translateY(-2px);
+        }
+
+
+        /* =========================
+           PREDICTION FORM
+        ========================= */
+
+        .prediction-box {
+            position: relative;
+            z-index: 3;
+
+            background: rgba(250, 247, 240, 0.92);
+
+            border: 1px solid #ded8cc;
+            border-radius: 6px;
+
+            padding: 19px 25px 16px;
+
+            box-shadow: 0 8px 25px rgba(66, 57, 42, 0.05);
+        }
+
+        .box-title {
+            font-size: 8px;
+            letter-spacing: 3px;
+            color: #77725f;
+            margin-bottom: 7px;
+        }
+
+        .prediction-title {
+            font-family: "Cormorant Garamond", serif;
+            font-size: 21px;
+            margin-bottom: 7px;
+        }
+
+        .prediction-description {
+            font-size: 9px;
+            line-height: 1.55;
+            color: #77736b;
+            margin-bottom: 13px;
+            max-width: 400px;
+        }
+
+        .input-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px 15px;
+        }
+
+        .input-group label {
+            display: block;
+
+            font-size: 8px;
+            font-weight: 600;
+
+            margin-bottom: 5px;
+
+            color: #3e3d38;
+        }
+
+        .input-group input {
+            width: 100%;
+
+            height: 28px;
+
+            padding: 0 10px;
+
+            border: 1px solid #ddd7cb;
+            background: #fbfaf7;
+
+            border-radius: 3px;
+
+            font-size: 10px;
+            color: #333;
+
+            outline: none;
+        }
+
+        .input-group input:focus {
+            border-color: #a99772;
+            box-shadow: 0 0 0 2px rgba(169,151,114,0.1);
+        }
+
+        .predict-button {
+            width: 100%;
+            height: 29px;
+
+            margin-top: 14px;
+
+            border: none;
+            border-radius: 3px;
+
+            background: #4f5a45;
+            color: white;
+
+            font-size: 8px;
+            font-weight: 600;
+            letter-spacing: 1px;
+
+            cursor: pointer;
+
+            transition: 0.3s;
+        }
+
+        .predict-button:hover {
+            background: #394230;
+        }
+
+        .predict-button:disabled {
+            opacity: 0.6;
+            cursor: wait;
+        }
+
+        .validation-text {
+            text-align: center;
+
+            font-size: 7px;
+            color: #888374;
+
+            margin-top: 11px;
+        }
+
+
+        /* =========================
+           RESULT CARD
+        ========================= */
+
+        .result-card {
+            position: relative;
+            z-index: 3;
+
+            background: #faf8f2;
+
+            border: 1px solid #ded8cc;
+            border-radius: 6px;
+
+            padding: 28px 17px 15px;
+
+            box-shadow: 0 8px 25px rgba(66, 57, 42, 0.05);
+        }
+
+        .result-image {
+            width: 100%;
+            height: 153px;
+
+            object-fit: cover;
+
+            border-radius: 2px;
+
+            display: block;
+
+            margin-bottom: 13px;
+        }
+
+        .result-label {
+            font-size: 7px;
+            letter-spacing: 2px;
+            color: #7b7b6c;
+            margin-bottom: 3px;
+        }
+
+        .result-name {
+            font-family: "Cormorant Garamond", serif;
+            font-size: 25px;
+            line-height: 1;
+        }
+
+        .result-scientific {
+            font-family: "Cormorant Garamond", serif;
+            font-style: italic;
+
+            font-size: 14px;
+            color: #6e6b65;
+
+            margin-top: 3px;
+        }
+
+        .class-badge {
+            float: right;
+
+            background: #eee9da;
+
+            border-radius: 20px;
+
+            padding: 5px 10px;
+
+            font-size: 7px;
+            color: #716b5b;
+        }
+
+        .result-divider {
+            border: none;
+            border-top: 1px solid #e2ddd3;
+
+            margin: 15px 0 12px;
+        }
+
+        .measure-title {
+            font-size: 7px;
+            letter-spacing: 2px;
+
+            color: #77736a;
+
+            margin-bottom: 8px;
+        }
+
+        .measure-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+
+            gap: 0;
+        }
+
+        .measure {
+            padding-left: 9px;
+            border-left: 1px solid #ded8cc;
+        }
+
+        .measure:first-child {
+            border-left: none;
+            padding-left: 0;
+        }
+
+        .measure span {
+            display: block;
+
+            font-size: 7px;
+            color: #77736e;
+
+            margin-bottom: 3px;
+        }
+
+        .measure strong {
+            font-size: 9px;
+            font-weight: 500;
+        }
+
+        .model-note {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+
+            margin-top: 13px;
+
+            background: #f1eee5;
+
+            padding: 8px;
+
+            font-size: 7px;
+            color: #77736a;
+
+            border-radius: 3px;
+        }
+
+        .leaf {
+            font-size: 13px;
+            color: #7f8c70;
+        }
+
+        .explore-button {
+            display: block;
+
+            width: max-content;
+
+            margin: 12px auto 0;
+
+            border: 1px solid #d5cdbc;
+
+            padding: 6px 13px;
+
+            font-size: 7px;
+            letter-spacing: 0.7px;
+
+            color: #665f50;
+
+            border-radius: 3px;
+
+            transition: 0.3s;
+        }
+
+        .explore-button:hover {
+            background: #eeeae0;
+        }
+
+
+        /* =========================
+           ABOUT MODEL
+        ========================= */
+
+        .about {
+            border-top: 1px solid #ddd8cf;
+
+            padding: 30px 9.5% 32px;
+
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+
+            gap: 45px;
+
+            background: #f7f4ed;
+        }
+
+        .about-label {
+            font-size: 7px;
+            letter-spacing: 2px;
+            color: #747666;
+
+            margin-bottom: 10px;
+        }
+
+        .about h2 {
+            font-family: "Cormorant Garamond", serif;
+
+            font-size: 29px;
+            line-height: 1.05;
+
+            font-weight: 500;
+        }
+
+        .about-text {
+            align-self: center;
+
+            font-size: 9px;
+            line-height: 1.8;
+
+            color: #66635d;
+        }
+
+        .about-mark {
+            align-self: center;
+            text-align: right;
+
+            font-size: 7px;
+            letter-spacing: 2px;
+
+            color: #858276;
+        }
+
+        .about-mark::before {
+            content: "";
+
+            display: block;
+
+            width: 35px;
+            height: 1px;
+
+            background: #bcb5a7;
+
+            margin-left: auto;
+            margin-bottom: 12px;
+        }
+
+
+        /* =========================
+           ERROR
+        ========================= */
+
+        #errorMessage {
+            display: none;
+
+            margin-top: 10px;
+
+            color: #9a5f52;
+
+            text-align: center;
+
+            font-size: 8px;
+        }
+
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 900px) {
+
+            header {
+                padding: 0 25px;
+            }
+
+            nav {
+                gap: 15px;
+            }
+
+            .hero {
+                grid-template-columns: 1fr;
+                padding: 35px 7%;
+            }
+
+            .hero::before {
+                opacity: 0.18;
+            }
+
+            .hero-content {
+                padding-left: 0;
+            }
+
+            .about {
+                grid-template-columns: 1fr;
+            }
+
+            .about-mark {
+                text-align: left;
+            }
+
+            .about-mark::before {
+                margin-left: 0;
+            }
+        }
+
+        @media (max-width: 600px) {
+
+            header {
+                height: auto;
+                min-height: 70px;
+                padding: 14px 20px;
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            nav {
+                width: 100%;
+                justify-content: space-between;
+                gap: 8px;
+            }
+
+            nav a {
+                font-size: 7px;
+            }
+
+            h1 {
+                font-size: 34px;
+            }
+
+            .input-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero {
+                padding: 30px 20px;
+            }
+
+            .about {
+                padding: 30px 20px;
+            }
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     HEADER
+========================= -->
+
+<header>
+
+    <div class="logo">
+        <div class="logo-flower">❧</div>
+
+        <div class="logo-text">
+            IRIS BOTANICA AI
+        </div>
+    </div>
+
+
+    <nav>
+
+        <a href="/" class="active">
+            Trang chủ
+        </a>
+
+        <a href="/species">
+            Bộ sưu tập loài hoa
+        </a>
+
+        <a href="/locations">
+            Điểm nghiên cứu
+        </a>
+
+        <a href="/docs">
+            Về mô hình AI
+        </a>
+
+    </nav>
+
+</header>
+
+
+
+<!-- =========================
+     HERO
+========================= -->
+
+<section class="hero">
+
+
+    <!-- LEFT -->
+
+    <div class="hero-content">
+
+        <div class="eyebrow">
+            BOTANICAL INTELLIGENCE · SVM
+        </div>
+
+
+        <h1>
+            Phân biệt vẻ đẹp
+            <em>hoa Iris</em>
+            bằng trí tuệ nhân tạo
+        </h1>
+
+
+        <p class="hero-description">
+            Khám phá khả năng phân loại ba loài Iris thông qua
+            mô hình Support Vector Machine. Nhập bốn thông số
+            hình thái của hoa để hệ thống thực hiện dự đoán.
+        </p>
+
+
+        <a href="/species" class="collection-button">
+            KHÁM PHÁ BỘ SƯU TẬP &nbsp; →
+        </a>
+
+
+        <!-- PREDICTION -->
+
+        <div class="prediction-box" style="margin-top: 10px;">
+
+            <div class="box-title">
+                AI PREDICTION STUDIO
+            </div>
+
+            <div class="prediction-title">
+                Iris Classifier
+            </div>
+
+            <p class="prediction-description">
+                Nhập bốn thông số hình thái của hoa Iris.
+                Hệ thống sẽ gửi dữ liệu đến API FastAPI và
+                sử dụng mô hình SVM để phân loại.
+            </p>
+
+
+            <form id="predictionForm">
+
+                <div class="input-grid">
+
+
+                    <div class="input-group">
+
+                        <label for="sepal_length">
+                            Sepal Length
+                        </label>
+
+                        <input
+                            type="number"
+                            id="sepal_length"
+                            step="0.1"
+                            value="5.1"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="input-group">
+
+                        <label for="sepal_width">
+                            Sepal Width
+                        </label>
+
+                        <input
+                            type="number"
+                            id="sepal_width"
+                            step="0.1"
+                            value="3.5"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="input-group">
+
+                        <label for="petal_length">
+                            Petal Length
+                        </label>
+
+                        <input
+                            type="number"
+                            id="petal_length"
+                            step="0.1"
+                            value="1.4"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="input-group">
+
+                        <label for="petal_width">
+                            Petal Width
+                        </label>
+
+                        <input
+                            type="number"
+                            id="petal_width"
+                            step="0.1"
+                            value="0.2"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="predict-button"
+                    id="predictButton"
+                >
+                    DỰ ĐOÁN LOÀI HOA
+                </button>
+
+
+                <div class="validation-text">
+                    ◆ &nbsp; Dữ liệu phải là số dương và hợp lệ
+                </div>
+
+                <div id="errorMessage"></div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- RIGHT RESULT -->
+
+    <div class="result-card">
+
+
+        <div class="box-title">
+            AI PREDICTION RESULT
+        </div>
+
+
+        <img
+            id="resultImage"
+            class="result-image"
+            src="/images/VERSICOLOR.jpg"
+            alt="Iris flower"
+        >
+
+
+        <div class="result-label">
+            LOÀI HOA
+        </div>
+
+
+        <span id="classBadge" class="class-badge">
+            Class ID: 1
+        </span>
+
+
+        <div id="resultName" class="result-name">
+            Iris Versicolor
+        </div>
+
+
+        <div id="resultScientific" class="result-scientific">
+            Iris versicolor
+        </div>
+
+
+        <hr class="result-divider">
+
+
+        <div class="measure-title">
+            THÔNG SỐ BẠN ĐÃ NHẬP
+        </div>
+
+
+        <div class="measure-grid">
+
+
+            <div class="measure">
+
+                <span>
+                    Sepal Length
+                </span>
+
+                <strong id="resultSepalLength">
+                    5.1
+                </strong>
+
+            </div>
+
+
+            <div class="measure">
+
+                <span>
+                    Sepal Width
+                </span>
+
+                <strong id="resultSepalWidth">
+                    3.5
+                </strong>
+
+            </div>
+
+
+            <div class="measure">
+
+                <span>
+                    Petal Length
+                </span>
+
+                <strong id="resultPetalLength">
+                    1.4
+                </strong>
+
+            </div>
+
+
+            <div class="measure">
+
+                <span>
+                    Petal Width
+                </span>
+
+                <strong id="resultPetalWidth">
+                    0.2
+                </strong>
+
+            </div>
+
+
+        </div>
+
+
+        <div class="model-note">
+
+            <span class="leaf">
+                ❧
+            </span>
+
+            <span id="modelMessage">
+                Mô hình SVM phân loại mẫu dữ liệu này vào nhóm
+                Iris Versicolor.
+            </span>
+
+        </div>
+
+
+        <a href="/species" class="explore-button">
+            KHÁM PHÁ ĐẶC TÍNH LOÀI HOA NÀY &nbsp; →
+        </a>
+
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     ABOUT MODEL
+========================= -->
+
+<section class="about">
+
+
+    <div>
+
+        <div class="about-label">
+            ABOUT THE MODEL
+        </div>
+
+        <h2>
+            Khi dữ liệu kể câu chuyện
+            <br>
+            về một bông hoa
+        </h2>
+
+    </div>
+
+
+    <div class="about-text">
+
+        IRIS BOTANICA AI sử dụng mô hình
+        Support Vector Machine (SVM) để phân loại
+        hoa Iris dựa trên bốn đặc trưng hình thái:
+        chiều dài và chiều rộng của đài hoa và cánh hoa.
+
+    </div>
+
+
+    <div class="about-mark">
+
+        SVM · FASTAPI · MACHINE LEARNING
+
+    </div>
+
+
+</section>
+
+
+
+<!-- =========================
+     JAVASCRIPT
+========================= -->
+
+<script>
+
+    const form = document.getElementById("predictionForm");
+
+    const button = document.getElementById("predictButton");
+
+    const errorMessage = document.getElementById("errorMessage");
+
+
+    const speciesInfo = {
+
+        0: {
+            name: "Iris Setosa",
+            scientific: "Iris setosa",
+            image: "/images/SENTOSA.jpg"
+        },
+
+        1: {
+            name: "Iris Versicolor",
+            scientific: "Iris versicolor",
+            image: "/images/VERSICOLOR.jpg"
+        },
+
+        2: {
+            name: "Iris Virginica",
+            scientific: "Iris virginica",
+            image: "/images/VIRGIN.jpg"
+        }
+
+    };
+
+
+    form.addEventListener("submit", async function(event) {
+
+        event.preventDefault();
+
+
+        errorMessage.style.display = "none";
+
+        button.disabled = true;
+
+        button.textContent = "ĐANG PHÂN TÍCH...";
+
+
+        const sepalLength =
+            parseFloat(document.getElementById("sepal_length").value);
+
+        const sepalWidth =
+            parseFloat(document.getElementById("sepal_width").value);
+
+        const petalLength =
+            parseFloat(document.getElementById("petal_length").value);
+
+        const petalWidth =
+            parseFloat(document.getElementById("petal_width").value);
+
+
+        try {
+
+
+            /* =========================
+               VALIDATE
+            ========================= */
+
+            if (
+                sepalLength <= 0 ||
+                sepalWidth <= 0 ||
+                petalLength <= 0 ||
+                petalWidth <= 0
+            ) {
+
+                throw new Error(
+                    "Vui lòng nhập các giá trị lớn hơn 0."
+                );
+
+            }
+
+
+            /* =========================
+               CALL FASTAPI
+            ========================= */
+
+            const response = await fetch("/predict", {
+
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify({
+
+                    sepal_length: sepalLength,
+
+                    sepal_width: sepalWidth,
+
+                    petal_length: petalLength,
+
+                    petal_width: petalWidth
+
+                })
+
+            });
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "Không thể kết nối đến API FastAPI."
+                );
+
+            }
+
+
+            const data = await response.json();
+
+
+            /* =========================
+               GET SPECIES
+            ========================= */
+
+            const info = speciesInfo[data.class_id];
+
+
+            if (!info) {
+
+                throw new Error(
+                    "API trả về class_id không hợp lệ."
+                );
+
+            }
+
+
+            /* =========================
+               UPDATE RESULT
+            ========================= */
+
+            document.getElementById("resultImage").src =
+                info.image;
+
+
+            document.getElementById("resultImage").alt =
+                info.name;
+
+
+            document.getElementById("resultName").textContent =
+                info.name;
+
+
+            document.getElementById("resultScientific").textContent =
+                info.scientific;
+
+
+            document.getElementById("classBadge").textContent =
+                "Class ID: " + data.class_id;
+
+
+            document.getElementById("resultSepalLength").textContent =
+                sepalLength;
+
+
+            document.getElementById("resultSepalWidth").textContent =
+                sepalWidth;
+
+
+            document.getElementById("resultPetalLength").textContent =
+                petalLength;
+
+
+            document.getElementById("resultPetalWidth").textContent =
+                petalWidth;
+
+
+            document.getElementById("modelMessage").textContent =
+                "Mô hình SVM phân loại mẫu dữ liệu này vào nhóm "
+                + info.name + ".";
+
+
+        }
+
+        catch (error) {
+
+            errorMessage.textContent =
+                error.message;
+
+            errorMessage.style.display =
+                "block";
+
+        }
+
+
+        finally {
+
+            button.disabled = false;
+
+            button.textContent =
+                "DỰ ĐOÁN LOÀI HOA";
+
+        }
+
+    });
+
+</script>
+
+
+</body>
+</html>
