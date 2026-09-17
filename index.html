@@ -7,7 +7,7 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,700&family=Montserrat:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,700&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
     <style>
         /* =========================
@@ -62,22 +62,22 @@
 
         .logo-text {
             font-family: "Cormorant Garamond", serif;
-            font-size: 24px;
+            font-size: 26px;
             font-weight: 700;
-            letter-spacing: 4px;
+            letter-spacing: 3px;
             color: #000000;
         }
 
         nav {
             display: flex;
-            gap: 36px;
+            gap: 32px;
             align-items: center;
         }
 
         nav a {
-            font-size: 10px;
-            font-weight: 800;
-            letter-spacing: 2px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
             text-transform: uppercase;
             color: #333333;
             padding: 30px 0;
@@ -103,12 +103,11 @@
         ========================= */
         .hero {
             position: relative;
-            min-height: 600px;
-            padding: 40px 5% 40px 0;
+            padding: 40px 5%;
             display: grid;
-            grid-template-columns: 1.1fr 0.9fr;
-            gap: 30px;
-            align-items: start;
+            grid-template-columns: 1.15fr 0.85fr;
+            gap: 35px;
+            align-items: stretch;
         }
 
         .hero-left-wrapper {
@@ -118,36 +117,37 @@
         }
 
         .hero-left-image {
-            width: 220px;
-            min-width: 220px;
-            height: 620px;
+            width: 210px;
+            min-width: 210px;
+            height: 100%;
+            min-height: 560px;
             object-fit: cover;
             border-radius: 0 300px 300px 0;
-            margin-top: -40px;
             margin-right: 35px;
         }
 
         .hero-content {
             flex: 1;
-            padding-top: 20px;
+            display: flex;
+            flex-direction: column;
         }
 
         .eyebrow {
-            font-size: 9.5px;
+            font-size: 10px;
             letter-spacing: 2.5px;
             color: #555647;
-            font-weight: 800;
-            margin-bottom: 16px;
+            font-weight: 700;
+            margin-bottom: 12px;
             text-transform: uppercase;
         }
 
         h1 {
             font-family: "Cormorant Garamond", serif;
-            font-size: 44px;
-            line-height: 1.08;
+            font-size: 42px;
+            line-height: 1.1;
             font-weight: 700;
             color: #000000;
-            margin-bottom: 20px;
+            margin-bottom: 16px;
         }
 
         h1 em {
@@ -156,21 +156,21 @@
         }
 
         .hero-description {
-            font-size: 11px;
+            font-size: 12px;
             line-height: 1.7;
             color: #1a1a1a;
-            font-weight: 600;
-            margin-bottom: 22px;
-            max-width: 440px;
+            font-weight: 500;
+            margin-bottom: 20px;
         }
 
         .collection-button {
             display: inline-block;
+            align-self: flex-start;
             background: #48503f;
             color: #ffffff;
-            padding: 11px 22px;
-            font-size: 9px;
-            font-weight: 800;
+            padding: 12px 24px;
+            font-size: 10px;
+            font-weight: 700;
             letter-spacing: 1.5px;
             border-radius: 4px;
             transition: all 0.3s;
@@ -187,14 +187,15 @@
             background: #e7dfd1;
             border: 1px solid #d8cebd;
             border-radius: 8px;
-            padding: 24px 28px 20px;
+            padding: 24px 28px;
             margin-top: 24px;
+            flex-grow: 1;
         }
 
         .box-title {
-            font-size: 9.5px;
+            font-size: 10px;
             font-weight: 800;
-            letter-spacing: 2.5px;
+            letter-spacing: 2px;
             color: #4d493f;
             margin-bottom: 8px;
             text-transform: uppercase;
@@ -209,50 +210,56 @@
         }
 
         .prediction-description {
-            font-size: 10.5px;
+            font-size: 11px;
             line-height: 1.6;
             color: #2c2a25;
-            font-weight: 600;
+            font-weight: 500;
             margin-bottom: 18px;
         }
 
         .input-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 12px 18px;
+            gap: 14px 18px;
         }
 
         .input-group label {
             display: block;
-            font-size: 9.5px;
-            font-weight: 800;
+            font-size: 10px;
+            font-weight: 700;
             margin-bottom: 6px;
             color: #1a1a1a;
         }
 
         .input-group input {
             width: 100%;
-            height: 36px;
+            height: 38px;
             padding: 0 12px;
             border: 1px solid #cac0af;
             background: #f5f0e6;
             border-radius: 4px;
-            font-size: 11px;
-            font-weight: 700;
+            font-size: 11.5px;
+            font-weight: 600;
             color: #000000;
             outline: none;
         }
 
+        .input-group input::placeholder {
+            color: #8c8273;
+            font-weight: 400;
+            font-style: italic;
+        }
+
         .predict-button {
             width: 100%;
-            height: 38px;
-            margin-top: 18px;
+            height: 42px;
+            margin-top: 20px;
             border: none;
             border-radius: 4px;
             background: #48503f;
             color: #ffffff;
-            font-size: 9.5px;
-            font-weight: 800;
+            font-size: 10.5px;
+            font-weight: 700;
             letter-spacing: 1.5px;
             cursor: pointer;
             transition: 0.3s;
@@ -264,10 +271,10 @@
 
         .validation-text {
             text-align: center;
-            font-size: 8.5px;
-            font-weight: 700;
+            font-size: 9.5px;
+            font-weight: 600;
             color: #635e52;
-            margin-top: 12px;
+            margin-top: 10px;
         }
 
         /* =========================
@@ -279,22 +286,34 @@
             background: #e7dfd1;
             border: 1px solid #d8cebd;
             border-radius: 8px;
-            padding: 26px;
+            padding: 28px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .result-image-container {
+            width: 100%;
+            height: 300px;
+            background: #d3c8b4;
+            border-radius: 6px;
+            overflow: hidden;
+            margin-top: 12px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .result-image {
             width: 100%;
-            height: auto;
-            max-height: none;
+            height: 100%;
             object-fit: contain;
-            border-radius: 6px;
             display: block;
-            margin-top: 12px;
-            margin-bottom: 20px;
         }
 
         .result-label {
-            font-size: 8.5px;
+            font-size: 9.5px;
             font-weight: 800;
             letter-spacing: 2px;
             color: #4d493f;
@@ -310,7 +329,7 @@
 
         .result-name {
             font-family: "Cormorant Garamond", serif;
-            font-size: 34px;
+            font-size: 32px;
             font-weight: 700;
             line-height: 1;
             color: #000000;
@@ -329,19 +348,19 @@
             background: #dcd3c2;
             border-radius: 12px;
             padding: 5px 14px;
-            font-size: 9.5px;
-            font-weight: 800;
+            font-size: 10px;
+            font-weight: 700;
             color: #33312b;
         }
 
         .result-divider {
             border: none;
             border-top: 1px solid #cfc4b1;
-            margin: 20px 0 16px;
+            margin: 18px 0;
         }
 
         .measure-title {
-            font-size: 8.5px;
+            font-size: 9.5px;
             font-weight: 800;
             letter-spacing: 2px;
             color: #4d493f;
@@ -352,11 +371,11 @@
         .measure-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 0;
+            gap: 10px;
         }
 
         .measure {
-            padding-left: 12px;
+            padding-left: 10px;
             border-left: 1px solid #cfc4b1;
         }
 
@@ -367,15 +386,15 @@
 
         .measure span {
             display: block;
-            font-size: 8.5px;
-            font-weight: 700;
+            font-size: 9px;
+            font-weight: 600;
             color: #403e38;
             margin-bottom: 4px;
         }
 
         .measure strong {
-            font-size: 12px;
-            font-weight: 800;
+            font-size: 13px;
+            font-weight: 700;
             color: #000000;
         }
 
@@ -385,21 +404,22 @@
             gap: 10px;
             margin-top: 18px;
             background: #dcd3c2;
-            padding: 12px 14px;
-            font-size: 9.5px;
-            font-weight: 700;
+            padding: 12px 16px;
+            font-size: 11px;
+            font-weight: 600;
             color: #22211d;
             border-radius: 4px;
         }
 
         .explore-button {
             display: block;
-            width: max-content;
-            margin: 18px auto 0;
+            text-align: center;
+            width: 100%;
+            margin-top: 18px;
             border: 1px solid #b8ac98;
-            padding: 9px 20px;
-            font-size: 8.5px;
-            font-weight: 800;
+            padding: 11px 20px;
+            font-size: 10px;
+            font-weight: 700;
             letter-spacing: 1px;
             color: #22211d;
             border-radius: 4px;
@@ -433,16 +453,16 @@
         }
 
         .about-text {
-            font-size: 10.5px;
+            font-size: 11.5px;
             line-height: 1.8;
             color: #22211d;
-            font-weight: 700;
+            font-weight: 500;
         }
 
         .about-mark {
             text-align: right;
-            font-size: 8.5px;
-            font-weight: 800;
+            font-size: 9.5px;
+            font-weight: 700;
             letter-spacing: 2px;
             color: #403e38;
         }
@@ -462,8 +482,8 @@
             margin-top: 10px;
             color: #a33b29;
             text-align: center;
-            font-size: 9px;
-            font-weight: 800;
+            font-size: 10px;
+            font-weight: 700;
         }
     </style>
 </head>
@@ -478,18 +498,14 @@
     <nav>
         <a href="/" class="active">Trang chủ</a>
         <a href="/species">Bộ sưu tập loài hoa</a>
-        <a href="/locations">Điểm nghiên cứu</a>
         <a href="/docs">Về mô hình AI</a>
     </nav>
 </header>
 
 <!-- HERO SECTION -->
 <section class="hero">
-    <!-- LEFT: Ảnh vòm + Nội dung -->
     <div class="hero-left-wrapper">
-        <img class="hero-left-image"
-     src="/images/VIRGINICA_v2.jpg"
-     alt="Iris flower">
+        <img class="hero-left-image" src="/images/VIRGINICA_v2.jpg" alt="Iris flower">
 
         <div class="hero-content">
             <div class="eyebrow">BOTANICAL INTELLIGENCE · SVM</div>
@@ -500,7 +516,6 @@
             <a href="/species" class="collection-button">KHÁM PHÁ BỘ SƯU TẬP &nbsp; →</a>
 
             <!-- PREDICTION FORM -->
-           <!-- PREDICTION FORM -->
             <div class="prediction-box">
                 <div class="box-title">AI PREDICTION STUDIO</div>
                 <div class="prediction-title">Iris Classifier</div>
@@ -511,80 +526,82 @@
                 <form id="predictionForm">
                     <div class="input-grid">
                         <div class="input-group">
-                            <label for="sepal_length">Sepal Length</label>
-                            <input type="number" step="0.1" id="sepal_length" placeholder="Nhập số liệu tại đây">
+                            <label for="sepal_length">Sepal Length (cm)</label>
+                            <input type="number" step="0.1" id="sepal_length" placeholder="Nhấn vào đây để nhập...">
                         </div>
                         <div class="input-group">
-                            <label for="sepal_width">Sepal Width</label>
-                            <input type="number" step="0.1" id="sepal_width" placeholder="Nhập số liệu tại đây">
+                            <label for="sepal_width">Sepal Width (cm)</label>
+                            <input type="number" step="0.1" id="sepal_width" placeholder="Nhấn vào đây để nhập...">
                         </div>
                         <div class="input-group">
-                            <label for="petal_length">Petal Length</label>
-                            <input type="number" step="0.1" id="petal_length" placeholder="Nhập số liệu tại đây">
+                            <label for="petal_length">Petal Length (cm)</label>
+                            <input type="number" step="0.1" id="petal_length" placeholder="Nhấn vào đây để nhập...">
                         </div>
                         <div class="input-group">
-                            <label for="petal_width">Petal Width</label>
-                            <input type="number" step="0.1" id="petal_width" placeholder="Nhập số liệu tại đây">
+                            <label for="petal_width">Petal Width (cm)</label>
+                            <input type="number" step="0.1" id="petal_width" placeholder="Nhấn vào đây để nhập...">
                         </div>
                     </div>
 
                     <button type="submit" class="predict-button" id="predictButton">DỰ ĐOÁN LOÀI HOA</button>
-                    <div class="validation-text">◆ &nbsp; Dữ liệu phải là số dương và hợp lệ</div>
+                    <div class="validation-text">◆ &nbsp; Dữ liệu phải là số dương hợp lệ</div>
                     <div id="errorMessage"></div>
                 </form>
             </div>
         </div>
     </div>
-        </div>
-    </div>
 
     <!-- RIGHT RESULT CARD -->
     <div class="result-card">
-        <div class="box-title">AI PREDICTION RESULT</div>
-        <img class="hero-left-image"
-     src="/images/VIRGINICA_v2.jpg" 
-     alt="Iris flower">
-
-        <div class="result-label">LOÀI HOA</div>
-        <div class="result-header-row">
-            <div>
-                <div id="resultName" class="result-name">Iris Versicolor</div>
-                <div id="resultScientific" class="result-scientific">Iris versicolor</div>
+        <div>
+            <div class="box-title">AI PREDICTION RESULT</div>
+            
+            <div class="result-image-container">
+                <img id="resultImage" class="result-image" src="/images/VERSICOLOR_v2.jpg" alt="Iris Versicolor">
             </div>
-            <span id="classBadge" class="class-badge">Class ID: 1</span>
-        </div>
 
-        <hr class="result-divider">
+            <div class="result-label">LOÀI HOA</div>
+            <div class="result-header-row">
+                <div>
+                    <div id="resultName" class="result-name">Iris Versicolor</div>
+                    <div id="resultScientific" class="result-scientific">Iris versicolor</div>
+                </div>
+                <span id="classBadge" class="class-badge">Class ID: 1</span>
+            </div>
 
-        <!-- KHỐI THÔNG SỐ ĐÃ ĐƯỢC BỌC VÀ ẨN MẶC ĐỊNH -->
-        <div id="userParamsWrapper" style="display: none;">
-            <div class="measure-title">THÔNG SỐ BẠN ĐÃ NHẬP</div>
-            <div class="measure-grid">
-                <div class="measure">
-                    <span>Sepal Length</span>
-                    <strong id="resultSepalLength">-</strong>
-                </div>
-                <div class="measure">
-                    <span>Sepal Width</span>
-                    <strong id="resultSepalWidth">-</strong>
-                </div>
-                <div class="measure">
-                    <span>Petal Length</span>
-                    <strong id="resultPetalLength">-</strong>
-                </div>
-                <div class="measure">
-                    <span>Petal Width</span>
-                    <strong id="resultPetalWidth">-</strong>
+            <hr class="result-divider">
+
+            <div id="userParamsWrapper" style="display: none;">
+                <div class="measure-title">THÔNG SỐ BẠN ĐÃ NHẬP</div>
+                <div class="measure-grid">
+                    <div class="measure">
+                        <span>Sepal Length</span>
+                        <strong id="resultSepalLength">-</strong>
+                    </div>
+                    <div class="measure">
+                        <span>Sepal Width</span>
+                        <strong id="resultSepalWidth">-</strong>
+                    </div>
+                    <div class="measure">
+                        <span>Petal Length</span>
+                        <strong id="resultPetalLength">-</strong>
+                    </div>
+                    <div class="measure">
+                        <span>Petal Width</span>
+                        <strong id="resultPetalWidth">-</strong>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div class="model-note">
-            <span style="color:#50543e;">❧</span>
-            <span id="modelMessage">Mô hình SVM phân loại mẫu dữ liệu này vào nhóm Iris Versicolor.</span>
-        </div>
+        <div>
+            <div class="model-note">
+                <span style="color:#50543e;">❧</span>
+                <span id="modelMessage">Mô hình SVM phân loại mẫu dữ liệu này vào nhóm Iris Versicolor.</span>
+            </div>
 
-        <a href="/species" class="explore-button">KHÁM PHÁ ĐẶC TÍNH LOÀI HOA NÀY &nbsp; →</a>
+            <a href="/species" class="explore-button">KHÁM PHÁ ĐẶC TÍNH LOÀI HOA NÀY &nbsp; →</a>
+        </div>
     </div>
 </section>
 
@@ -604,10 +621,6 @@
 
 <script>
     document.addEventListener("DOMContentLoaded", () => {
-
-        /* =========================
-           DOM ELEMENTS
-        ========================= */
         const form = document.getElementById("predictionForm");
         const button = document.getElementById("predictButton");
         const errorMessage = document.getElementById("errorMessage");
@@ -617,369 +630,126 @@
         const petalLengthInput = document.getElementById("petal_length");
         const petalWidthInput = document.getElementById("petal_width");
 
-
-        /* =========================
-           THÔNG TIN 3 LOÀI IRIS
-        ========================= */
         const speciesInfo = {
-            0: {
-                name: "Iris Setosa",
-                scientific: "Iris setosa",
-                image: "/images/SETOSA.jpg"
-            },
-
-            1: {
-                name: "Iris Versicolor",
-                scientific: "Iris versicolor",
-                image:  "/images/VERSICOLOR_v2.jpg"
-            },
-
-            2: {
-                name: "Iris Virginica",
-                scientific: "Iris virginica",
-                image: "/images/VIRGINICA_v2.jpg"
-            }
+            0: { name: "Iris Setosa", scientific: "Iris setosa", image: "/images/SETOSA.jpg" },
+            1: { name: "Iris Versicolor", scientific: "Iris versicolor", image: "/images/VERSICOLOR_v2.jpg" },
+            2: { name: "Iris Virginica", scientific: "Iris virginica", image: "/images/VIRGINICA_v2.jpg" }
         };
 
+        const speciesByName = { setosa: 0, versicolor: 1, virginica: 2 };
 
-        /* =========================
-           TÊN LOÀI → CLASS ID
-        ========================= */
-        const speciesByName = {
-            setosa: 0,
-            versicolor: 1,
-            virginica: 2
-        };
-
-
-        /* =========================
-           THÔNG SỐ MẪU MẶC ĐỊNH
-           Dùng khi chọn loài từ
-           trang Bộ sưu tập
-        ========================= */
         const defaultMeasurements = {
-
-            0: {
-                sepal_length: 5.0,
-                sepal_width: 3.4,
-                petal_length: 1.5,
-                petal_width: 0.2
-            },
-
-            1: {
-                sepal_length: 5.9,
-                sepal_width: 2.7,
-                petal_length: 4.2,
-                petal_width: 1.3
-            },
-
-            2: {
-                sepal_length: 6.5,
-                sepal_width: 3.0,
-                petal_length: 5.5,
-                petal_width: 2.0
-            }
+            0: { sepal_length: 5.0, sepal_width: 3.4, petal_length: 1.5, petal_width: 0.2 },
+            1: { sepal_length: 5.9, sepal_width: 2.7, petal_length: 4.2, petal_width: 1.3 },
+            2: { sepal_length: 6.5, sepal_width: 3.0, petal_length: 5.5, petal_width: 2.0 }
         };
 
-
-        /* =========================
-           HIỂN THỊ KẾT QUẢ
-        ========================= */
         function updateResultUI(classId, sL, sW, pL, pW) {
-
             const info = speciesInfo[classId];
+            if (!info) return;
 
-            if (!info) {
-                return;
-            }
-
-            /* Ảnh bên trái */
             const heroImage = document.querySelector(".hero-left-image");
-
             if (heroImage) {
                 heroImage.src = info.image;
                 heroImage.alt = info.name;
             }
 
-
-            /* Ảnh kết quả */
             const resultImage = document.getElementById("resultImage");
-
             resultImage.src = info.image;
             resultImage.alt = info.name;
 
+            document.getElementById("resultName").textContent = info.name;
+            document.getElementById("resultScientific").textContent = info.scientific;
+            document.getElementById("classBadge").textContent = "Class ID: " + classId;
 
-            /* Tên loài */
-            document.getElementById("resultName").textContent =
-                info.name;
+            document.getElementById("resultSepalLength").textContent = sL;
+            document.getElementById("resultSepalWidth").textContent = sW;
+            document.getElementById("resultPetalLength").textContent = pL;
+            document.getElementById("resultPetalWidth").textContent = pW;
 
-
-            /* Tên khoa học */
-            document.getElementById("resultScientific").textContent =
-                info.scientific;
-
-
-            /* Class ID */
-            document.getElementById("classBadge").textContent =
-                "Class ID: " + classId;
-
-
-            /* =========================
-               THÔNG SỐ HÌNH THÁI
-            ========================= */
-            document.getElementById("resultSepalLength").textContent =
-                sL;
-
-            document.getElementById("resultSepalWidth").textContent =
-                sW;
-
-            document.getElementById("resultPetalLength").textContent =
-                pL;
-
-            document.getElementById("resultPetalWidth").textContent =
-                pW;
-
-
-            /* =========================
-               THÔNG BÁO MÔ HÌNH
-            ========================= */
-            document.getElementById("modelMessage").textContent =
-                "Mô hình SVM phân loại mẫu dữ liệu này vào nhóm " +
-                info.name + ".";
-
-
-            /* Hiển thị thông số */
-            document.getElementById("userParamsWrapper").style.display =
-                "block";
+            document.getElementById("modelMessage").textContent = "Mô hình SVM phân loại mẫu dữ liệu này vào nhóm " + info.name + ".";
+            document.getElementById("userParamsWrapper").style.display = "block";
         }
 
+        function loadSpeciesFromURL() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const speciesName = urlParams.get("species");
 
-        /* =========================
-           ĐỌC LOÀI TỪ URL
-           
-           Ví dụ:
-           /?species=setosa
-           /?species=versicolor
-           /?species=virginica
-        ========================= */
-       // CODE MỚI (Đã sửa đúng yêu cầu):
-function loadSpeciesFromURL() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const speciesName = urlParams.get("species");
+            if (speciesName) {
+                const selectedClass = speciesByName[speciesName.toLowerCase()];
+                if (selectedClass !== undefined) {
+                    const measurements = defaultMeasurements[selectedClass];
+                    sepalLengthInput.value = measurements.sepal_length;
+                    sepalWidthInput.value = measurements.sepal_width;
+                    petalLengthInput.value = measurements.petal_length;
+                    petalWidthInput.value = measurements.petal_width;
 
-    // Chỉ thực hiện khi URL thực sự có chứa tham số ?species=
-    if (speciesName) {
-        const selectedClass = speciesByName[speciesName.toLowerCase()];
-
-        if (selectedClass !== undefined) {
-            const measurements = defaultMeasurements[selectedClass];
-
-            // Điền số liệu vào 4 ô input
-            sepalLengthInput.value = measurements.sepal_length;
-            sepalWidthInput.value = measurements.sepal_width;
-            petalLengthInput.value = measurements.petal_length;
-            petalWidthInput.value = measurements.petal_width;
-
-            // Cập nhật kết quả dự đoán
-            updateResultUI(
-                selectedClass,
-                measurements.sepal_length,
-                measurements.sepal_width,
-                measurements.petal_length,
-                measurements.petal_width
-            );
+                    updateResultUI(selectedClass, measurements.sepal_length, measurements.sepal_width, measurements.petal_length, measurements.petal_width);
+                }
+            }
         }
-    }
-}
 
-
-        /* =========================
-           XỬ LÝ DỰ ĐOÁN
-           
-           Form → FastAPI → SVM
-        ========================= */
         form.addEventListener("submit", async (event) => {
-
             event.preventDefault();
 
-
-            /* Xóa thông báo lỗi cũ */
             errorMessage.style.display = "none";
             errorMessage.textContent = "";
 
+            const sepalLength = parseFloat(sepalLengthInput.value);
+            const sepalWidth = parseFloat(sepalWidthInput.value);
+            const petalLength = parseFloat(petalLengthInput.value);
+            const petalWidth = parseFloat(petalWidthInput.value);
 
-            /* Lấy dữ liệu */
-            const sepalLength =
-                parseFloat(sepalLengthInput.value);
-
-            const sepalWidth =
-                parseFloat(sepalWidthInput.value);
-
-            const petalLength =
-                parseFloat(petalLengthInput.value);
-
-            const petalWidth =
-                parseFloat(petalWidthInput.value);
-
-
-            /* =========================
-               KIỂM TRA DỮ LIỆU
-            ========================= */
-            if (
-                !Number.isFinite(sepalLength) ||
-                !Number.isFinite(sepalWidth) ||
-                !Number.isFinite(petalLength) ||
-                !Number.isFinite(petalWidth)
-            ) {
-
-                errorMessage.textContent =
-                    "Vui lòng nhập đầy đủ 4 thông số hợp lệ.";
-
+            if (!Number.isFinite(sepalLength) || !Number.isFinite(sepalWidth) || !Number.isFinite(petalLength) || !Number.isFinite(petalWidth)) {
+                errorMessage.textContent = "Vui lòng nhập đầy đủ 4 thông số hợp lệ.";
                 errorMessage.style.display = "block";
-
                 return;
             }
 
-
-            /* Không cho số <= 0 */
-            if (
-                sepalLength <= 0 ||
-                sepalWidth <= 0 ||
-                petalLength <= 0 ||
-                petalWidth <= 0
-            ) {
-
-                errorMessage.textContent =
-                    "Các thông số phải là số dương.";
-
+            if (sepalLength <= 0 || sepalWidth <= 0 || petalLength <= 0 || petalWidth <= 0) {
+                errorMessage.textContent = "Các thông số phải là số dương.";
                 errorMessage.style.display = "block";
-
                 return;
             }
 
-
-            /* =========================
-               TRẠNG THÁI ĐANG DỰ ĐOÁN
-            ========================= */
             button.disabled = true;
-
-            button.textContent =
-                "ĐANG PHÂN TÍCH DỮ LIỆU...";
-
+            button.textContent = "ĐANG PHÂN TÍCH DỮ LIỆU...";
 
             try {
-
-                /* =========================
-                   GỌI FASTAPI
-                ========================= */
                 const response = await fetch("/predict", {
-
                     method: "POST",
-
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-
+                    headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({
-
                         sepal_length: sepalLength,
                         sepal_width: sepalWidth,
                         petal_length: petalLength,
                         petal_width: petalWidth
-
                     })
                 });
 
+                if (!response.ok) throw new Error("API trả về lỗi " + response.status);
 
-                /* API trả lỗi */
-                if (!response.ok) {
+                const data = await response.json();
+                const classId = Number(data.class_id);
 
-                    throw new Error(
-                        "API trả về lỗi " + response.status
-                    );
+                if (!Number.isInteger(classId) || !speciesInfo[classId]) {
+                    throw new Error("Kết quả từ mô hình không hợp lệ.");
                 }
 
-
-                /* Đọc JSON */
-                const data =
-                    await response.json();
-
-
-                /* =========================
-                   CLASS ID TỪ SVM
-                ========================= */
-                const classId =
-                    Number(data.class_id);
-
-
-                if (
-                    !Number.isInteger(classId) ||
-                    !speciesInfo[classId]
-                ) {
-
-                    throw new Error(
-                        "Kết quả từ mô hình không hợp lệ."
-                    );
-                }
-
-
-                /* =========================
-                   CẬP NHẬT GIAO DIỆN
-                ========================= */
-                updateResultUI(
-                    classId,
-                    sepalLength,
-                    sepalWidth,
-                    petalLength,
-                    petalWidth
-                );
-
-
-                /* =========================
-                   CUỘN NHẸ ĐẾN KẾT QUẢ
-                ========================= */
-                document
-                    .querySelector(".result-card")
-                    .scrollIntoView({
-                        behavior: "smooth",
-                        block: "center"
-                    });
-
+                updateResultUI(classId, sepalLength, sepalWidth, petalLength, petalWidth);
+                document.querySelector(".result-card").scrollIntoView({ behavior: "smooth", block: "center" });
 
             } catch (error) {
-
                 console.error(error);
-
-
-                errorMessage.textContent =
-                    "Không thể kết nối với API. Vui lòng kiểm tra FastAPI hoặc Render.";
-
-                errorMessage.style.display =
-                    "block";
-
-
+                errorMessage.textContent = "Không thể kết nối với API. Vui lòng kiểm tra FastAPI hoặc Render.";
+                errorMessage.style.display = "block";
             } finally {
-
-                /* =========================
-                   KHÔI PHỤC BUTTON
-                ========================= */
                 button.disabled = false;
-
-                button.textContent =
-                    "DỰ ĐOÁN LOÀI HOA";
+                button.textContent = "DỰ ĐOÁN LOÀI HOA";
             }
-
         });
 
-
-        /* =========================
-           KHỞI ĐỘNG TRANG
-           
-           Nếu không có ?species=
-           → tự động hiển thị Versicolor
-        ========================= */
         loadSpeciesFromURL();
-
     });
 </script>
 

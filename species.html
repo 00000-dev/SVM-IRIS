@@ -6,11 +6,18 @@
 
     <title>Bộ sưu tập | IRIS BOTANICA AI</title>
 
+    <!-- GOOGLE FONTS -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
+
+        /* =====================================================
+           GLOBAL
+        ===================================================== */
+
         * {
             box-sizing: border-box;
             margin: 0;
@@ -18,471 +25,1078 @@
         }
 
         body {
-            background: #f5f1e8;
-            color: #20201d;
+            background: #f3ede2;
+            color: #171714;
             font-family: "Montserrat", Arial, sans-serif;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
         }
 
         a {
-            color: inherit;
             text-decoration: none;
+            color: inherit;
         }
 
-        /* HEADER */
+
+        /* =====================================================
+           HEADER
+        ===================================================== */
+
         header {
-            height: 72px;
-            padding: 0 6%;
+            height: 85px;
+            border-bottom: 1px solid #ddd3c2;
+
             display: flex;
             align-items: center;
             justify-content: space-between;
-            background: #faf8f2;
-            border-top: 1px solid #cfc8b9;
-            border-bottom: 1px solid #d8d1c5;
+
+            padding: 0 5%;
+
+            background: rgba(243, 237, 226, 0.96);
         }
 
         .logo {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 12px;
         }
 
-        .logo-symbol {
+        .logo-flower {
             font-size: 27px;
-            color: #59634d;
+            color: #555943;
         }
 
         .logo-text {
             font-family: "Cormorant Garamond", serif;
-            font-size: 21px;
-            font-weight: 600;
+            font-size: 24px;
+            font-weight: 700;
             letter-spacing: 4px;
+            color: #11110f;
         }
 
         nav {
             display: flex;
-            gap: 34px;
+            align-items: center;
+            gap: 36px;
         }
 
         nav a {
             position: relative;
-            font-size: 9px;
+
+            padding: 30px 0;
+
+            font-size: 10px;
             font-weight: 700;
-            letter-spacing: 1.5px;
+            letter-spacing: 1.8px;
             text-transform: uppercase;
-            padding: 25px 0;
+
+            color: #34332d;
         }
 
         nav a.active {
-            color: #96743a;
+            color: #79602e;
         }
 
         nav a.active::after {
             content: "";
+
             position: absolute;
+
             left: 0;
             right: 0;
-            bottom: 10px;
-            height: 1px;
-            background: #a98b52;
+            bottom: 22px;
+
+            height: 2px;
+
+            background: #79602e;
         }
 
-        /* INTRO */
-        .intro {
-            text-align: center;
-            padding: 72px 20px 55px;
-            background: #f8f5ed;
+
+        /* =====================================================
+           PAGE INTRO
+        ===================================================== */
+
+        .collection-intro {
+            position: relative;
+
+            padding: 65px 5% 45px;
+
+            max-width: 1450px;
+            margin: auto;
         }
 
-        .eyebrow {
+        .intro-eyebrow {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+
             margin-bottom: 15px;
-            font-size: 9px;
+
+            font-size: 10px;
             font-weight: 700;
             letter-spacing: 3px;
-            color: #66705a;
+
+            color: #776442;
         }
 
-        .intro h1 {
+        .intro-eyebrow::after {
+            content: "";
+
+            width: 220px;
+            height: 1px;
+
+            background: #b9ad97;
+        }
+
+        .collection-intro h1 {
             font-family: "Cormorant Garamond", serif;
-            font-size: clamp(45px, 6vw, 72px);
-            line-height: 0.95;
-            font-weight: 500;
-            margin-bottom: 20px;
+
+            font-size: 55px;
+            line-height: 1;
+
+            font-weight: 600;
+
+            color: #11110f;
+
+            margin-bottom: 18px;
         }
 
-        .intro h1 em {
+        .collection-intro p {
+            max-width: 720px;
+
+            font-family: "Cormorant Garamond", serif;
+
+            font-size: 20px;
+            line-height: 1.5;
+
+            color: #575249;
+        }
+
+
+        /* =====================================================
+           DECORATIVE BOTANICAL
+        ===================================================== */
+
+        .botanical-decoration {
+            position: absolute;
+
+            right: 5%;
+            top: 45px;
+
+            width: 145px;
+
+            opacity: 0.45;
+
+            font-family: "Cormorant Garamond", serif;
+
             font-style: italic;
-            font-weight: 400;
+            font-size: 24px;
+
+            color: #82775f;
+
+            line-height: 1.15;
+
+            transform: rotate(-7deg);
         }
 
-        .intro p {
-            max-width: 620px;
-            margin: auto;
-            font-size: 11px;
-            line-height: 1.9;
-            color: #4e4b45;
-        }
 
-        /* COLLECTION */
+        /* =====================================================
+           COLLECTION GRID
+        ===================================================== */
+
         .collection {
-            max-width: 1320px;
+            padding: 0 3% 75px;
+        }
+
+        .collection-grid {
+            max-width: 1450px;
             margin: auto;
-            padding: 45px 6% 80px;
-        }
 
-        .collection-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: end;
-            margin-bottom: 25px;
-            border-bottom: 1px solid #d6d0c3;
-            padding-bottom: 15px;
-        }
-
-        .collection-label {
-            font-size: 8px;
-            font-weight: 700;
-            letter-spacing: 2.5px;
-            color: #686d5e;
-        }
-
-        .collection-count {
-            font-family: "Cormorant Garamond", serif;
-            font-size: 17px;
-            color: #706b61;
-        }
-
-        /* CARDS */
-        .flower-grid {
             display: grid;
-            grid-template-columns: repeat(3, minmax(0, 1fr));
-            gap: 25px;
+
+            grid-template-columns: repeat(3, 1fr);
+
+            gap: 22px;
         }
+
+
+        /* =====================================================
+           FLOWER CARD
+        ===================================================== */
 
         .flower-card {
-            background: #faf8f2;
-            border: 1px solid #d7d0c3;
-            overflow: hidden;
-            transition: transform 0.35s ease, box-shadow 0.35s ease;
+            background: #f7f3ea;
+
+            border: 1px solid #d5c9b5;
+
+            padding: 14px;
+
+            transition:
+                transform 0.35s ease,
+                box-shadow 0.35s ease;
         }
 
         .flower-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 35px rgba(65, 56, 43, 0.10);
+            transform: translateY(-4px);
+
+            box-shadow:
+                0 15px 35px rgba(73, 64, 45, 0.08);
         }
+
+
+        /* =====================================================
+           IMAGE
+        ===================================================== */
 
         .flower-image {
             width: 100%;
-            height: 390px;
-            display: block;
+
+            height: 405px;
+
             object-fit: cover;
-            background: #ddd8ca;
-        }
+
+            display: block;
+
+             border-radius: 220px 220px 0 0;
+}
+        
+
+
+        /* =====================================================
+           CONTENT
+        ===================================================== */
 
         .flower-content {
-            padding: 25px 25px 28px;
+            padding: 27px 14px 8px;
         }
 
         .flower-number {
-            font-size: 8px;
-            font-weight: 700;
-            letter-spacing: 2px;
-            color: #91876f;
             margin-bottom: 10px;
+
+            font-size: 9px;
+            font-weight: 700;
+
+            letter-spacing: 2.5px;
+
+            color: #806b46;
         }
 
         .flower-name {
             font-family: "Cormorant Garamond", serif;
+
             font-size: 34px;
-            line-height: 0.95;
+            line-height: 1;
+
             font-weight: 600;
-            margin-bottom: 4px;
+
+            color: #12120f;
+
+            margin-bottom: 5px;
         }
 
         .scientific-name {
             font-family: "Cormorant Garamond", serif;
+
             font-size: 17px;
+
             font-style: italic;
-            color: #5f5b54;
-            margin-bottom: 20px;
+
+            color: #686158;
+        }
+
+
+        /* =====================================================
+           DESCRIPTION
+        ===================================================== */
+
+        .description-block {
+            margin-top: 25px;
+
+            padding-bottom: 20px;
+
+            border-bottom: 1px solid #d8cebd;
+        }
+
+        .section-label {
+            display: block;
+
+            margin-bottom: 7px;
+
+            font-size: 8.5px;
+            font-weight: 700;
+
+            letter-spacing: 2px;
+
+            color: #4f4b42;
         }
 
         .description {
-            font-size: 10px;
-            line-height: 1.8;
-            color: #484641;
-            min-height: 72px;
-            margin-bottom: 22px;
+            font-family: "Cormorant Garamond", serif;
+
+            font-size: 17px;
+            line-height: 1.45;
+
+            color: #4d4941;
         }
 
-        .details {
-            border-top: 1px solid #ded8cd;
-            border-bottom: 1px solid #ded8cd;
-            padding: 16px 0;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
+
+        /* =====================================================
+           MEANING
+        ===================================================== */
+
+        .meaning {
+            display: flex;
+            gap: 13px;
+
+            padding: 19px 0;
+
+            border-bottom: 1px solid #d8cebd;
         }
 
-        .detail-label {
-            display: block;
-            font-size: 7px;
-            font-weight: 700;
-            letter-spacing: 1.3px;
-            color: #817b6d;
-            margin-bottom: 5px;
-        }
+        .meaning-symbol {
+            flex-shrink: 0;
 
-        .detail-value {
-            font-size: 9px;
-            font-weight: 600;
-            color: #292824;
-            line-height: 1.5;
-        }
+            width: 30px;
+            height: 30px;
 
-        .flower-button {
-            display: inline-flex;
+            display: flex;
             align-items: center;
-            gap: 15px;
-            margin-top: 22px;
-            padding: 10px 15px;
-            border: 1px solid #bfb5a2;
-            background: transparent;
+            justify-content: center;
+
+            font-size: 20px;
+
+            color: #746642;
+        }
+
+        .meaning-text {
+            font-family: "Cormorant Garamond", serif;
+
+            font-size: 17px;
+            line-height: 1.35;
+
+            color: #4c4941;
+        }
+
+
+        /* =====================================================
+           INFORMATION ROW
+        ===================================================== */
+
+        .info-row {
+            display: grid;
+
+            grid-template-columns: 1fr 1fr;
+
+            padding: 19px 0 17px;
+        }
+
+        .info-item {
+            min-height: 52px;
+        }
+
+        .info-item:first-child {
+            padding-right: 20px;
+
+            border-right: 1px solid #d8cebd;
+        }
+
+        .info-item:last-child {
+            padding-left: 20px;
+        }
+
+        .info-label {
+            display: block;
+
+            margin-bottom: 7px;
+
             font-size: 8px;
             font-weight: 700;
-            letter-spacing: 1px;
-            color: #403e38;
-            transition: 0.3s;
+
+            letter-spacing: 1.8px;
+
+            color: #777063;
+        }
+
+        .info-value {
+            font-family: "Cormorant Garamond", serif;
+
+            font-size: 17px;
+
+            color: #27251f;
+        }
+
+
+        /* =====================================================
+           BUTTON
+        ===================================================== */
+
+        .flower-button {
+            width: 100%;
+
+            min-height: 42px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 18px;
+
+            border: 1px solid #9c907b;
+
+            background: #4f5744;
+
+            color: #f8f5ed;
+
+            font-size: 8.5px;
+            font-weight: 700;
+
+            letter-spacing: 1.5px;
+
+            transition: all 0.3s ease;
+        }
+
+        .flower-button span:first-child {
+            white-space: nowrap;
+        }
+
+        .flower-button span:last-child {
+            font-size: 15px;
+
+            line-height: 1;
+
+            margin-left: 12px;
         }
 
         .flower-button:hover {
-            background: #59634d;
-            border-color: #59634d;
-            color: #fff;
+            background: #343b2f;
+
+            border-color: #343b2f;
         }
 
-        /* FOOTER */
+
+        /* =====================================================
+           FOOTER
+        ===================================================== */
+
         footer {
-            border-top: 1px solid #d3ccbf;
-            background: #ece7db;
-            padding: 35px 6%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            padding: 35px 5% 40px;
+
+            border-top: 1px solid #ddd3c2;
+
+            text-align: center;
         }
 
         .footer-logo {
             font-family: "Cormorant Garamond", serif;
-            font-size: 20px;
-            letter-spacing: 3px;
-            font-weight: 600;
+
+            font-size: 18px;
+
+            letter-spacing: 4px;
+
+            color: #292821;
+        }
+
+        .footer-line {
+            width: 90px;
+
+            height: 1px;
+
+            margin: 12px auto;
+
+            background: #aaa08d;
         }
 
         .footer-text {
             font-size: 8px;
-            letter-spacing: 1.5px;
-            color: #706c63;
+
+            letter-spacing: 2.5px;
+
+            color: #777063;
         }
 
-        /* RESPONSIVE */
-        @media (max-width: 1000px) {
-            .flower-grid {
-                grid-template-columns: 1fr 1fr;
-            }
-        }
 
-        @media (max-width: 700px) {
-            header {
-                height: auto;
-                padding: 15px 20px;
-                flex-direction: column;
-                gap: 8px;
-            }
+        /* =====================================================
+           RESPONSIVE
+        ===================================================== */
+
+        @media (max-width: 1100px) {
 
             nav {
-                width: 100%;
-                justify-content: space-between;
-                gap: 10px;
+                gap: 20px;
             }
 
             nav a {
-                font-size: 7px;
+                font-size: 8px;
             }
 
-            .intro {
-                padding: 55px 20px 40px;
+            .collection-grid {
+                grid-template-columns: 1fr 1fr;
             }
 
-            .flower-grid {
+            .collection-intro h1 {
+                font-size: 48px;
+            }
+        }
+
+
+        @media (max-width: 760px) {
+
+            header {
+                height: auto;
+
+                padding: 20px 5%;
+
+                flex-direction: column;
+
+                gap: 15px;
+            }
+
+            nav {
+                flex-wrap: wrap;
+
+                justify-content: center;
+
+                gap: 18px;
+            }
+
+            nav a {
+                padding: 8px 0;
+            }
+
+            nav a.active::after {
+                bottom: 0;
+            }
+
+            .collection-intro {
+                padding-top: 45px;
+            }
+
+            .collection-intro h1 {
+                font-size: 42px;
+            }
+
+            .botanical-decoration {
+                display: none;
+            }
+
+            .collection-grid {
                 grid-template-columns: 1fr;
             }
 
             .flower-image {
-                height: 330px;
-            }
-
-            footer {
-                flex-direction: column;
-                gap: 15px;
-                text-align: center;
+                height: 450px;
             }
         }
+
+
+        @media (max-width: 480px) {
+
+            .collection-intro h1 {
+                font-size: 36px;
+            }
+
+            .collection-intro p {
+                font-size: 17px;
+            }
+
+            .flower-image {
+                height: 390px;
+            }
+
+            .flower-name {
+                font-size: 30px;
+            }
+        }
+
     </style>
 </head>
 
+
 <body>
 
+
+<!-- =====================================================
+     HEADER
+===================================================== -->
+
 <header>
-    <a href="/" class="logo">
-        <span class="logo-symbol">❧</span>
-        <span class="logo-text">IRIS BOTANICA AI</span>
-    </a>
+
+    <div class="logo">
+
+        <div class="logo-flower">❧</div>
+
+        <div class="logo-text">
+            IRIS BOTANICA AI
+        </div>
+
+    </div>
+
 
     <nav>
-        <a href="/">Trang chủ</a>
-        <a href="/species" class="active">Bộ sưu tập loài hoa</a>
-        <a href="/locations">Điểm nghiên cứu</a>
-        <a href="/docs">Về mô hình AI</a>
+
+        <a href="/">
+            Trang chủ
+        </a>
+
+        <a href="/species" class="active">
+            Bộ sưu tập loài hoa
+        </a>
+
+        <a href="/docs">
+            Về mô hình AI
+        </a>
+
     </nav>
+
 </header>
 
-<section class="intro">
-    <div class="eyebrow">THE IRIS COLLECTION · 01</div>
-    <h1>Bộ sưu tập <em>Iris</em></h1>
+
+
+<!-- =====================================================
+     INTRO
+===================================================== -->
+
+<section class="collection-intro">
+
+    <div class="intro-eyebrow">
+        OUR COLLECTION
+    </div>
+
+    <h1>
+        Bộ sưu tập loài hoa Iris
+    </h1>
+
     <p>
-        Ba loài hoa Iris được phân loại trong mô hình Support Vector Machine. 
-        Khám phá đặc điểm hình thái và những dấu hiệu giúp nhận diện từng loài.
+        Khám phá ba loài Iris qua đặc điểm hình thái,
+        giá trị biểu tượng và những dấu hiệu giúp nhận
+        biết từng loài.
     </p>
+
+
+    <div class="botanical-decoration">
+        Mỗi loài hoa<br>
+        là một câu chuyện<br>
+        về sự sống
+    </div>
+
 </section>
+
+
+
+<!-- =====================================================
+     COLLECTION
+===================================================== -->
 
 <section class="collection">
-    <div class="collection-header">
-        <div class="collection-label">BOTANICAL SPECIES</div>
-        <div class="collection-count">03 SPECIES</div>
+
+    <div class="collection-grid">
+
+
+        <!-- =================================================
+             SETOSA
+        ================================================== -->
+
+        <article class="flower-card">
+
+            <img
+                class="flower-image"
+                src="/images/SETOSA.jpg"
+                alt="Iris Setosa"
+            >
+
+
+            <div class="flower-content">
+
+                <div class="flower-number">
+                    IRIS · 000 
+                </div>
+
+
+                <h2 class="flower-name">
+                    Iris Setosa
+                </h2>
+
+
+                <div class="scientific-name">
+                    Iris setosa
+                </div>
+
+
+                <!-- ĐẶC ĐIỂM -->
+
+                <div class="description-block">
+
+                    <span class="section-label">
+                        ĐẶC ĐIỂM NHẬN BIẾT
+                    </span>
+
+                    <p class="description">
+                        Hoa có cánh nhỏ, đài hoa hẹp và
+                        kích thước tổng thể thanh mảnh.
+                        Hình thái gọn gàng giúp Setosa
+                        dễ nhận biết trong ba nhóm Iris.
+                    </p>
+
+                </div>
+
+
+                <!-- Ý NGHĨA -->
+
+                <div class="meaning">
+
+                    <div class="meaning-symbol">
+                        ❧
+                    </div>
+
+                    <div>
+
+                        <span class="section-label">
+                            Ý NGHĨA
+                        </span>
+
+                        <div class="meaning-text">
+                            Tượng trưng cho sự tinh khôi,
+                            thuần khiết và khởi đầu mới.
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- THÔNG TIN -->
+
+                <div class="info-row">
+
+                    <div class="info-item">
+
+                        <span class="info-label">
+                            PHỔ BIẾN
+                        </span>
+
+                        <div class="info-value">
+                            Rất phổ biến
+                        </div>
+
+                    </div>
+
+
+                    <div class="info-item">
+
+                        <span class="info-label">
+                            GIÁ THAM KHẢO
+                        </span>
+
+                        <div class="info-value">
+                            120.000 – 250.000 VNĐ
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- BUTTON -->
+
+                <a
+                    href="/?species=setosa"
+                    class="flower-button"
+                >
+
+                    <span>
+                        XEM THÔNG SỐ HÌNH THÁI
+                    </span>
+
+                    <span>
+                        →
+                    </span>
+
+                </a>
+
+            </div>
+
+        </article>
+
+
+
+        <!-- =================================================
+             VERSICOLOR
+        ================================================== -->
+
+        <article class="flower-card">
+
+            <img
+                class="flower-image"
+                src="/images/VERSICOLOR_v2.jpg"
+                alt="Iris Versicolor"
+            >
+
+
+            <div class="flower-content">
+
+                <div class="flower-number">
+                    IRIS · 001
+                </div>
+
+
+                <h2 class="flower-name">
+                    Iris Versicolor
+                </h2>
+
+
+                <div class="scientific-name">
+                    Iris versicolor
+                </div>
+
+
+                <!-- ĐẶC ĐIỂM -->
+
+                <div class="description-block">
+
+                    <span class="section-label">
+                        ĐẶC ĐIỂM NHẬN BIẾT
+                    </span>
+
+                    <p class="description">
+                        Hoa có kích thước trung bình,
+                        cánh hoa rộng hơn Setosa và
+                        thể hiện sự chuyển tiếp rõ ràng
+                        về hình thái.
+                    </p>
+
+                </div>
+
+
+                <!-- Ý NGHĨA -->
+
+                <div class="meaning">
+
+                    <div class="meaning-symbol">
+                        ❧
+                    </div>
+
+                    <div>
+
+                        <span class="section-label">
+                            Ý NGHĨA
+                        </span>
+
+                        <div class="meaning-text">
+                            Biểu tượng của sự dịu dàng,
+                            thanh lịch và cân bằng.
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- THÔNG TIN -->
+
+                <div class="info-row">
+
+                    <div class="info-item">
+
+                        <span class="info-label">
+                            PHỔ BIẾN
+                        </span>
+
+                        <div class="info-value">
+                            Phổ biến
+                        </div>
+
+                    </div>
+
+
+                    <div class="info-item">
+
+                        <span class="info-label">
+                            GIÁ THAM KHẢO
+                        </span>
+
+                        <div class="info-value">
+                            150.000 – 300.000 VNĐ
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- BUTTON -->
+
+                <a
+                    href="/?species=versicolor"
+                    class="flower-button"
+                >
+
+                    <span>
+                        XEM THÔNG SỐ HÌNH THÁI
+                    </span>
+
+                    <span>
+                        →
+                    </span>
+
+                </a>
+
+            </div>
+
+        </article>
+
+
+
+        <!-- =================================================
+             VIRGINICA
+        ================================================== -->
+
+        <article class="flower-card">
+
+            <img
+                class="flower-image"
+                src="/images/VIRGINICA_v2.jpg"
+                alt="Iris Virginica"
+            >
+
+
+            <div class="flower-content">
+
+                <div class="flower-number">
+                    IRIS · 002
+                </div>
+
+
+                <h2 class="flower-name">
+                    Iris Virginica
+                </h2>
+
+
+                <div class="scientific-name">
+                    Iris virginica
+                </div>
+
+
+                <!-- ĐẶC ĐIỂM -->
+
+                <div class="description-block">
+
+                    <span class="section-label">
+                        ĐẶC ĐIỂM NHẬN BIẾT
+                    </span>
+
+                    <p class="description">
+                        Hoa có kích thước lớn hơn,
+                        cánh hoa dài và rộng. Các đặc
+                        trưng hình thái nổi bật giúp
+                        phân biệt với hai nhóm còn lại.
+                    </p>
+
+                </div>
+
+
+                <!-- Ý NGHĨA -->
+
+                <div class="meaning">
+
+                    <div class="meaning-symbol">
+                        ❧
+                    </div>
+
+                    <div>
+
+                        <span class="section-label">
+                            Ý NGHĨA
+                        </span>
+
+                        <div class="meaning-text">
+                            Thể hiện sự sang trọng,
+                            trưởng thành và bản lĩnh.
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- THÔNG TIN -->
+
+                <div class="info-row">
+
+                    <div class="info-item">
+
+                        <span class="info-label">
+                            PHỔ BIẾN
+                        </span>
+
+                        <div class="info-value">
+                            Ít phổ biến hơn
+                        </div>
+
+                    </div>
+
+
+                    <div class="info-item">
+
+                        <span class="info-label">
+                            GIÁ THAM KHẢO
+                        </span>
+
+                        <div class="info-value">
+                            180.000 – 350.000 VNĐ
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- BUTTON -->
+
+                <a
+                    href="/?species=virginica"
+                    class="flower-button"
+                >
+
+                    <span>
+                        XEM THÔNG SỐ HÌNH THÁI
+                    </span>
+
+                    <span>
+                        →
+                    </span>
+
+                </a>
+
+            </div>
+
+        </article>
+
+
     </div>
 
-    <div class="flower-grid">
-
-        <!-- SETOSA (Class ID 0) -->
-        <article class="flower-card">
-            <img class="flower-image" src="/images/SETOSA.jpg" alt="Iris Setosa">
-            <div class="flower-content">
-                <div class="flower-number">IRIS · 001</div>
-                <h2 class="flower-name">Iris Setosa</h2>
-                <div class="scientific-name">Iris setosa</div>
-
-                <p class="description">
-                    Loài Iris có kích thước hoa nhỏ hơn, thường được nhận diện qua cánh hoa ngắn và các đặc trưng hình thái riêng biệt.
-                </p>
-
-                <div class="details">
-                    <div>
-                        <span class="detail-label">PETAL</span>
-                        <span class="detail-value">Ngắn & hẹp</span>
-                    </div>
-                    <div>
-                        <span class="detail-label">NHẬN DIỆN</span>
-                        <span class="detail-value">Class ID 0</span>
-                    </div>
-                    <div>
-                        <span class="detail-label">MÔ HÌNH</span>
-                        <span class="detail-value">SVM</span>
-                    </div>
-                    <div>
-                        <span class="detail-label">DATASET</span>
-                        <span class="detail-value">Iris Dataset</span>
-                    </div>
-                </div>
-
-                <a href="/?species=setosa" class="flower-button">
-    <span>XEM THÔNG SỐ HÌNH THÁI</span>
-    <span>→</span>
-</a>
-            </div>
-        </article>
-
-        <!-- VERSICOLOR (Class ID 1) -->
-        <article class="flower-card">
-            <img class="flower-image" src="/images/VERSICOLOR_v2.jpg" alt="Iris Versicolor">
-            <div class="flower-content">
-                <div class="flower-number">IRIS · 002</div>
-                <h2 class="flower-name">Iris Versicolor</h2>
-                <div class="scientific-name">Iris versicolor</div>
-
-                <p class="description">
-                    Một loài Iris có sự khác biệt rõ ràng về kích thước đài và cánh hoa, là một trong ba nhóm được mô hình SVM phân loại.
-                </p>
-
-                <div class="details">
-                    <div>
-                        <span class="detail-label">PETAL</span>
-                        <span class="detail-value">Trung bình</span>
-                    </div>
-                    <div>
-                        <span class="detail-label">NHẬN DIỆN</span>
-                        <span class="detail-value">Class ID 1</span>
-                    </div>
-                    <div>
-                        <span class="detail-label">MÔ HÌNH</span>
-                        <span class="detail-value">SVM</span>
-                    </div>
-                    <div>
-                        <span class="detail-label">DATASET</span>
-                        <span class="detail-value">Iris Dataset</span>
-                    </div>
-                </div>
-
-               <a href="/?species=versicolor" class="flower-button">
-    <span>XEM THÔNG SỐ HÌNH THÁI</span>
-    <span>→</span>
-</a>
-            </div>
-        </article>
-
-        <!-- VIRGINICA (Class ID 2) -->
-        <article class="flower-card">
-            <img class="flower-image" src="/images/VIRGINICA_v2.jpg" alt="Iris Virginica"> 
-           <div class="flower-content">
-                <div class="flower-number">IRIS · 003</div>
-                <h2 class="flower-name">Iris Virginica</h2>
-                <div class="scientific-name">Iris virginica</div>
-
-                <p class="description">
-                    Loài Iris có kích thước lớn hơn trong tập dữ liệu, với các đặc trưng về cánh và đài hoa khác biệt so với hai nhóm còn lại.
-                </p>
-
-                <div class="details">
-                    <div>
-                        <span class="detail-label">PETAL</span>
-                        <span class="detail-value">Dài & rộng</span>
-                    </div>
-                    <div>
-                        <span class="detail-label">NHẬN DIỆN</span>
-                        <span class="detail-value">Class ID 2</span>
-                    </div>
-                    <div>
-                        <span class="detail-label">MÔ HÌNH</span>
-                        <span class="detail-value">SVM</span>
-                    </div>
-                    <div>
-                        <span class="detail-label">DATASET</span>
-                        <span class="detail-value">Iris Dataset</span>
-                    </div>
-                </div>
-
-               <a href="/?species=virginica" class="flower-button">
-    <span>XEM THÔNG SỐ HÌNH THÁI</span>
-    <span>→</span>
-</a>
-            </div>
-        </article>
-
-    </div>
 </section>
 
+
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
 <footer>
-    <div class="footer-logo">IRIS BOTANICA AI</div>
-    <div class="footer-text">SVM · FASTAPI · MACHINE LEARNING</div>
+
+    <div class="footer-logo">
+        IRIS BOTANICA AI
+    </div>
+
+    <div class="footer-line"></div>
+
+    <div class="footer-text">
+        SẮC HOA · TRI THỨC · GIÁ TRỊ TỰ NHIÊN
+    </div>
+
 </footer>
+
 
 </body>
 </html>
