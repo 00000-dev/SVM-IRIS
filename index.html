@@ -20,7 +20,6 @@
         }
 
         body {
-            /* Tông nền kem Be ấm áp chuẩn Ảnh 2 */
             background-color: #f3ede2;
             color: #0d0d0d;
             font-family: "Montserrat", Arial, sans-serif;
@@ -77,7 +76,7 @@
 
         nav a {
             font-size: 10px;
-            font-weight: 800; /* Làm chữ menu đậm rõ */
+            font-weight: 800;
             letter-spacing: 2px;
             text-transform: uppercase;
             color: #333333;
@@ -105,14 +104,13 @@
         .hero {
             position: relative;
             min-height: 600px;
-            padding: 40px 5% 40px 0; /* Bỏ padding trái để ảnh sát lề */
+            padding: 40px 5% 40px 0;
             display: grid;
             grid-template-columns: 1.1fr 0.9fr;
             gap: 30px;
             align-items: start;
         }
 
-        /* Bố cục ảnh hoa bên trái tràn viền chuẩn Ảnh 2 */
         .hero-left-wrapper {
             display: flex;
             position: relative;
@@ -124,8 +122,8 @@
             min-width: 220px;
             height: 620px;
             object-fit: cover;
-            border-radius: 0 300px 300px 0; /* Bo cong hình vòm chuẩn */
-            margin-top: -40px; /* Tràn lên trên sát Header */
+            border-radius: 0 300px 300px 0;
+            margin-top: -40px;
             margin-right: 35px;
         }
 
@@ -138,7 +136,7 @@
             font-size: 9.5px;
             letter-spacing: 2.5px;
             color: #555647;
-            font-weight: 800; /* Đậm nét */
+            font-weight: 800;
             margin-bottom: 16px;
             text-transform: uppercase;
         }
@@ -147,7 +145,7 @@
             font-family: "Cormorant Garamond", serif;
             font-size: 44px;
             line-height: 1.08;
-            font-weight: 700; /* Đậm nét tiêu đề */
+            font-weight: 700;
             color: #000000;
             margin-bottom: 20px;
         }
@@ -161,7 +159,7 @@
             font-size: 11px;
             line-height: 1.7;
             color: #1a1a1a;
-            font-weight: 600; /* Chữ đậm màu tối */
+            font-weight: 600;
             margin-bottom: 22px;
             max-width: 440px;
         }
@@ -186,7 +184,7 @@
            PREDICTION FORM BOX
         ========================= */
         .prediction-box {
-            background: #e7dfd1; /* Nền xám be đậm */
+            background: #e7dfd1;
             border: 1px solid #d8cebd;
             border-radius: 8px;
             padding: 24px 28px 20px;
@@ -227,7 +225,7 @@
         .input-group label {
             display: block;
             font-size: 9.5px;
-            font-weight: 800; /* Đậm nhãn Input */
+            font-weight: 800;
             margin-bottom: 6px;
             color: #1a1a1a;
         }
@@ -313,7 +311,7 @@
         .result-name {
             font-family: "Cormorant Garamond", serif;
             font-size: 34px;
-            font-weight: 700; /* Chữ tên loài hoa rất đậm */
+            font-weight: 700;
             line-height: 1;
             color: #000000;
         }
@@ -377,7 +375,7 @@
 
         .measure strong {
             font-size: 12px;
-            font-weight: 800; /* Giá trị số cực đậm */
+            font-weight: 800;
             color: #000000;
         }
 
@@ -406,6 +404,11 @@
             color: #22211d;
             border-radius: 4px;
             background: transparent;
+            transition: all 0.3s;
+        }
+
+        .explore-button:hover {
+            background: #dcd3c2;
         }
 
         /* =========================
@@ -484,8 +487,9 @@
 <section class="hero">
     <!-- LEFT: Ảnh vòm + Nội dung -->
     <div class="hero-left-wrapper">
-        <!-- Ảnh hoa bên trái tràn viền chuẩn Ảnh 2 -->
-        <img class="hero-left-image" src="/images/VERSICOLOR.jpg" alt="Iris flower">
+        <img class="hero-left-image"
+     src="/images/VIRGINICA_v2.jpg"
+     alt="Iris flower">
 
         <div class="hero-content">
             <div class="eyebrow">BOTANICAL INTELLIGENCE · SVM</div>
@@ -496,6 +500,7 @@
             <a href="/species" class="collection-button">KHÁM PHÁ BỘ SƯU TẬP &nbsp; →</a>
 
             <!-- PREDICTION FORM -->
+           <!-- PREDICTION FORM -->
             <div class="prediction-box">
                 <div class="box-title">AI PREDICTION STUDIO</div>
                 <div class="prediction-title">Iris Classifier</div>
@@ -507,19 +512,19 @@
                     <div class="input-grid">
                         <div class="input-group">
                             <label for="sepal_length">Sepal Length</label>
-                            <input type="number" id="sepal_length" step="0.1" value="5.1" required>
+                            <input type="number" step="0.1" id="sepal_length" placeholder="Nhập số liệu tại đây">
                         </div>
                         <div class="input-group">
                             <label for="sepal_width">Sepal Width</label>
-                            <input type="number" id="sepal_width" step="0.1" value="3.5" required>
+                            <input type="number" step="0.1" id="sepal_width" placeholder="Nhập số liệu tại đây">
                         </div>
                         <div class="input-group">
                             <label for="petal_length">Petal Length</label>
-                            <input type="number" id="petal_length" step="0.1" value="1.4" required>
+                            <input type="number" step="0.1" id="petal_length" placeholder="Nhập số liệu tại đây">
                         </div>
                         <div class="input-group">
                             <label for="petal_width">Petal Width</label>
-                            <input type="number" id="petal_width" step="0.1" value="0.2" required>
+                            <input type="number" step="0.1" id="petal_width" placeholder="Nhập số liệu tại đây">
                         </div>
                     </div>
 
@@ -530,11 +535,15 @@
             </div>
         </div>
     </div>
+        </div>
+    </div>
 
     <!-- RIGHT RESULT CARD -->
     <div class="result-card">
         <div class="box-title">AI PREDICTION RESULT</div>
-        <img id="resultImage" class="result-image" src="/images/VERSICOLOR.jpg" alt="Iris Versicolor">
+        <img class="hero-left-image"
+     src="/images/VIRGINICA_v2.jpg" 
+     alt="Iris flower">
 
         <div class="result-label">LOÀI HOA</div>
         <div class="result-header-row">
@@ -547,23 +556,26 @@
 
         <hr class="result-divider">
 
-        <div class="measure-title">THÔNG SỐ BẠN ĐÃ NHẬP</div>
-        <div class="measure-grid">
-            <div class="measure">
-                <span>Sepal Length</span>
-                <strong id="resultSepalLength">5.1</strong>
-            </div>
-            <div class="measure">
-                <span>Sepal Width</span>
-                <strong id="resultSepalWidth">3.5</strong>
-            </div>
-            <div class="measure">
-                <span>Petal Length</span>
-                <strong id="resultPetalLength">1.4</strong>
-            </div>
-            <div class="measure">
-                <span>Petal Width</span>
-                <strong id="resultPetalWidth">0.2</strong>
+        <!-- KHỐI THÔNG SỐ ĐÃ ĐƯỢC BỌC VÀ ẨN MẶC ĐỊNH -->
+        <div id="userParamsWrapper" style="display: none;">
+            <div class="measure-title">THÔNG SỐ BẠN ĐÃ NHẬP</div>
+            <div class="measure-grid">
+                <div class="measure">
+                    <span>Sepal Length</span>
+                    <strong id="resultSepalLength">-</strong>
+                </div>
+                <div class="measure">
+                    <span>Sepal Width</span>
+                    <strong id="resultSepalWidth">-</strong>
+                </div>
+                <div class="measure">
+                    <span>Petal Length</span>
+                    <strong id="resultPetalLength">-</strong>
+                </div>
+                <div class="measure">
+                    <span>Petal Width</span>
+                    <strong id="resultPetalWidth">-</strong>
+                </div>
             </div>
         </div>
 
@@ -590,80 +602,384 @@
     </div>
 </section>
 
-<!-- JAVASCRIPT -->
 <script>
-    const form = document.getElementById("predictionForm");
-    const button = document.getElementById("predictButton");
-    const errorMessage = document.getElementById("errorMessage");
+    document.addEventListener("DOMContentLoaded", () => {
 
-    const speciesInfo = {
-        0: { name: "Iris Setosa", scientific: "Iris setosa", image: "/images/SENTOSA.jpg" },
-        1: { name: "Iris Versicolor", scientific: "Iris versicolor", image: "/images/VERSICOLOR.jpg" },
-        2: { name: "Iris Virginica", scientific: "Iris virginica", image: "/images/VIRGIN.jpg" }
-    };
+        /* =========================
+           DOM ELEMENTS
+        ========================= */
+        const form = document.getElementById("predictionForm");
+        const button = document.getElementById("predictButton");
+        const errorMessage = document.getElementById("errorMessage");
 
-    function updateResultUI(classId, sL, sW, pL, pW) {
-        const info = speciesInfo[classId];
-        if (!info) return;
+        const sepalLengthInput = document.getElementById("sepal_length");
+        const sepalWidthInput = document.getElementById("sepal_width");
+        const petalLengthInput = document.getElementById("petal_length");
+        const petalWidthInput = document.getElementById("petal_width");
 
-        document.getElementById("resultImage").src = info.image;
-        document.getElementById("resultImage").alt = info.name;
-        document.getElementById("resultName").textContent = info.name;
-        document.getElementById("resultScientific").textContent = info.scientific;
-        document.getElementById("classBadge").textContent = "Class ID: " + classId;
 
-        document.getElementById("resultSepalLength").textContent = sL;
-        document.getElementById("resultSepalWidth").textContent = sW;
-        document.getElementById("resultPetalLength").textContent = pL;
-        document.getElementById("resultPetalWidth").textContent = pW;
+        /* =========================
+           THÔNG TIN 3 LOÀI IRIS
+        ========================= */
+        const speciesInfo = {
+            0: {
+                name: "Iris Setosa",
+                scientific: "Iris setosa",
+                image: "/images/SETOSA.jpg"
+            },
 
-        document.getElementById("modelMessage").textContent =
-            "Mô hình SVM phân loại mẫu dữ liệu này vào nhóm " + info.name + ".";
-    }
+            1: {
+                name: "Iris Versicolor",
+                scientific: "Iris versicolor",
+                image:  "/images/VERSICOLOR_v2.jpg"
+            },
 
-    window.addEventListener("DOMContentLoaded", () => {
-        updateResultUI(1, 5.1, 3.5, 1.4, 0.2);
-    });
+            2: {
+                name: "Iris Virginica",
+                scientific: "Iris virginica",
+                image: "/images/VIRGINICA_v2.jpg"
+            }
+        };
 
-    form.addEventListener("submit", async function(event) {
-        event.preventDefault();
-        errorMessage.style.display = "none";
-        button.disabled = true;
-        button.textContent = "ĐANG PHÂN TÍCH...";
 
-        const sepalLength = parseFloat(document.getElementById("sepal_length").value);
-        const sepalWidth = parseFloat(document.getElementById("sepal_width").value);
-        const petalLength = parseFloat(document.getElementById("petal_length").value);
-        const petalWidth = parseFloat(document.getElementById("petal_width").value);
+        /* =========================
+           TÊN LOÀI → CLASS ID
+        ========================= */
+        const speciesByName = {
+            setosa: 0,
+            versicolor: 1,
+            virginica: 2
+        };
 
-        try {
-            if (sepalLength <= 0 || sepalWidth <= 0 || petalLength <= 0 || petalWidth <= 0) {
-                throw new Error("Vui lòng nhập các giá trị lớn hơn 0.");
+
+        /* =========================
+           THÔNG SỐ MẪU MẶC ĐỊNH
+           Dùng khi chọn loài từ
+           trang Bộ sưu tập
+        ========================= */
+        const defaultMeasurements = {
+
+            0: {
+                sepal_length: 5.0,
+                sepal_width: 3.4,
+                petal_length: 1.5,
+                petal_width: 0.2
+            },
+
+            1: {
+                sepal_length: 5.9,
+                sepal_width: 2.7,
+                petal_length: 4.2,
+                petal_width: 1.3
+            },
+
+            2: {
+                sepal_length: 6.5,
+                sepal_width: 3.0,
+                petal_length: 5.5,
+                petal_width: 2.0
+            }
+        };
+
+
+        /* =========================
+           HIỂN THỊ KẾT QUẢ
+        ========================= */
+        function updateResultUI(classId, sL, sW, pL, pW) {
+
+            const info = speciesInfo[classId];
+
+            if (!info) {
+                return;
             }
 
-            const response = await fetch("/predict", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    sepal_length: sepalLength,
-                    sepal_width: sepalWidth,
-                    petal_length: petalLength,
-                    petal_width: petalWidth
-                })
-            });
+            /* Ảnh bên trái */
+            const heroImage = document.querySelector(".hero-left-image");
 
-            if (!response.ok) throw new Error("Không thể kết nối đến API FastAPI.");
+            if (heroImage) {
+                heroImage.src = info.image;
+                heroImage.alt = info.name;
+            }
 
-            const data = await response.json();
-            updateResultUI(data.class_id, sepalLength, sepalWidth, petalLength, petalWidth);
 
-        } catch (error) {
-            errorMessage.textContent = error.message;
-            errorMessage.style.display = "block";
-        } finally {
-            button.disabled = false;
-            button.textContent = "DỰ ĐOÁN LOÀI HOA";
+            /* Ảnh kết quả */
+            const resultImage = document.getElementById("resultImage");
+
+            resultImage.src = info.image;
+            resultImage.alt = info.name;
+
+
+            /* Tên loài */
+            document.getElementById("resultName").textContent =
+                info.name;
+
+
+            /* Tên khoa học */
+            document.getElementById("resultScientific").textContent =
+                info.scientific;
+
+
+            /* Class ID */
+            document.getElementById("classBadge").textContent =
+                "Class ID: " + classId;
+
+
+            /* =========================
+               THÔNG SỐ HÌNH THÁI
+            ========================= */
+            document.getElementById("resultSepalLength").textContent =
+                sL;
+
+            document.getElementById("resultSepalWidth").textContent =
+                sW;
+
+            document.getElementById("resultPetalLength").textContent =
+                pL;
+
+            document.getElementById("resultPetalWidth").textContent =
+                pW;
+
+
+            /* =========================
+               THÔNG BÁO MÔ HÌNH
+            ========================= */
+            document.getElementById("modelMessage").textContent =
+                "Mô hình SVM phân loại mẫu dữ liệu này vào nhóm " +
+                info.name + ".";
+
+
+            /* Hiển thị thông số */
+            document.getElementById("userParamsWrapper").style.display =
+                "block";
         }
+
+
+        /* =========================
+           ĐỌC LOÀI TỪ URL
+           
+           Ví dụ:
+           /?species=setosa
+           /?species=versicolor
+           /?species=virginica
+        ========================= */
+       // CODE MỚI (Đã sửa đúng yêu cầu):
+function loadSpeciesFromURL() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const speciesName = urlParams.get("species");
+
+    // Chỉ thực hiện khi URL thực sự có chứa tham số ?species=
+    if (speciesName) {
+        const selectedClass = speciesByName[speciesName.toLowerCase()];
+
+        if (selectedClass !== undefined) {
+            const measurements = defaultMeasurements[selectedClass];
+
+            // Điền số liệu vào 4 ô input
+            sepalLengthInput.value = measurements.sepal_length;
+            sepalWidthInput.value = measurements.sepal_width;
+            petalLengthInput.value = measurements.petal_length;
+            petalWidthInput.value = measurements.petal_width;
+
+            // Cập nhật kết quả dự đoán
+            updateResultUI(
+                selectedClass,
+                measurements.sepal_length,
+                measurements.sepal_width,
+                measurements.petal_length,
+                measurements.petal_width
+            );
+        }
+    }
+}
+
+
+        /* =========================
+           XỬ LÝ DỰ ĐOÁN
+           
+           Form → FastAPI → SVM
+        ========================= */
+        form.addEventListener("submit", async (event) => {
+
+            event.preventDefault();
+
+
+            /* Xóa thông báo lỗi cũ */
+            errorMessage.style.display = "none";
+            errorMessage.textContent = "";
+
+
+            /* Lấy dữ liệu */
+            const sepalLength =
+                parseFloat(sepalLengthInput.value);
+
+            const sepalWidth =
+                parseFloat(sepalWidthInput.value);
+
+            const petalLength =
+                parseFloat(petalLengthInput.value);
+
+            const petalWidth =
+                parseFloat(petalWidthInput.value);
+
+
+            /* =========================
+               KIỂM TRA DỮ LIỆU
+            ========================= */
+            if (
+                !Number.isFinite(sepalLength) ||
+                !Number.isFinite(sepalWidth) ||
+                !Number.isFinite(petalLength) ||
+                !Number.isFinite(petalWidth)
+            ) {
+
+                errorMessage.textContent =
+                    "Vui lòng nhập đầy đủ 4 thông số hợp lệ.";
+
+                errorMessage.style.display = "block";
+
+                return;
+            }
+
+
+            /* Không cho số <= 0 */
+            if (
+                sepalLength <= 0 ||
+                sepalWidth <= 0 ||
+                petalLength <= 0 ||
+                petalWidth <= 0
+            ) {
+
+                errorMessage.textContent =
+                    "Các thông số phải là số dương.";
+
+                errorMessage.style.display = "block";
+
+                return;
+            }
+
+
+            /* =========================
+               TRẠNG THÁI ĐANG DỰ ĐOÁN
+            ========================= */
+            button.disabled = true;
+
+            button.textContent =
+                "ĐANG PHÂN TÍCH DỮ LIỆU...";
+
+
+            try {
+
+                /* =========================
+                   GỌI FASTAPI
+                ========================= */
+                const response = await fetch("/predict", {
+
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+
+                    body: JSON.stringify({
+
+                        sepal_length: sepalLength,
+                        sepal_width: sepalWidth,
+                        petal_length: petalLength,
+                        petal_width: petalWidth
+
+                    })
+                });
+
+
+                /* API trả lỗi */
+                if (!response.ok) {
+
+                    throw new Error(
+                        "API trả về lỗi " + response.status
+                    );
+                }
+
+
+                /* Đọc JSON */
+                const data =
+                    await response.json();
+
+
+                /* =========================
+                   CLASS ID TỪ SVM
+                ========================= */
+                const classId =
+                    Number(data.class_id);
+
+
+                if (
+                    !Number.isInteger(classId) ||
+                    !speciesInfo[classId]
+                ) {
+
+                    throw new Error(
+                        "Kết quả từ mô hình không hợp lệ."
+                    );
+                }
+
+
+                /* =========================
+                   CẬP NHẬT GIAO DIỆN
+                ========================= */
+                updateResultUI(
+                    classId,
+                    sepalLength,
+                    sepalWidth,
+                    petalLength,
+                    petalWidth
+                );
+
+
+                /* =========================
+                   CUỘN NHẸ ĐẾN KẾT QUẢ
+                ========================= */
+                document
+                    .querySelector(".result-card")
+                    .scrollIntoView({
+                        behavior: "smooth",
+                        block: "center"
+                    });
+
+
+            } catch (error) {
+
+                console.error(error);
+
+
+                errorMessage.textContent =
+                    "Không thể kết nối với API. Vui lòng kiểm tra FastAPI hoặc Render.";
+
+                errorMessage.style.display =
+                    "block";
+
+
+            } finally {
+
+                /* =========================
+                   KHÔI PHỤC BUTTON
+                ========================= */
+                button.disabled = false;
+
+                button.textContent =
+                    "DỰ ĐOÁN LOÀI HOA";
+            }
+
+        });
+
+
+        /* =========================
+           KHỞI ĐỘNG TRANG
+           
+           Nếu không có ?species=
+           → tự động hiển thị Versicolor
+        ========================= */
+        loadSpeciesFromURL();
+
     });
 </script>
 
