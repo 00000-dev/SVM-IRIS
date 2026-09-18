@@ -94,9 +94,13 @@ def species_page():
 def locations_page():
     return FileResponse(BASE_DIR / "locations.html")
 
-
 # =========================
-# 10. HEALTH CHECK
+
+@app.get("/about")
+def about_page():
+    return FileResponse(BASE_DIR / "about.html")
+# =========================
+# 11. HEALTH CHECK
 # =========================
 
 @app.get("/health")
@@ -105,7 +109,7 @@ def health():
 
 
 # =========================
-# 11. DỰ ĐOÁN
+# 12. DỰ ĐOÁN
 # =========================
 
 @app.post("/predict")
