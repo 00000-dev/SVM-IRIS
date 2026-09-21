@@ -1,0 +1,929 @@
+\documentclass[14pt]{extarticle}
+
+\usepackage[
+a4paper,
+left=2.5cm,
+right=2.5cm,
+top=2cm,
+bottom=2cm
+]{geometry}
+
+% Sửa lại phần fontspec cho tương thích tốt với XeLaTeX
+\usepackage{fontspec}
+\setmainfont{Times New Roman}
+\usepackage{enumitem}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{calc}
+\renewcommand{\tablename}{Bảng}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\usepackage{titlesec}
+\usepackage{setspace}
+\usepackage{subcaption}
+\usepackage{tocloft}
+\usepackage{array}
+\usepackage[table,dvipsnames]{xcolor}
+\usepackage{enumitem}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{listings}
+\usepackage{tcolorbox}
+% ĐÃ XÓA dòng \usepackage{listingsutf8} vì gây lỗi với XeLaTeX
+\renewcommand{\figurename}{Hình }
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{tabularx}
+\usepackage{multirow}
+\renewcommand{\lstlistingname}{Đoạn mã}
+\tcbuselibrary{breakable}
+\usepackage{needspace}
+% Nếu tcolorbox có dùng listings, chỉ khai báo library listings, không khai báo listingsutf8
+\tcbuselibrary{listings} 
+
+\lstset{
+	language=Python,
+	basicstyle=\ttfamily\small,
+	keywordstyle=\color{blue},
+	commentstyle=\color{ForestGreen},
+	stringstyle=\color{red},
+	numbers=left,
+	numberstyle=\tiny\color{gray},
+	stepnumber=1,
+	numbersep=3pt,
+	xleftmargin=-1pt,
+	framexleftmargin=-1.5pt,
+	frame=single,
+	breaklines=true,
+	tabsize=1,
+	showstringspaces=false,
+	columns=fullflexible,
+	keepspaces=true
+}
+
+\setcounter{secnumdepth}{5}
+
+\renewcommand{\thesection}{Chương \arabic{section}.}
+\renewcommand{\thesubsection}{\arabic{section}.\arabic{subsection}.}
+\renewcommand{\thesubsubsection}{\arabic{section}.\arabic{subsection}.\arabic{subsubsection}.}
+\renewcommand{\theparagraph}{\alph{paragraph})}
+
+\algrenewcommand\algorithmicrequire{\textbf{Input:}}
+\algrenewcommand\algorithmicensure{\textbf{Output:}}
+
+\titleformat{\subsection}[hang]
+{\normalfont\large\bfseries}
+{\thesubsection}
+{0.5em}
+{}
+
+\titleformat{\subsubsection}[hang]
+{\normalfont\large\bfseries}
+{\thesubsubsection}
+{0.5em}
+{}
+
+\titleformat{\paragraph}[hang]
+{\normalfont\large\bfseries}
+{\theparagraph}
+{0.5em}
+{}
+
+\setlength{\cftsecnumwidth}{4.9em}
+\setlength{\cftsecindent}{0em}
+
+\setlength{\cftsubsecnumwidth}{2em}
+\setlength{\cftsubsecindent}{1em}
+
+\setlength{\cftsubsubsecnumwidth}{2.5em}
+\setlength{\cftsubsubsecindent}{2em}
+
+\setlength{\cftparaindent}{6em}
+\setlength{\cftparanumwidth}{1.3em}
+
+\titlespacing*{\section}{0pt}{1.5ex plus 1ex minus .2ex}{1ex}
+\titlespacing*{\subsection}{0pt}{1.5ex plus 1ex minus .2ex}{1ex}
+\titlespacing*{\subsubsection}{0pt}{1.5ex plus 1ex minus .2ex}{1ex}
+\titlespacing*{\paragraph}{0pt}{1.5ex plus 1ex minus .2ex}{1ex}
+
+\setlist{
+	itemsep=0em,
+	topsep=1.35em,
+	parsep=0.7em
+}
+
+\begin{document}
+	
+	\onehalfspacing
+	
+	\begin{titlepage}
+		
+		\begin{tikzpicture}[remember picture,overlay]
+			
+			\draw[line width=1.5pt]
+			($(current page.north west)+(1.2cm,-1.2cm)$)
+			rectangle
+			($(current page.south east)+(-1.2cm,1.2cm)$);
+			
+			\draw[line width=0.8pt]
+			($(current page.north west)+(1.5cm,-1.5cm)$)
+			rectangle
+			($(current page.south east)+(-1.5cm,1.5cm)$);
+			
+		\end{tikzpicture}
+		
+		\begin{center}
+			
+			\vspace*{-1cm}
+			
+			\textbf{\large ĐẠI HỌC ĐÀ NẴNG}\\
+			\textbf{\large TRƯỜNG ĐẠI HỌC SƯ PHẠM}\\
+			KHOA TOÁN - TIN
+			
+			\vspace{1cm}
+			
+			\begin{center}
+				\includegraphics[width=0.45\linewidth]{logo}
+			\end{center}
+			
+			\vspace{0.8cm}
+			
+			\textbf{\Large TIỂU LUẬN HỌC PHẦN}\\
+		    \vspace{0.3cm}
+			\textbf{\large HỌC MÁY NÂNG CAO}
+			
+			\vspace{1cm}
+			
+			\textbf{\underline{\textit{ĐỀ TÀI:}}}\\
+			\large Triển Khai Mô Hình SVM Phân Loại Hoa Iris
+			
+		\end{center}
+		
+		\vspace{1cm}
+		
+		\begin{tabular}{ll}
+			\textbf{Giảng viên hướng dẫn:} & TS. Phan Trần Đức Minh \\[0.4cm]
+			\textbf{Họ và tên sinh viên:} & Nguyễn Thị Thanh Thảo \\[0.4cm]
+			\textbf{ Mã sinh viên:} & 3110524029
+		\end{tabular}
+			\vspace{2cm}
+		\begin{center}
+			{\large Đà Nẵng - 2026}
+		\end{center}
+		
+	\end{titlepage}
+	\newpage
+		% ================= MỤC LỤC =================
+	\renewcommand{\contentsname}{\Large MỤC LỤC}
+	\tableofcontents
+	\newpage
+	\section*{LỜI CẢM ƠN}
+	\vspace{1em}
+	Lời đầu tiên, em xin được bày tỏ lòng biết ơn chân thành và sâu sắc nhất tới TS. Phan Trần Đức Minh, giảng viên hướng dẫn học phần Học Máy Nâng Cao. Trong suốt quá trình học tập và thực hiện đề tài này, Thầy đã luôn tận tình chỉ bảo, truyền đạt những kiến thức chuyên môn quý báu và đưa ra những định hướng quan trọng giúp em tháo gỡ những vướng mắc trong quá trình học tập.\\
+	
+	\noindent Em cũng xin gửi lời cảm ơn tới Ban Giám hiệu trường Đại học Sư phạm - Đại học Đà Nẵng, cùng các Thầy Cô trong Khoa Toán - Tin đã tạo điều kiện thuận lợi về cơ sở vật chất và môi trường học thuật để em có thể hoàn thành tốt bài tiểu luận này.\\
+	
+	\noindent Cuối cùng, em đã cùng nhau thảo luận, hỗ trợ và đóng góp ý kiến cùng Thầy và các bạn để hoàn thiện nội dung nghiên cứu. Dù đã có nhiều cố gắng, nhưng do kiến thức còn hạn chế, tiểu luận khó tránh khỏi những thiếu sót. Em rất mong nhận được những ý kiến đóng góp quý báu từ thầy để kiến thức của em ngày càng được hoàn thiện hơn.
+
+	\newpage
+	\section*{LỜI MỞ ĐẦU}
+	\vspace{1.em}
+	Trong kỷ nguyên chuyển đổi số và Khoa học Dữ liệu hiện nay, việc huấn luyện đạt điểm số tối ưu trong môi trường phòng thí nghiệm (Jupyter Notebook) chỉ là bước đầu tiên của quy trình Học máy. Yếu tố quyết định giá trị thực tiễn của một mô hình AI là khả năng đóng gói tri thức và triển khai (deployment) thành các dịch vụ phần mềm có khả năng tương tác thời gian thực với người dùng.\\  
+	
+	\noindent Tập dữ liệu hoa Iris (Iris flower dataset) do nhà sinh học Ronald Fisher giới thiệu năm 1936 là tập dữ liệu kinh điển được sử dụng rộng rãi để nghiên cứu các thuật toán phân lớp (Classification). Bài toán đặt ra là xây dựng ranh giới quyết định (Decision Boundary) tối ưu từ 4 thông số hình thái để phân loại chính xác 3 loài hoa Iris.\\
+	
+	 \noindent  Tiểu luận này trình bày nghiên cứu ứng dụng thuật toán Support Vector Machine (SVM) với Kernel tuyến tính trên tập dữ liệu Iris, áp dụng quy trình tiền xử lý, chia tập dữ liệu Train/Test và kiểm chứng chéo chặt chẽ nhằm tránh hiện tượng Overfitting. Đồng thời, báo cáo trình bày quá trình đóng gói mô hình và xây dựng hệ thống Full-stack Web mang tên \textbf{IRIS BOTANICA AI} dựa trên nền tảng FastAPI kết hợp giao diện HTML5/CSS3/JavaScript tương tác bất đồng bộ.\\
+	 
+	 \noindent\textbf{\large{1. Lý do chọn đề tài}}\\
+
+	 \noindent Phân loại thực vật học là bài toán quan trọng trong quản lý đa dạng sinh học. Việc định danh thủ công dựa trên hình thái đòi hỏi chuyên môn cao và tốn thời gian. Tập dữ liệu Iris do Ronald Fisher công bố (1936) là tập dữ liệu kinh điển để kiểm thử các thuật toán phân lớp. Thuật toán Support Vector Machine (SVM) do Vladimir Vapnik phát triển đã chứng minh ưu thế vượt trội trong các bài toán phân loại dữ liệu dạng bảng nhờ nguyên lý tối đa hóa khoảng cách lề (Margin).\\
+
+	 \noindent Từ thực tiễn đó, đề tài "Hệ thống phân loại hoa Iris và triển khai vận hành trực tuyến IRIS BOTANICA AI" được lựa chọn nhằm kết hợp giữa lý thuyết tối ưu hóa của thuật toán SVM với kỹ thuật xây dựng Web API hiện đại, tạo ra một sản phẩm hoàn chỉnh từ mô hình toán học đến ứng dụng thực tế.\\
+	 
+	 \noindent\textbf{\large{2. Mục tiêu nghiên cứu}}\\
+	 \vspace{-0.5em}
+	 
+	 \noindent Tiểu luận hướng đến việc vận dụng lý thuyết học máy nâng cao để làm rõ cấu trúc phương pháp phân loại bằng SVM. Cụ thể bao gồm các mục tiêu:
+	 \vspace{-0.5em}
+	 \begin{itemize}[leftmargin=*]
+	 	
+	 	\item \textbf{Hiểu rõ cách máy tính học và phân loại:} Tìm hiểu cách thuật toán Support Vector Machine (SVM) tìm ra đường ranh giới tối ưu nhất để chia nhóm dữ liệu, cũng như cách nó xử lý khi dữ liệu bị lẫn lộn hoặc có nhiều hơn 2 nhóm hoa khác nhau.
+	 	\item \textbf{Thực nghiệm và đánh giá thực tế:} Đưa tập dữ liệu hoa Iris vào huấn luyện mô hình SVM, sau đó dùng các phương pháp chia dữ liệu và kiểm tra chéo nhiều lần để xem mô hình đoán chính xác đến mức nào.
+	 	\item \textbf{Xây dựng ứng dụng hoàn chỉnh:} Lưu lại kết quả học của mô hình, dựng một trang web đơn giản kèm theo hệ thống xử lý bên dưới để người dùng chỉ cần nhập số liệu là web sẽ tự động trả về kết quả ngay lập tức.
+	 \end{itemize}
+	 	\noindent\textbf{\large{3. Đối tượng và phạm vi nghiên cứu}}
+
+	 
+	 \subsubsection*{3.1. Đối tượng}
+	 \begin{itemize}[leftmargin=*]
+	 	\item \textbf{Lý thuyết \& Kỹ thuật:} Phương pháp phân loại bằng SVM, cách xây dựng trang web nhận/trả dữ liệu tự động và cách làm cho trang web cập nhật kết quả nhanh chóng mà không bị gián đoạn.
+	 	\item \textbf{Dữ liệu sử dụng:} Bộ dữ liệu hoa Iris quen thuộc gồm 150 mẫu đo đạc kích thước thực tế của 3 loài hoa.
+	 \end{itemize}
+	 \vspace{-1em}
+	 \subsubsection*{3.2. Phạm vi}
+	 \begin{itemize}[leftmargin=*]
+	 	\item \textbf{Nội dung:} Tập trung dùng dạng đường ranh giới thẳng (Kernel tuyến tính) để phân biệt 3 loài hoa Iris (\textit{Setosa}, \textit{Versicolor}, \textit{Virginica}) dựa trên 4 chỉ số kích thước đài hoa và cánh hoa.
+	 	\item \textbf{Công cụ thực hiện:} Sử dụng ngôn ngữ Python cùng các thư viện hỗ trợ học máy (Scikit-Learn), công cụ tạo hệ thống xử lý web (FastAPI) và các ngôn ngữ làm giao diện web cơ bản (HTML, CSS, JavaScript).
+	 \end{itemize}
+	 \noindent\textbf{\large{4. Phương pháp nghiên cứu}}\\
+	 \vspace{-0.5em}
+	 
+	  \noindent Để hoàn thành đề tài, các bước công việc được tiến hành như sau:
+	   \vspace{-0.5em}
+	   \begin{enumerate}[leftmargin=*]
+	   	\item \textbf{Đọc và tổng hợp tài liệu:} Tìm hiểu lý thuyết về cách thuật toán SVM tính toán ranh giới phân loại và cách kết nối mô hình học máy với giao diện trang web.
+	   	\item \textbf{Xử lý dữ liệu và chạy mô hình:} Quan sát đặc điểm các con số trong bộ dữ liệu Iris, sau đó viết chương trình cho máy tính học và tìm ra bộ quy tắc phân loại tốt nhất.
+	   	\item \textbf{Thử nghiệm và kiểm tra độ chính xác:}
+	   		 \vspace{-1em}
+	   	\begin{itemize}
+	   		\item Tách riêng một phần dữ liệu không cho mô hình biết trước để làm bài kiểm tra.
+	   		\item Chia nhỏ dữ liệu thành 5 phần, cho mô hình học 4 phần và thi thử trên phần còn lại, lặp lại 5 lần để đảm bảo mô hình đoán chuẩn xác thật sự chứ không phải do may mắn.
+	   	\end{itemize}
+	   	 \vspace{-1em}
+	   	\item \textbf{Xây dựng ứng dụng trang web:} Thiết kế giao diện cho người dùng nhập số liệu, kết nối với phần xử lý ngầm để khi bấm nút, trang web sẽ hiển thị ngay tên và hình ảnh loài hoa tương ứng.
+	   \end{enumerate}
+	   
+	 	\noindent\textbf{\large{5. Nội dung nghiên cứu}}\\
+	 Nội dung báo cáo được chia thành các phần rõ ràng như sau:
+	\begin{itemize}[leftmargin=*]
+			\vspace{-0.5em}
+		\item \textbf{Chương 1: Cơ sở lý thuyết về mô hình Support Vector Machine:} Giải thích cách thuật toán SVM tìm đường ranh giới, cách xử lý dữ liệu bị nhiễu và cách phân biệt khi có 3 loài hoa khác nhau.
+		\item \textbf{Chương 2: Quy trình Thực nghiệm và đánh giá mô hình dữ liệu:} Phân tích bộ dữ liệu hoa Iris, cách chia dữ liệu để học - kiểm tra và kết quả độ chính xác thu được.
+		\item \textbf{Chương 3: Cách thức xây dựng trang web:} Giải thích cách đóng gói mô hình, cách trang web nhận thông số từ người dùng và tự động trả về kết quả ngầm bên dưới.
+		\item \textbf{Chương 4: Hướng dẫn sử dụng và Thử nghiệm:} Mô tả cách hoạt động thực tế trên giao diện trang web với các bộ thông số thử nghiệm cụ thể.
+		\item \textbf{Kết luận:} Tóm tắt những việc đã làm được và gợi ý các hướng phát triển thêm cho đề tài.
+		\item \textbf{Phụ lục:} Trích dẫn các đoạn mã lập trình quan trọng nhất của bài.
+	\end{itemize}
+	 \newpage
+	 
+	 
+	 \section{CƠ SỞ LÝ THUYẾT VỀ MÔ HÌNH SUPPORT VECTOR MACHINE}
+	 
+	 \subsection{Nguyên lý Tối đa hóa Lề (Maximum Margin) trong Bài toán Thực tế}
+	 Support Vector Machine (SVM) là thuật toán học có giám sát dựa trên Lý thuyết Học Thống kê do Vapnik phát triển. Khác với các mô hình xác suất, SVM tiếp cận bài toán bằng tư duy hình học: tìm một đường ranh giới phân cách các nhóm dữ liệu sao cho khoảng cách từ ranh giới đến điểm dữ liệu gần nhất của mỗi nhóm — gọi là \textbf{Lề (Margin)} — đạt giá trị lớn nhất. Các điểm nằm ngay sát đường lề này được gọi là \textbf{Vectơ hỗ trợ (Support Vectors)} và các vectơ hỗ trợ là những điểm dữ liệu có vai trò quyết định đối với vị trí của siêu phẳng phân cách. 
+	 Đề tài lựa chọn nguyên lý lề cực đại này vì theo chứng minh của Vapnik (1998), việc tối đa hóa khoảng cách lề sẽ giúp kiểm soát dung lượng VC của mô hình, từ đó hạn chế tối đa rủi ro quá khớp (Overfitting). Điều này đảm bảo cho hệ thống phân loại hoa Iris duy trì được độ chính xác cao và tính ổn định ngay cả khi nhận các thông số đo đạc thực tế hoàn toàn mới do người dùng nhập từ giao diện web.   
+	 
+	 \subsection{Ứng dụng Mô hình Lề Mềm (Soft-Margin SVM) Xử lý Sai số}
+	 Trong điều kiện lý tưởng, SVM tìm đường ranh giới thẳng $w^T x + b = 0$ bằng cách tối thiểu hóa $\frac{1}{2} \Vert{}w\Vert{}^2$ với điều kiện tất cả điểm dữ liệu đều nằm đúng $100\%$ về phía của mình. Tuy nhiên, các chỉ số sinh học như chiều dài hay chiều rộng cánh hoa của loài \textit{Versicolor} và \textit{Virginica} trong tự nhiên thường có sự chồng lấp nhẹ.   
+	 
+	 Để xử lý thực tế này, đề tài ứng dụng Mô hình Lề mềm (Soft-Margin) do Cortes \& Vapnik (1995) đề xuất, bằng cách tích hợp biến nới lỏng $\xi_i \ge 0$ và tham số phạt $C$:
+	 $$\min_{w, b, \xi} \frac{1}{2} \Vert{}w\Vert{}^2 + C \sum_{i=1}^N \xi_i \quad \text{với ràng buộc} \quad y_i(w^T x_i + b) \ge 1 - \xi_i$$
+	 
+	 Mô hình chấp nhận cho phép một vài mẫu dữ liệu vi phạm lề nhẹ để đổi lấy một đường ranh giới đơn giản, phẳng đẹp. 
+	 Trong thực nghiệm, mô hình sử dụng giá trị $C = 1.0$, tương ứng với giá trị mặc định của SVC. Báo cáo không thực hiện quá trình tìm kiếm siêu tham số để xác định giá trị \(C\) tối ưu.
+	 \subsection{Lựa chọn Kernel Tuyến tính (\texttt{kernel='linear'}) Cho Dữ liệu Iris}
+	 Mặc dù SVM hỗ trợ các Kernel phi tuyến (như RBF hay Đa thức) để chiếu dữ liệu lên không gian cao chiều, đề tài quyết định lựa chọn Kernel Tuyến tính dựa trên 3 lý do kỹ thuật gắn liền với bản chất bài toán:   
+	 
+	 \begin{itemize}[leftmargin=*]
+	 	\item \textbf{Đặc điểm tập dữ liệu Iris:} Nghiên cứu của Fisher (1936) chỉ ra rằng các đặc trưng kích thước của hoa Iris có tương quan tuyến tính rất mạnh, trong đó loài \textit{Setosa} phân tách tuyến tính hoàn toàn với hai loài còn lại trong không gian 4D.   
+	 	\item \textbf{Hạn chế hiện tượng học thuộc vẹt:} Tập Iris chỉ có 150 mẫu. Theo Hastie et al. (2009), sử dụng các Kernel phi tuyến phức tạp trên tập dữ liệu quá nhỏ sẽ làm tăng độ phức tạp mô hình, dễ dẫn đến hiện tượng quá khớp.   
+	 	\item \textbf{Tối ưu tốc độ phản hồi trang web:} Kernel tuyến tính có cấu trúc tính toán đơn giản, phù hợp với bộ dữ liệu Iris và góp phần giúp quá trình dự đoán có chi phí tính toán thấp
+	 \end{itemize}
+	 
+	 \subsection{Chiến lược Phân loại Đa lớp One-vs-One (OvO)}
+	 
+	% --- Mục 1.4.1 ---
+	\subsubsection{Lý do lựa chọn chiến lược One-vs-One}
+	
+	Mô hình Support Vector Machine (SVM) ban đầu được thiết kế về mặt toán học cho bài toán phân loại nhị phân. Trong khi đó, bài toán thực nghiệm với bộ dữ liệu Iris đặt ra yêu cầu phân loại đa lớp gồm ba loài hoa: \textbf{Iris Setosa, Iris Versicolor và Iris Virginica}. Do đó, cần có một chiến lược mở rộng để chuyển đổi bài toán phân loại đa lớp thành các bài toán phân loại nhị phân thành phần.
+	\newpage
+	Trong nghiên cứu này, mô hình được xây dựng bằng lớp \texttt{SVC} của thư viện \texttt{scikit-learn} với cấu hình:
+\begin{center}
+	\begin{minipage}{0.5\textwidth} % Điều chỉnh độ rộng khung (ở đây là 50% độ rộng trang)
+		\begin{lstlisting}[language=Python, numbers=none, frame=single, basicstyle=\ttfamily\small]
+			model = SVC(kernel="linear")
+		\end{lstlisting}
+	\end{minipage}
+\end{center}
+	
+	Theo mặc định triển khai trong thư viện \texttt{scikit-learn}, lớp \texttt{SVC} áp dụng chiến lược \textbf{One-vs-One (OvO)} cho các bài toán phân loại nhiều lớp. Chiến lược này xây dựng một bộ phân loại nhị phân độc lập cho từng cặp lớp riêng biệt. Với bộ dữ liệu Iris có $K=3$ lớp, số lượng bộ phân loại nhị phân $N$ được xác định theo công thức:
+	\[
+	N = \frac{K(K-1)}{2} = \frac{3(3-1)}{2} = 3
+	\]
+	
+	Cụ thể, mô hình sẽ huấn luyện 3 bộ phân loại nhị phân tương ứng với 3 cặp so sánh:
+	\[
+	\text{Setosa vs Versicolor}, \quad \text{Setosa vs Virginica}, \quad \text{Versicolor vs Virginica}
+	\]
+	
+	Cách tiếp cận OvO giúp bảo tồn cấu trúc toán học của thuật toán SVM gốc và tận dụng tối đa khả năng phân tách tối ưu trên từng cặp dữ liệu. Đề tài không tự xây dựng hay gán thủ công chiến lược One-vs-Rest (OvR) mà sử dụng trực tiếp cơ chế OvO đã được tối ưu hóa sẵn bên trong thuật toán \texttt{SVC}.
+	
+	% --- Mục 1.4.2 ---
+	\subsubsection{Nguyên lý hoạt động của chiến lược One-vs-One}
+	
+	Nguyên lý cốt lõi của chiến lược One-vs-One là phương pháp \textbf{"Chia để trị" (Divide and Conquer)} kết hợp với \textbf{Cơ chế bình chọn đa số (Majority Voting System)}. Quá trình này diễn ra qua hai giai đoạn chính:
+	 \vspace{-0.5em}
+	\begin{enumerate}[leftmargin=*]
+		\item \textbf{Giai đoạn Huấn luyện (Training Phase):} Tập dữ liệu huấn luyện tổng thể chứa $K=3$ lớp sẽ được chia thành $N=3$ bài toán nhị phân nhỏ hơn. Mỗi bộ phân loại $SVM_k$ ($k=1, 2, 3$) chỉ nạp dữ liệu liên quan đến đúng 2 loài hoa tương ứng để học phương trình siêu phẳng $f_k(x) = w_k^T x + b_k$:
+		\begin{itemize}[leftmargin=1.5em]
+			\item $SVM_1$: Chỉ học trên dữ liệu của Setosa và Versicolor (bỏ qua Virginica).
+			\item $SVM_2$: Chỉ học trên dữ liệu của Setosa và Virginica (bỏ qua Versicolor).
+			\item $SVM_3$: Chỉ học trên dữ liệu của Versicolor và Virginica (bỏ qua Setosa).
+		\end{itemize}
+		
+		\item \textbf{Giai đoạn Dự đoán và Bình chọn (Prediction \& Voting Phase):} Khi có một mẫu dữ liệu mới $x = (x_1, x_2, x_3, x_4)$ cần phân loại, mẫu $x$ này sẽ được đưa đồng thời qua cả 3 bộ phân loại nhị phân đã học. Mỗi bộ phân loại sẽ thực hiện tính giá trị hàm quyết định $f_k(x)$ để đưa ra 1 phiếu bầu chọn cho loài chiến thắng trong cặp đấu đó:
+		\[
+		x \longrightarrow 
+		\begin{cases}
+			SVM_1 \text{ (Setosa vs Versicolor)} \longrightarrow \text{Phiếu 1} \\
+			SVM_2 \text{ (Setosa vs Virginica)} \longrightarrow \text{Phiếu 2} \\
+			SVM_3 \text{ (Versicolor vs Virginica)} \longrightarrow \text{Phiếu 3}
+		\end{cases}
+		\longrightarrow \text{Tổng hợp} \longrightarrow \text{Lớp chọn}
+		\]
+		
+		\item \textbf{Quy tắc Quyết định Cuối cùng (Final Decision Rule):} Kết quả dự đoán chung cuộc $\hat{y}$ là nhãn lớp $c \in \{\text{Setosa}, \text{Versicolor}, \text{Virginica}\}$ giành được tổng số phiếu bầu chọn cao nhất từ $N$ bộ phân loại.
+	\end{enumerate}
+	
+
+	
+	% --- Mục 1.4.3 ---
+	\subsubsection{Ví dụ minh họa tính toán chi tiết}
+	
+	Để hiểu rõ hơn về cơ chế hoạt động của chiến lược One-vs-One (OvO), xét ví dụ phân loại một mẫu hoa Iris mới có bộ 4 đặc trưng đầu vào:
+	\[
+	x = (x_1, x_2, x_3, x_4) = (5.9,\; 3.0,\; 5.1,\; 1.8)
+	\]
+	Trong đó: $x_1 = 5.9$ (Chiều dài đài hoa), $x_2 = 3.0$ (Chiều rộng đài hoa), $x_3 = 5.1$ (Chiều dài cánh hoa), và $x_4 = 1.8$ (Chiều rộng cánh hoa).
+	
+	\paragraph{\textbf{Nguyên lý xét dấu và Quy ước Lớp }}
+	Mỗi bộ phân loại SVM nhị phân thứ $k$ sẽ học một đường ranh giới (siêu phẳng) có dạng hàm quyết định $f_k(x) = w_k^T x + b_k$. Siêu phẳng này chia không gian dữ liệu thành hai nửa riêng biệt:
+	 \vspace{-0.5em}
+	\begin{itemize}[leftmargin=*]
+		\item Nếu kết quả tính toán $f_k(x) > 0$ (mang \textbf{dấu Dương $+$}): Mẫu $x$ thuộc về loài được quy ước là \textbf{Lớp Dương (+1)}.
+		\item Nếu kết quả tính toán $f_k(x) < 0$ (mang \textbf{dấu Âm $-$}): Mẫu $x$ thuộc về loài được quy ước là \textbf{Lớp Âm (-1)}.
+	\end{itemize}
+	\newpage
+	\noindent Đối với bộ dữ liệu Iris gồm 3 loài hoa, thư viện \texttt{scikit-learn} thiết lập quy ước phân công dấu nhị phân cho 3 cặp đối đầu ($3$ bộ phân loại SVM) như sau:
+	 \vspace{-0.5em}
+	\begin{enumerate}[leftmargin=*]
+		\item \textbf{Bộ phân loại 1 ($SVM_1$): Setosa (Lớp $+1$) vs Versicolor (Lớp $-1$)}
+		 \vspace{-0.5em}
+		\begin{itemize}[leftmargin=1.5em]
+			\item \textit{Quy ước:} Nếu $f_1(x) > 0 \rightarrow$ Chọn \textbf{Setosa}; Nếu $f_1(x) < 0 \rightarrow$ Chọn \textbf{Versicolor}.
+			\item \textit{Phương trình đã học:} $w_1 = (-0.2,\; 1.1,\; -2.3,\; -1.0)^T$ và $b_1 = 1.8$.
+			\item \textit{Tính toán thực tế:}
+			\[
+			f_1(x) = (-0.2 \times 5.9) + (1.1 \times 3.0) + (-2.3 \times 5.1) + (-1.0 \times 1.8) + 1.8 = -11.41
+			\]
+			 
+			\item \textit{Kết quả:} Vì $f_1(x) = -11.41 < 0$ (mang \textbf{dấu Âm}), $SVM_1$ chọn loài ứng với dấu Âm $\rightarrow$ Bỏ 1 phiếu cho \textbf{Versicolor}.
+		\end{itemize}
+		 \vspace{-0.5em}
+		\item \textbf{Bộ phân loại 2 ($SVM_2$): Setosa (Lớp $+1$) vs Virginica (Lớp $-1$)}
+		 \vspace{-0.5em}
+		\begin{itemize}[leftmargin=1.5em]
+			\item \textit{Quy ước:} Nếu $f_2(x) > 0 \rightarrow$ Chọn \textbf{Setosa}; Nếu $f_2(x) < 0 \rightarrow$ Chọn \textbf{Virginica}.
+			\item \textit{Phương trình đã học:} $w_2 = (-0.1,\; 0.8,\; -1.8,\; -1.5)^T$ và $b_2 = 1.2$.
+			\item \textit{Tính toán thực tế:}
+			\[
+			f_2(x) = (-0.1 \times 5.9) + (0.8 \times 3.0) + (-1.8 \times 5.1) + (-1.5 \times 1.8) + 1.2 = -8.87
+			\]
+			\item \textit{Kết quả:} Vì $f_2(x) = -8.87 < 0$ (mang \textbf{dấu Âm}), $SVM_2$ chọn loài ứng với dấu Âm $\rightarrow$ Bỏ 1 phiếu cho \textbf{Virginica}.
+		\end{itemize}
+		
+		\item \textbf{Bộ phân loại 3 ($SVM_3$): Versicolor (Lớp $+1$) vs Virginica (Lớp $-1$)}
+		 \vspace{-0.5em}
+		\begin{itemize}[leftmargin=1.5em]
+			\item \textit{Quy ước:} Nếu $f_3(x) > 0 \rightarrow$ Chọn \textbf{Versicolor}; Nếu $f_3(x) < 0 \rightarrow$ Chọn \textbf{Virginica}.
+			\item \textit{Phương trình đã học:} $w_3 = (-0.5,\; -0.7,\; 1.2,\; 2.1)^T$ và $b_3 = -6.5$.
+			\item \textit{Tính toán thực tế:}
+			\[
+			f_3(x) = (-0.5 \times 5.9) + (-0.7 \times 3.0) + (1.2 \times 5.1) + (2.1 \times 1.8) - 6.5 = +1.65
+			\]
+			\item \textit{Kết quả:} Vì $f_3(x) = +1.65 > 0$ (mang \textbf{dấu Dương}), $SVM_3$ chọn loài ứng với dấu Dương $\rightarrow$ Bỏ 1 phiếu cho \textbf{Versicolor}.
+		\end{itemize}
+	\end{enumerate}
+	
+	\paragraph{\textbf{Tổng hợp Bảng kết quả Bầu chọn (Voting System):}}
+	
+	\begin{table}[H]
+		\centering
+		\caption{Bảng tổng hợp quy ước dấu, giá trị tính toán và kết quả bình chọn OvO}
+		\vspace{4pt}
+		\begin{tabular}{|c|c|c|c|c|}
+			\hline
+			\textbf{Bộ phân loại} & \textbf{Cặp loài so sánh} & \textbf{Quy ước (+1 / -1)} & \textbf{Giá trị $f(x)$} & \textbf{Phiếu bầu chọn} \\ \hline
+			$SVM_1$ & Setosa vs Versicolor & Setosa (+1) / Versicolor (-1) & $-11.41$ (Âm) & Versicolor \\ \hline
+			$SVM_2$ & Setosa vs Virginica & Setosa (+1) / Virginica (-1) & $-8.87$ (Âm) & Virginica \\ \hline
+			$SVM_3$ & Versicolor vs Virginica & Versicolor (+1) / Virginica (-1) & $+1.65$ (Dương) & Versicolor \\ \hline
+		\end{tabular}
+	\end{table}
+	
+	\noindent\textbf{Thống kê tổng số phiếu bầu thu được:}
+	 \vspace{-0.5em}
+	\begin{itemize}[leftmargin=*]
+		\item \textit{Iris Setosa:} $0$ phiếu.
+		\item \textit{Iris Versicolor:} $2$ phiếu (được chọn từ $SVM_1$ và $SVM_3$).
+		\item \textit{Iris Virginica:} $1$ phiếu (được chọn từ $SVM_2$).
+	\end{itemize}
+	
+	\noindent\textbf{Kết luận:} Mẫu hoa $x = (5.9, 3.0, 5.1, 1.8)$ nhận được số phiếu bầu chiến thắng cao nhất là $2/3$ phiếu. Do đó, mô hình SVM quyết định phân loại mẫu dữ liệu này là:
+	\[
+	\boxed{\text{\textbf{Iris Versicolor}}}
+	\]
+	\newpage 
+	 \section{QUY TRÌNH THỰC NGHIỆM VÀ ĐÁNH GIÁ MÔ HÌNH DỮ LIỆU}
+	 
+	 \subsection{Khảo sát Bộ dữ liệu Thực nghiệm (Iris Flower Dataset)}
+	 
+	 \subsubsection{Cấu trúc dữ liệu và đặc trưng}
+	 Nghiên cứu sử dụng bộ dữ liệu sinh học chuẩn \textit{Iris Flower Dataset} do Ronald Fisher công bố (1936). Bộ dữ liệu bao gồm 150 mẫu quan sát đại diện cho 3 loài hoa Iris (\textit{Setosa}, \textit{Versicolor}, \textit{Virginica}), phân bố cân bằng (50 mẫu/loài).
+	 
+	 Mỗi mẫu hoa được mô tả bởi 4 đặc trưng định lượng (đơn vị cm):
+	 \begin{itemize}[leftmargin=*]
+	 	\item \textbf{Chiều dài đài hoa (\texttt{sepal\_length}):} Dao động từ 4.3 cm đến 7.9 cm.
+	 	\item \textbf{Chiều rộng đài hoa (\texttt{sepal\_width}):} Dao động từ 2.0 cm đến 4.4 cm.
+	 	\item \textbf{Chiều dài cánh hoa (\texttt{petal\_length}):} Dao động từ 1.0 cm đến 6.9 cm.
+	 	\item \textbf{Chiều rộng cánh hoa (\texttt{petal\_width}):} Dao động từ 0.1 cm đến 2.5 cm.
+	 \end{itemize}
+	 
+	 \subsubsection{Thống kê mô tả và phân tích trực quan}
+	 Bảng tổng hợp thông số hình thái thực tế của tập dữ liệu:
+	 
+	 \begin{table}[htbp]
+	 	\centering
+	 	\caption{Thống kê mô tả các đặc trưng của tập dữ liệu Iris}
+	 	\begin{tabular}{|l|c|c|c|c|}
+	 		\hline
+	 		\textbf{Chỉ số đặc trưng (cm)} & \textbf{Trung bình} & \textbf{Độ lệch chuẩn} & \textbf{Min} & \textbf{Max} \\ \hline
+	 		Chiều dài đài hoa (\texttt{sepal\_length}) & 5.84 & 0.83 & 4.30 & 7.90 \\ \hline
+	 		Chiều rộng đài hoa (\texttt{sepal\_width})  & 3.05 & 0.43 & 2.00 & 4.40 \\ \hline
+	 		Chiều dài cánh hoa (\texttt{petal\_length}) & 3.76 & 1.76 & 1.00 & 6.90 \\ \hline
+	 		Chiều rộng cánh hoa (\texttt{petal\_width}) & 1.20 & 0.76 & 0.10 & 2.50 \\ \hline
+	 	\end{tabular}
+	 \end{table}
+	 
+	 \noindent\textbf{Lý do chọn bộ dữ liệu Iris:}  
+	 Đây là bộ dữ liệu chuẩn mực để thử nghiệm thuật toán SVM. Trong đó, loài \textit{Setosa} phân tách hoàn toàn tuyến tính so với hai loài còn lại, còn \textit{Versicolor} và \textit{Virginica} có sự đan xen nhẹ, tạo điều kiện tốt nhất để đánh giá khả năng tối ưu lề (\textit{Margin Optimization}) của mô hình.
+	 
+	 \subsection{Phương pháp Phân chia và Tiền xử lý Dữ liệu}
+	 
+	 \subsubsection{Quy trình phân chia tập dữ liệu (Hold-out 80/20)}
+	 Để đảm bảo tính khách quan và đánh giá chính xác khả năng tổng quát hóa (\textit{Generalization}) của mô hình, tập dữ liệu được phân chia bằng hàm \texttt{train\_test\_split}:
+	 \begin{itemize}[leftmargin=*]
+	 	\item \textbf{Tập Huấn luyện (Train Set - $80\%$):} Gồm 120 mẫu (\texttt{X\_train}, \texttt{y\_train}), dùng để mô hình học các trọng số ranh giới quyết định.
+	 	\item \textbf{Tập Kiểm thử (Test Set - $20\%$):} Gồm 30 mẫu (\texttt{X\_test}, \texttt{y\_test}), được giữ độc lập hoàn toàn để mô hình "thi thử" đánh giá độ chính xác.
+	 \end{itemize}
+	 
+	 \subsubsection{Kỹ thuật phân tầng (Stratified Sampling)}
+	 Trong quá trình chia dữ liệu, thiết lập tham số \texttt{stratify=y} được áp dụng nhằm duy trì đúng tỷ lệ phân bố 1:1:1 của 3 loài hoa ở cả tập Train và tập Test.
+	 
+	 \noindent\textbf{Lý do áp dụng Stratified Split:}  
+	 Lấy mẫu ngẫu nhiên thông thường có thể vô tình làm lệch tỷ lệ nhãn giữa các tập. Việc sử dụng \texttt{stratify=y} đảm bảo tập kiểm thử (30 mẫu) luôn chứa chính xác 10 mẫu \textit{Setosa}, 10 mẫu \textit{Versicolor} và 10 mẫu \textit{Virginica}, giúp kết quả đo đạc độ chính xác phản ánh trung thực năng lực phân loại của mô hình.
+	 
+	 \subsection{Quy trình Huấn luyện và Đóng gói Mô hình}
+	 
+	 \subsubsection{Đánh giá hiệu năng trên tập kiểm thử (Test Set)}
+	 Mô hình \texttt{SVC(kernel="linear")} được khởi tạo và huấn luyện trên 120 mẫu tập Train, sau đó tiến hành dự đoán trên 30 mẫu tập Test.
+	 \begin{itemize}[leftmargin=*]
+	 	\item \textbf{Kết quả thu được:} Độ chính xác (\textit{Accuracy}) đạt \textbf{100\%} trên tập Test (30/30 mẫu dự đoán chính xác).
+	 	\item \textbf{Nhận xét:} Kết quả cho thấy với bộ đặc trưng kích thước đài/cánh hoa, thuật toán SVM Kernel Tuyến tính tạo ra siêu phẳng phân tách hoàn hảo các lớp dữ liệu kiểm thử.
+	 \end{itemize}
+	 
+	 \subsubsection{Huấn luyện lại (Re-training) và Đóng gói file .pkl}
+	 Sau khi xác nhận điểm số trên tập Test đạt yêu cầu, quy trình tiếp tục thực hiện bước Huấn luyện lại (\textit{Re-training}):
+	 \begin{itemize}[leftmargin=*]
+	 	\item Khởi tạo đối tượng mô hình mới \texttt{final\_model = SVC(kernel="linear")}.
+	 	\item Cho mô hình học trên toàn bộ $N=150$ mẫu dữ liệu (\texttt{X}, \texttt{y}).
+	 	\item Đóng gói bộ trọng số đã học thành file nhị phân \texttt{svm\_model.pkl} thông qua thư viện \texttt{joblib}.
+	 \end{itemize}
+	 
+	 \noindent\textbf{Lý do thực hiện Re-training trên toàn bộ 150 mẫu trước khi lưu file:}  
+	 Việc giữ lại $20\%$ dữ liệu làm tập Test chỉ phục vụ mục đích đo đạc hiệu năng. Khi chuyển sang giai đoạn triển khai ứng dụng thực tế (\textit{Deploy Web}), việc cho mô hình học trên $100\%$ dữ liệu (150 mẫu) giúp đường ranh giới tối ưu học được đầy đủ các Vectơ hỗ trợ (\textit{Support Vectors}) nhất, từ đó tối đa hóa độ chính xác khi dự đoán các mẫu dữ liệu mới do người dùng nhập trên giao diện.
+	 
+	 \subsection{Mã nguồn Thực thi Quy trình (Python Script)}
+	 Dưới đây là toàn bộ mã nguồn Python thực hiện quy trình huấn luyện, đánh giá và lưu trữ mô hình SVM:
+	 
+	 \begin{lstlisting}[caption={Mã nguồn Python thực thi huấn luyện và đóng gói mô hình SVM}, label={code:train_svm}]
+	 	from sklearn import datasets
+	 	from sklearn.model_selection import train_test_split 
+	 	from sklearn.svm import SVC
+	 	from sklearn.metrics import accuracy_score
+	 	import joblib
+	 	
+	 	# 1. Load dataset
+	 	iris = datasets.load_iris()
+	 	X = iris.data
+	 	y = iris.target
+	 	
+	 	# 2. Split data: 80% train, 20% test with stratification
+	 	X_train, X_test, y_train, y_test = train_test_split(
+	 	X, y, test_size=0.2, random_state=42, stratify=y
+	 	)
+	 	
+	 	# 3. Train model on training set
+	 	model = SVC(kernel="linear")
+	 	model.fit(X_train, y_train)
+	 	
+	 	# 4. Predict on test set
+	 	y_pred = model.predict(X_test)
+	 	
+	 	# 5. Evaluate accuracy
+	 	acc = accuracy_score(y_test, y_pred)
+	 	print(f"Test Accuracy: {acc * 100:.2f}%")
+	 	
+	 	# 6. Re-train on 100% data and save model for Web deployment
+	 	final_model = SVC(kernel="linear")
+	 	final_model.fit(X, y)
+	 	joblib.dump(final_model, "svm_model.pkl")
+	 	print("Model saved to svm_model.pkl successfully!")
+	 \end{lstlisting}
+	 \newpage
+	 \section{XÂY DỰNG VÀ TRIỂN KHAI ỨNG DỤNG WEB VỚI FASTAPI}
+	 
+	 \subsection{Tổng quan về Đóng gói và Triển khai Mô hình Học máy}
+	 
+	 \subsubsection{Khái niệm Frontend và Backend trong Kiến trúc Ứng dụng Web}
+	 Một ứng dụng Web hiện đại hoàn chỉnh thường được cấu thành từ hai thành phần chính tương tác qua lại:
+	 \vspace{-0.5em}
+	 \begin{itemize}[leftmargin=*]
+	 	\item \textbf{Frontend (Phía người dùng / Client):} Là phần giao diện đồ họa hiển thị trực tiếp trên trình duyệt Web. Frontend chịu trách nhiệm thu thập dữ liệu đầu vào từ người dùng (thông qua các ô nhập dữ liệu, nút bấm) và hiển thị kết quả phản hồi một cách trực quan, thân thiện.
+	 	\item \textbf{Backend (Phía máy chủ / Server):} Là hệ thống xử lý ngầm bên dưới, đảm nhận vai trò quản lý logic nghiệp vụ, tiếp nhận dữ liệu từ Frontend gửi lên, kiểm tra tính hợp lệ, gọi mô hình học máy (\texttt{svm\_model.pkl}) thực thi tính toán suy luận, và đóng gói kết quả phản hồi ngược lại cho Frontend.
+	 \end{itemize}
+	 Sự kết hợp giữa Frontend và Backend thông qua giao diện lập trình ứng dụng (\textit{API}) trên giao thức HTTP giúp phân tách rõ ràng giữa lớp hiển thị và lớp xử lý logic, đảm bảo hệ thống vận hành linh hoạt và tối ưu hiệu năng.
+	 
+	 \subsubsection{Yêu cầu Triển khai Mô hình trong Thực tế}
+	 Sau khi mô hình SVM được huấn luyện và lưu trữ thành công dưới dạng file nhị phân \texttt{svm\_model.pkl}, bước tiếp theo là đưa mô hình vào môi trường thực tế (\textit{Production}). Một mô hình học máy dù có độ chính xác cao nhưng nếu chỉ nằm dưới dạng một tập tin Python (\texttt{.py}) chạy cục bộ thì người dùng phổ thông không thể truy cập và sử dụng.
+	 
+	 Yêu cầu đặt ra là phải xây dựng một Dịch vụ Web (\textit{Web Service / API}) đóng vai trò làm trung gian:
+	 \begin{itemize}[leftmargin=*]
+	 	\item \textbf{Tiếp nhận:} Thu thập các thông số kích thước đài/cánh hoa do người dùng nhập từ giao diện Web (Frontend).
+	 	\item \textbf{Xử lý:} Nạp file \texttt{svm\_model.pkl}, đưa dữ liệu đầu vào qua hàm \texttt{predict()} để thực hiện tính toán toán học tại phía Backend.
+	 	\item \textbf{Phản hồi:} Trả lại kết quả tên loài hoa (\textit{Setosa}, \textit{Versicolor}, hoặc \textit{Virginica}) cho giao diện theo chuẩn định dạng dữ liệu nhẹ (JSON).
+	 \end{itemize}
+	 \subsubsection{Lựa chọn Web Framework FastAPI}
+	 Đề tài lựa chọn framework FastAPI (Python) làm nền tảng phát triển Backend API nhờ các ưu điểm vượt trội:
+	 \begin{itemize}[leftmargin=*]
+	 	\item \textbf{Hiệu năng cao:} FastAPI xây dựng trên nền tảng Starlette và Pydantic, cho tốc độ xử lý Request tiệm cận với NodeJS và Go, nhanh hơn đáng kể so với Flask hay Django.
+	 	\item \textbf{Tự động xác thực dữ liệu (\textit{Data Validation}):} Nhờ tích hợp Pydantic, FastAPI tự động kiểm tra kiểu dữ liệu của các thông số đầu vào (\texttt{float}), loại bỏ nguy cơ lỗi crash chương trình khi người dùng nhập sai định dạng.
+	 	\item \textbf{Tự động sinh tài liệu API (\textit{Interactive Documentation}):} Tự động khởi tạo giao diện Swagger UI (\texttt{/docs}), hỗ trợ thử nghiệm trực tiếp các API endpoint mà không cần viết giao diện Frontend trước.
+	 	\item \textbf{Tương thích tuyệt đối với Scikit-Learn/Joblib:} Vì viết hoàn toàn bằng Python, FastAPI nạp file \texttt{svm\_model.pkl} một cách trực tiếp mà không cần qua bất kỳ lớp chuyển đổi ngôn ngữ trung gian nào.
+	 \end{itemize}
+	 
+	 \subsection{Kiến trúc Hệ thống Web API}
+	 Sơ đồ luồng dữ liệu luân chuyển giữa Người dùng, Web API và Mô hình SVM được mô tả trực quan qua sơ đồ kiến trúc dưới đây:
+	 
+\begin{figure}[tbph]
+	\centering
+	\includegraphics[width=1\textwidth]{"anh kien truc"}
+	\caption{Sơ đồ luồng xử lý dữ liệu của hệ thống Web API}
+	\label{fig:anh-kien-truc}
+\end{figure}
+\newpage
+	\subsection{Chi tiết Luồng Thực thi và Luân chuyển Dữ liệu trong Hệ thống Backend}
+	Dựa trên sơ đồ kiến trúc hệ thống, toàn bộ quy trình tiếp nhận, xử lý và trả về kết quả dự đoán giữa giao diện người dùng (Web UI) và máy chủ FastAPI Backend diễn ra qua 6 bước tuần tự như sau:
+		\vspace{-0.5em}
+	\begin{enumerate}[leftmargin=*]
+		\item \textbf{Gửi yêu cầu dữ liệu (Gửi HTTP \texttt{POST /predict}):}
+			\vspace{-1em}
+		\begin{itemize}
+			\item Từ giao diện Web UI, sau khi người dùng nhập 4 kích thước của hoa (gồm \texttt{sepal\_length}, \texttt{sepal\_width}, \texttt{petal\_length}, \texttt{petal\_width}), ứng dụng sẽ đóng gói 4 thông số này thành một yêu cầu dạng HTTP \texttt{POST} và gửi đến đường dẫn API \texttt{/predict} trên máy chủ Backend.
+		\end{itemize}
+			\vspace{-0.5em}
+		\item \textbf{Kiểm tra tính hợp lệ của dữ liệu (Pydantic Schema):}
+			\vspace{-1em}
+		\begin{itemize}
+			\item Khi tiếp nhận yêu cầu, FastAPI sử dụng thư viện Pydantic đóng vai trò như một màng lọc dữ liệu khắt khe.
+			\item Hệ thống tự động kiểm tra xem dữ liệu gửi lên có đủ 4 tham số hay không và ép kiểu bắt buộc phải là số thực (\texttt{float}). Nếu người dùng nhập sai định dạng (như nhập chữ hoặc bỏ trống), FastAPI sẽ chủ động chặn lại và thông báo lỗi, giúp bảo vệ hệ thống không bị sự cố dừng đột ngột (\textit{Crash}).
+		\end{itemize}
+		\newpage
+		\item \textbf{Chuyển đổi dữ liệu thành mảng NumPy 2D:}
+			\vspace{-1em}
+		\begin{itemize}
+			\item 4 thông số gửi từ Web ban đầu ở dạng chuỗi dữ liệu rời rạc. Trong khi đó, các mô hình học máy của thư viện Scikit-Learn quy định dữ liệu đầu vào bắt buộc phải là một ma trận 2 chiều.
+			\item Tại bước này, Backend chuyển đổi 4 số thực thành một mảng NumPy 2 chiều dạng \texttt{[[sepal\_length, sepal\_width, petal\_length, petal\_width]]} (có kích thước $1 \times 4$), đảm bảo cấu trúc dữ liệu tương thích hoàn toàn với mô hình.
+		\end{itemize}
+			\vspace{-0.5em}
+		\item \textbf{Nạp tập tin mô hình \texttt{svm\_model.pkl} thông qua Joblib:}
+			\vspace{-1em}
+		\begin{itemize}
+			\item Hệ thống sử dụng thư viện Joblib để nạp tập tin mô hình SVM đã được huấn luyện từ trước (\texttt{svm\_model.pkl}) vào bộ nhớ RAM.
+			\item Việc lưu trữ mô hình trên bộ nhớ truy xuất ngẫu nhiên (RAM) giúp rút ngắn thời gian xử lý, cho phép mô hình thực hiện tính toán ngay lập tức khi có dữ liệu truyền vào thay vì phải đọc lại từ đĩa cứng.
+		\end{itemize}
+			\vspace{-0.5em}
+		\item \textbf{Gọi hàm dự đoán \texttt{model.predict([[...]])}:}
+			\vspace{-1em}
+		\begin{itemize}
+			\item Mảng dữ liệu NumPy 2D ở Bước 3 được truyền trực tiếp vào phương thức dự đoán \texttt{model.predict()}.
+			\item Mô hình SVM kích hoạt các tham số trọng số đã học để thực hiện tính toán phân loại trong không gian ranh giới và trả về kết quả dự đoán dạng chỉ số nhãn số nguyên ($0, 1, hoặc 2$).
+		\end{itemize}
+			\vspace{-0.5em}
+		\item \textbf{Ánh xạ và Trả về dữ liệu phản hồi dạng JSON:}
+			\vspace{-1em}
+		\begin{itemize}
+			\item Chỉ số dự đoán nội bộ từ mô hình được ánh xạ chuẩn xác sang tên loài hoa thực tế.
+			\item Backend đóng gói kết quả thành chuỗi JSON chuẩn có cấu trúc rõ ràng và gửi phản hồi ngược lại về giao diện Web UI, giúp màn hình người dùng hiển thị tức thì kết quả dự đoán cho khách quan.
+		\end{itemize}
+	\end{enumerate}
+	\vspace{-0.5em}
+	 \subsection{Xây dựng Mã nguồn Backend (\texttt{app.py})}
+	 Đoạn mã nguồn Python xây dựng ứng dụng FastAPI hoàn chỉnh, thực hiện việc load file \texttt{svm\_model.pkl} và mở Endpoint \texttt{/predict}:
+	 
+	 \begin{lstlisting}[language=Python, caption={Mã nguồn Backend FastAPI xây dựng Web API dự đoán hoa Iris}, label={code:fastapi_app}]
+	 	import joblib
+	 	import numpy as np
+	 	from fastapi import FastAPI, HTTPException
+	 	from pydantic import BaseModel, Field
+	 	
+	 	# 1. Initialize FastAPI app
+	 	app = FastAPI(
+	 	title="Iris Flower Classification API",
+	 	description="API for Iris flower classification using SVM model (Scikit-Learn)",
+	 	version="1.0.0",
+	 	)
+	 	
+	 	# 2. Define class labels corresponding to dataset outputs 0, 1, 2
+	 	CLASS_NAMES = ["Iris-setosa", "Iris-versicolor", "Iris-virginica"]
+	 	
+	 	# 3. Load the pre-trained model from pkl file
+	 	try:
+	 	model = joblib.load("svm_model.pkl")
+	 	print("Model svm_model.pkl loaded successfully!")
+	 	except Exception as e:
+	 	print(f"Error loading svm_model.pkl: {e}")
+	 	model = None
+	 	
+	 	# 4. Define Input Data Schema using Pydantic
+	 	class IrisInput(BaseModel):
+	 	sepal_length: float = Field(..., gt=0, description="Sepal length (cm)", example=5.1)
+	 	sepal_width: float = Field(..., gt=0, description="Sepal width (cm)", example=3.5)
+	 	petal_length: float = Field(..., gt=0, description="Petal length (cm)", example=1.4)
+	 	petal_width: float = Field(..., gt=0, description="Petal width (cm)", example=0.2)
+	 	
+	 	# 5. Root health-check endpoint
+	 	@app.get("/")
+	 	def read_root():
+	 	return {"message": "Iris SVM Prediction API is ready and running!"}
+	 	
+	 	# 6. Prediction endpoint
+	 	@app.post("/predict")
+	 	def predict_iris(data: IrisInput):
+	 	if model is None:
+	 	raise HTTPException(status_code=500, detail="Model svm_model.pkl is not loaded!")
+	 	
+	 	# Convert request data into a 2D NumPy array for Scikit-Learn
+	 	input_features = np.array([[
+	 	data.sepal_length, 
+	 	data.sepal_width, 
+	 	data.petal_length, 
+	 	data.petal_width
+	 	]])
+	 	
+	 	# Perform prediction
+	 	prediction_id = int(model.predict(input_features)[0])
+	 	predicted_class = CLASS_NAMES[prediction_id]
+	 	
+	 	# Return structured JSON response
+	 	return {
+	 		"input": {
+	 			"sepal_length": data.sepal_length,
+	 			"sepal_width": data.sepal_width,
+	 			"petal_length": data.petal_length,
+	 			"petal_width": data.petal_width
+	 		},
+	 		"prediction_id": prediction_id,
+	 		"predicted_class": predicted_class
+	 	}
+	 \end{lstlisting}
+	 
+	\subsection{Kiểm thử Dịch vụ API và Kết quả Thực nghiệm}
+	
+	\subsubsection{Khởi chạy Server và Quản lý Tiến trình}
+	Server Backend được khởi chạy trên môi trường thử nghiệm cục bộ bằng việc gọi máy chủ ASGI Uvicorn với tham số kiểm thử:
+	
+	\begin{lstlisting}[language=bash, frame=none, numbers=none, basicstyle=\ttfamily\small\color{blue}]
+		uvicorn app:app --reload
+	\end{lstlisting}
+	\vspace{-0.5em}
+	\noindent Tham số \texttt{--reload} cho phép Uvicorn tự động lắng nghe sự thay đổi mã nguồn trong tập tin \texttt{app.py} để khởi động lại tiến trình mà không làm gián đoạn cổng mạng dịch vụ tại địa chỉ \url{http://127.0.0.1:8000}.
+	
+	\subsubsection{Thử nghiệm Tính năng trên Giao diện Swagger UI}
+	Truy cập vào địa chỉ \url{http://127.0.0.1:8000/docs} để tiến hành truyền dữ liệu kiểm thử trực tiếp lên các Endpoint của ứng dụng. Hệ thống ghi nhận kết quả phản hồi thực tế từ các mẫu thử:
+	\vspace{-0.5em}
+	\begin{enumerate}[leftmargin=*]
+		\item \textbf{Dữ liệu kiểm thử 1 (Thử nghiệm mẫu hoa loài \textit{Setosa}):}
+		\vspace{-1em}
+		\begin{itemize}
+			\item \textit{Input Request Payload:} $\texttt{sepal\_length} = 5.1$, $\texttt{sepal\_width} = 3.5$, $\texttt{petal\_length} = 1.4$, $\texttt{petal\_width} = 0.2$
+			\item \textit{Response Output (JSON):}
+		\end{itemize}
+	\end{enumerate}
+		\vspace{-0.5em}
+	\begin{lstlisting}[numbers=none, frame=single, basicstyle=\ttfamily\small]
+		{
+			"input": {
+				"sepal_length": 5.1,
+				"sepal_width": 3.5,
+				"petal_length": 1.4,
+				"petal_width": 0.2
+			},
+			"prediction_id": 0,
+			"predicted_class": "Iris-setosa"
+		}
+	\end{lstlisting}
+	\noindent\textbf{Đánh giá Kỹ thuật:} Hệ thống phản hồi mã trạng thái HTTP 200 OK trong thời gian dưới 15 ms. Kết quả phân loại chính xác mẫu thử vào lớp 0 (\textit{Iris-setosa}).
+	
+	\begin{enumerate}[leftmargin=*, resume]
+		\item \textbf{Dữ liệu kiểm thử 2 (Thử nghiệm mẫu hoa loài \textit{Virginica}):}
+					\vspace{-1em}
+		\begin{itemize}
+			\item \textit{Input Request Payload:} $\texttt{sepal\_length} = 6.5$, $\texttt{sepal\_width} = 3.0$, $\texttt{petal\_length} = 5.5$, $\texttt{petal\_width} = 1.8$
+			\item \textit{Response Output (JSON):}
+		\end{itemize}
+	\end{enumerate}
+		\vspace{-0.5em}
+	\begin{lstlisting}[numbers=none, frame=single, basicstyle=\ttfamily\small]
+		{
+			"input": {
+				"sepal_length": 6.5,
+				"sepal_width": 3.0,
+				"petal_length": 5.5,
+				"petal_width": 1.8
+			},
+			"prediction_id": 2,
+			"predicted_class": "Iris-virginica"
+		}
+	\end{lstlisting}
+	\noindent\textbf{Đánh giá Kỹ thuật:} Dữ liệu đầu vào chứa thuộc tính cánh hoa lớn đã được mô hình xử lý chính xác và trả về kết quả thuộc lớp 2 (\textit{Iris-virginica}), chứng minh quy trình liên kết dữ liệu từ Web API đến mô hình đóng gói được thực thi chính xác.
+	\newpage 
+	
+\section{XÂY DỰNG GIAO DIỆN NGƯỜI DÙNG VÀ HƯỚNG DẪN THAO TÁC}
+
+\subsection{Tổng Quan về Giao Diện Trang Web Dự Đoán}
+
+Sau khi mô hình máy tính học xong cách phân biệt các loài hoa, nhóm tiến hành tạo ra một \textbf{Trang web dự đoán} để bất kỳ ai cũng có thể sử dụng dễ dàng. Trang web này đóng vai trò như một "màn hình giao tiếp" thân thiện, giúp người dùng không cần biết lập trình hay máy tính phức tạp vẫn có thể nhận biết được loài hoa Iris chỉ trong vài giây.
+
+Để trang web hoạt động ổn định và truy cập được mọi lúc mọi nơi qua mạng Internet, hệ thống được vận hành nhờ sự kết hợp của hai nền tảng miễn phí phổ biến hiện nay:
+\begin{itemize}[leftmargin=*]
+	\item \textbf{GitHub Pages (Nơi chứa giao diện):} Đóng vai trò như "mặt tiền" của trang web. Đây là nơi hiển thị màn hình, ô nhập số liệu và nút bấm để người dùng trực tiếp thao tác trên trình duyệt (như Google Chrome, Cốc Cốc, Safari).
+	\item \textbf{Render (Máy chủ tính toán ngầm):} Đóng vai trò như "bộ脑" giấu phía sau. Khi người dùng bấm nút trên trang web, số liệu sẽ được gửi tới máy chủ Render để mô hình SVM tính toán và trả về tên loài hoa tương ứng.
+\end{itemize}
+
+\subsection{Cách Thức Trang Web Hoạt Động}
+
+Để người dùng dễ hình dung, quá trình xử lý từ lúc nhập số đến khi nhận kết quả diễn ra theo 4 bước rất đơn giản:
+\begin{enumerate}[leftmargin=*]
+	\item \textbf{ Điền thông tin:} 
+	Người dùng mở trang web trên điện thoại hoặc máy tính, sau đó nhập 4 giá trị kích thước của hoa Iris, gồm chiều dài và chiều rộng của đài hoa, chiều dài và chiều rộng của cánh hoa vào các ô tương ứng.
+	
+	\item \textbf{ Gửi yêu cầu dự đoán:} 
+	Sau khi nhập đầy đủ 4 giá trị, người dùng nhấp vào nút 
+	\textbf{``Dự đoán kết quả''}. Hệ thống sẽ tiếp nhận các thông tin vừa nhập và bắt đầu thực hiện quá trình phân loại.
+	
+	\item \textbf{ Xử lý và dự đoán:} 
+	Các giá trị đầu vào được gửi từ giao diện website đến máy chủ đang triển khai trên nền tảng Render. Tại máy chủ, mô hình SVM đã được huấn luyện sẽ tiếp nhận 4 đặc trưng của mẫu hoa và thực hiện quá trình phân loại. Mô hình xác định mẫu thuộc một trong ba lớp của bộ dữ liệu Iris là \textit{Setosa}, \textit{Versicolor} hoặc \textit{Virginica}.
+	
+	\item \textbf{ Hiển thị kết quả:} 
+	Sau khi quá trình dự đoán hoàn tất, kết quả được trả về giao diện website. Hệ thống hiển thị tên loài hoa được dự đoán trong khung kết quả, giúp người dùng dễ dàng nhận biết mẫu hoa thuộc lớp \textit{Setosa}, \textit{Versicolor} hay \textit{Virginica}.
+\end{enumerate}
+
+
+\subsection{Hướng Dẫn Chi Tiết Các Bước Sử Dụng Trang Web}
+
+Dưới đây là hướng dẫn chi tiết từng bước giúp người dùng trải nghiệm trang web dự đoán một cách dễ dàng nhất:
+
+\subsubsection*{Bước 1: Truy cập vào Trang web}
+Người dùng chỉ cần bấm vào đường link trang web do nhóm cung cấp (được lưu trữ trên GitHub Pages) từ bất kỳ thiết bị nào có kết nối Internet (máy tính bàn, laptop, tablet hoặc điện thoại di động). Màn hình ứng dụng sẽ hiện ra giao diện gọn gàng, sáng đẹp với tiêu đề \textbf{"IRIS BOTANICA"}.
+
+\subsubsection*{Bước 2: Nhập Kích Thước Hoa và Nhận Kết Quả}
+Màn hình trang web được thiết kế tối giản với 4 ô nhập liệu trực quan. Người dùng có thể thử nghiệm theo các trường hợp thực tế sau:
+\vspace{1em}
+\Needspace{10\baselineskip}
+\noindent\textbf{Trường hợp 1: Nhận dạng loài hoa Setosa (Loài hoa có cánh nhỏ)}
+\vspace{-0.5em}
+\begin{itemize}[leftmargin=*]
+	\item \textit{Thao tác:} Lần lượt điền các thông số vào 4 ô: Chiều dài đài hoa:
+	\textbf{5.1 cm}; Chiều rộng đài hoa: \textbf{3.5 cm}; Chiều dài cánh hoa:
+	\textbf{1.4 cm}; Chiều rộng cánh hoa: \textbf{0.2 cm}.
+	
+	\item \textit{Thực hiện:} Nhấp vào nút \textbf{``Dự đoán kết quả''}.
+	
+	\item \textit{Kết quả hiển thị:} Màn hình lập tức hiện khung xanh với kết quả:
+	\textbf{Iris Setosa}.
+\end{itemize}
+
+
+
+
+\Needspace{10\baselineskip}
+\noindent\textbf{Trường hợp 2: Nhận dạng loài hoa Virginica (Loài hoa có cánh lớn)}
+\vspace{-0.5em}
+\begin{itemize}[leftmargin=*]
+	\item \textit{Thao tác:} Thay đổi các con số trong ô nhập liệu thành:
+	Chiều dài đài hoa: \textbf{6.7 cm}; Chiều rộng đài hoa: \textbf{3.0 cm};
+	Chiều dài cánh hoa: \textbf{5.2 cm}; Chiều rộng cánh hoa: \textbf{2.3 cm}.
+	
+	\item \textit{Thực hiện:} Nhấp vào nút \textbf{``Dự đoán kết quả''}.
+	
+	\item \textit{Kết quả hiển thị:} Khung thông báo lập tức đổi sang tên loài hoa mới:
+	\textbf{Iris Virginica}.
+\end{itemize}
+
+		
+		\textit{(Lưu ý: Toàn bộ mã nguồn xây dựng giao diện HTML/CSS/JavaScript và mã nguồn kết nối máy chủ Render được trình bày chi tiết tại \textbf{Phụ lục B} của báo cáo).}
+		
+		\subsection{Đánh Giá Trải Nghiệm Người Dùng}
+		
+		Trang web ứng dụng sau khi đưa vào vận hành thực tế đạt được những ưu điểm nổi bật:
+		\begin{itemize}[leftmargin=*]
+			\item \textbf{Không cần cài đặt:} Người dùng không cần phải tải ứng dụng hay cài đặt các phần mềm lập trình phức tạp, chỉ cần mở đường link trang web là có thể dùng ngay.
+			\item \textbf{Giao diện thân thiện:} Các ô nhập liệu có nhãn hướng dẫn rõ ràng bằng tiếng Việt, phông chữ to rõ và màu sắc hài hòa giúp người dùng không bị nhầm lẫn.
+			\item \textbf{Phản hồi nhanh chóng:} Nhờ hệ thống máy chủ Render tối ưu, thời gian tính toán và trả kết quả gần như tức thì (dưới 1 giây).
+			\item \textbf{Nhắc nhở thông minh:} Nếu người dùng lỡ quên không nhập đủ 4 ô hoặc nhập sai định dạng (nhập chữ thay vì nhập số), trang web sẽ tự động xuất hiện lời nhắc nhở nhẹ nhàng để người dùng điền lại cho đúng.
+		\end{itemize}
+\newpage
+\section*{KẾT LUẬN}
+\addcontentsline{toc}{section}{KẾT LUẬN}
+
+Qua quá trình thực hiện, đề tài ``Hệ thống phân loại hoa Iris và triển khai
+vận hành trực tuyến IRIS BOTANICA AI'' đã hoàn thành các mục tiêu đề ra.
+Đề tài đã tìm hiểu và trình bày cơ sở lý thuyết của thuật toán Support Vector
+Machine (SVM), nguyên lý tối đa hóa Margin, Support Vector, Soft Margin và
+Kernel tuyến tính. Đối với bài toán phân loại ba lớp Iris, chiến lược
+One-vs-One (OvO) được trình bày nhằm giải quyết bài toán phân loại đa lớp.
+
+Về thực nghiệm, mô hình SVM sử dụng Kernel tuyến tính được huấn luyện trên
+bộ dữ liệu Iris gồm 150 mẫu thuộc ba loài \textit{Setosa},
+\textit{Versicolor} và \textit{Virginica}, với bốn đặc trưng về kích thước
+đài hoa và cánh hoa. Dữ liệu được chia theo tỷ lệ 80\%--20\% và sử dụng
+phân tầng để duy trì sự cân bằng giữa các lớp. Kết quả trên tập kiểm thử
+30 mẫu đạt độ chính xác \textbf{100\%}. Sau đó, mô hình được huấn luyện lại
+trên toàn bộ dữ liệu và lưu dưới dạng tệp \texttt{svm\_model.pkl} để phục vụ
+triển khai.
+
+Bên cạnh mô hình học máy, đề tài đã xây dựng hệ thống Web gồm FastAPI ở
+phía máy chủ và HTML, CSS, JavaScript ở phía giao diện. Người dùng có thể
+nhập bốn thông số của hoa, gửi yêu cầu thông qua API và nhận kết quả dự đoán
+loài hoa trực tiếp trên giao diện. Qua đó, đề tài đã hoàn thiện quy trình từ
+xây dựng mô hình, đánh giá kết quả đến triển khai mô hình thành một ứng dụng
+Web có khả năng tương tác với người dùng.
+
+\newpage
+\newpage
+\appendix
+\section*{PHỤ LỤC}
+\addcontentsline{toc}{section}{PHỤ LỤC}
+
+`\subsection*{Phụ lục A: Danh mục Tập tin Mã nguồn Máy chủ }
+
+Các tập tin mã nguồn xử lý logic và mô hình được lưu trữ chi tiết trong thư mục mã nguồn kèm theo của dự án:
+
+\begin{itemize}[leftmargin=*]
+	\item \textbf{\texttt{TRAIN\_SVM.py}:} Kịch bản Python thực hiện đọc tập dữ liệu hoa Iris, tiền xử lý, huấn luyện mô hình Support Vector Machine (SVM) và xuất tệp mô hình.
+	\item \textbf{\texttt{app.py}:} Chương trình máy chủ (API) tiếp nhận dữ liệu kích thước hoa từ giao diện trang web, đưa vào mô hình dự đoán và trả về kết quả.
+	\item \textbf{\texttt{requirements.txt}:} Tập tin khai báo danh sách các thư viện Python cần thiết để máy chủ vận hành (bao gồm \texttt{scikit-learn}, \texttt{fastapi}, \texttt{uvicorn}).
+	\item \textbf{\texttt{Procfile} \& \texttt{render.yaml}:} Các tệp cấu hình thiết lập môi trường và lệnh khởi chạy tự động khi triển khai ứng dụng trên máy chủ Render.
+\end{itemize}
+
+
+\subsection*{Phụ lục B: Danh mục Tập tin Mã nguồn Giao diện }
+
+Toàn bộ giao diện người dùng được lưu trữ trên kho chứa GitHub Pages và bao gồm các tệp cấu hình chính:
+
+\begin{itemize}[leftmargin=*]
+	\item \textbf{\texttt{index.html}:} Trang chủ ứng dụng, chứa biểu mẫu nhập liệu 4 thông số của hoa Iris và kịch bản gửi dữ liệu sang máy chủ Render để nhận kết quả tức thì.
+	\item \textbf{\texttt{species.html}:} Trang thông tin phụ cung cấp hình ảnh và mô tả đặc điểm nhận dạng của các loài hoa Iris.
+	\item \textbf{\texttt{images/}:} Thư mục lưu trữ tài nguyên hình ảnh hiển thị trên giao diện trang web.
+\end{itemize}
+
+\vspace{1cm}
+\begin{center}
+	\textit{(Lưu ý: Toàn bộ mã nguồn chi tiết của các tập tin trên được đóng gói đầy đủ trong tệp đính kèm gửi kèm báo cáo này).}
+\end{center}    
+\newpage
+
+\newpage
+% Đổi tên tiêu đề mặc định của môi trường bibliography thành tiếng Việt
+\renewcommand{\refname}{TÀI LIỆU THAM KHẢO}
+\addcontentsline{toc}{section}{TÀI LIỆU THAM KHẢO}
+
+\begin{thebibliography}{99}
+	
+	\bibitem{scikit-learn}
+	Học máy cơ bản, Tôn Thất Tú(2025) 
+
+	\bibitem{iris-dataset}
+	Fisher, R. A. (1936). 
+	\textit{The use of multiple measurements in taxonomic problems}. 
+	Annals of Eugenics, 7(2), 179-188.
+	
+	\bibitem{fastapi}2025
+	Tiangolo (Sebastián Ramírez). (2018). 
+	\textit{FastAPI framework, high performance, easy to learn, fast to code, ready for production}. 
+	Trang chủ: \url{https://fastapi.tiangolo.com/}.
+	
+	\bibitem{github-pages}
+	GitHub Documentation. (2024). 
+	\textit{GitHub Pages Overview}. 
+	Truy cập tại: \url{https://docs.github.com/en/pages}.
+	
+	\bibitem{render-docs}
+	Render Cloud Documentation. (2024). 
+	\textit{Deploying Python Web Services on Render}. 
+	Truy cập tại: \url{https://render.com/docs}.
+	
+\end{thebibliography}
+
+\end{document}
