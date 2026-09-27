@@ -485,9 +485,797 @@
             font-size: 10px;
             font-weight: 700;
         }
+        /* =========================
+   ACCOUNT BUTTON
+========================= */
+
+.account-button {
+    border: 1px solid #7d602d;
+    background: transparent;
+    color: #7d602d;
+    padding: 9px 16px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.account-button:hover {
+    background: #7d602d;
+    color: #ffffff;
+}
+/* =========================
+   ACCOUNT MODAL
+========================= */
+
+.account-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+
+    background: rgba(20, 20, 17, 0.55);
+
+    align-items: center;
+    justify-content: center;
+}
+
+.account-box {
+    position: relative;
+
+    width: 380px;
+    max-width: 90%;
+
+    padding: 38px;
+
+    background: #f3ede2;
+    border: 1px solid #d8cebd;
+    border-radius: 8px;
+
+    box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+}
+
+.close-account {
+    position: absolute;
+    top: 12px;
+    right: 16px;
+
+    border: none;
+    background: transparent;
+
+    font-size: 25px;
+    color: #555647;
+
+    cursor: pointer;
+}
+
+.account-title {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 28px;
+    font-weight: 700;
+
+    text-align: center;
+}
+
+.account-subtitle {
+    margin-top: 4px;
+    margin-bottom: 25px;
+
+    text-align: center;
+
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 2px;
+
+    color: #7d602d;
+}
+
+.account-box h2 {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 27px;
+
+    margin-bottom: 18px;
+}
+
+.account-box input {
+    width: 100%;
+    height: 42px;
+
+    margin-bottom: 12px;
+    padding: 0 12px;
+
+    border: 1px solid #cac0af;
+    border-radius: 4px;
+
+    background: #f5f0e6;
+
+    outline: none;
+}
+
+.account-box input:focus {
+    border-color: #7d602d;
+}
+
+.account-box > div button {
+    cursor: pointer;
+}
+
+#loginButton,
+#registerButton {
+    width: 100%;
+    height: 42px;
+
+    border: none;
+    border-radius: 4px;
+
+    background: #48503f;
+    color: white;
+
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+
+    cursor: pointer;
+}
+
+#loginButton:hover,
+#registerButton:hover {
+    background: #33392c;
+}
+
+#loginMessage,
+#registerMessage {
+    min-height: 18px;
+
+    margin-top: 12px;
+
+    text-align: center;
+
+    font-size: 10px;
+    font-weight: 600;
+}
+
+.switch-account {
+    margin-top: 18px;
+
+    text-align: center;
+
+    font-size: 10px;
+    color: #555147;
+}
+
+.switch-account button {
+    border: none;
+    background: transparent;
+
+    color: #7d602d;
+
+    font-weight: 700;
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+.site-footer {
+    background: #e7dfd1;
+    padding: 0 5% 35px;
+}
+
+.footer-line {
+    height: 1px;
+    background: #cfc5b4;
+    margin-bottom: 24px;
+}
+
+.footer-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr auto;
+    align-items: center;
+}
+
+.footer-brand {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 19px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: #111;
+}
+
+.footer-author {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 10px;
+    letter-spacing: 1.2px;
+    color: #555047;
+}
+
+.footer-author span {
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    color: #817866;
+}
+
+.footer-author strong {
+    color: #222;
+    font-weight: 600;
+}
+
+.footer-year {
+    font-size: 10px;
+    letter-spacing: 1px;
+    color: #817866;
+}
+/* =========================================================
+   🌷 IRIS BOTANICA — ACCOUNT LETTER POPUP
+   Chỉ áp dụng cho POPUP TÀI KHOẢN
+   Không thay đổi giao diện trang chính
+========================================================= */
+
+/* Lớp nền phía sau popup */
+#accountModal {
+    background: rgba(35, 30, 25, 0.55);
+    backdrop-filter: blur(4px);
+    align-items: center;
+    justify-content: center;
+}
+
+
+/* =========================================================
+   ✉️ TỜ THƯ
+========================================================= */
+
+#accountModal .account-box {
+    position: relative;
+
+    width: 470px;
+    max-width: calc(100vw - 40px);
+
+    padding: 48px 52px 42px;
+
+    box-sizing: border-box;
+
+    background:
+        radial-gradient(
+            circle at 10% 15%,
+            rgba(151, 117, 75, 0.10),
+            transparent 22%
+        ),
+        radial-gradient(
+            circle at 90% 85%,
+            rgba(126, 91, 64, 0.08),
+            transparent 25%
+        ),
+        #f6efdf;
+
+    color: #302a24;
+
+    border: 1px solid rgba(121, 91, 55, 0.35);
+
+    border-radius: 3px;
+
+    box-shadow:
+        0 25px 60px rgba(0, 0, 0, 0.32),
+        0 5px 15px rgba(0, 0, 0, 0.12);
+
+    font-family: Georgia, "Times New Roman", serif;
+
+    animation: irisLetterOpen 0.35s ease-out;
+}
+
+
+/* Viền trong giống giấy thư */
+#accountModal .account-box::before {
+    content: "";
+
+    position: absolute;
+
+    top: 11px;
+    right: 11px;
+    bottom: 11px;
+    left: 11px;
+
+    border: 1px solid rgba(125, 94, 57, 0.25);
+
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   🌿 HOA / TRANG TRÍ
+========================================================= */
+
+#accountModal .account-box::after {
+    content: "✿";
+
+    position: absolute;
+
+    right: 27px;
+    bottom: 18px;
+
+    font-size: 25px;
+
+    color: #92704d;
+
+    opacity: 0.55;
+
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   × NÚT ĐÓNG
+========================================================= */
+
+#accountModal .close-account {
+    position: absolute;
+
+    top: 18px;
+    right: 20px;
+
+    z-index: 5;
+
+    width: 32px;
+    height: 32px;
+
+    padding: 0;
+
+    border: none;
+
+    background: transparent;
+
+    color: #675c4f;
+
+    font-family: Georgia, serif;
+
+    font-size: 25px;
+
+    line-height: 32px;
+
+    cursor: pointer;
+
+    transition: 0.25s ease;
+}
+
+#accountModal .close-account:hover {
+    color: #8b6047;
+
+    transform: rotate(8deg);
+}
+
+
+/* =========================================================
+   🌷 IRIS BOTANICA
+========================================================= */
+
+#accountModal .account-title {
+    position: relative;
+
+    text-align: center;
+
+    margin-bottom: 7px;
+
+    font-family: Georgia, "Times New Roman", serif;
+
+    font-size: 30px;
+
+    font-weight: normal;
+
+    letter-spacing: 3px;
+
+    color: #29231e;
+}
+
+
+/* Hoa nhỏ dưới tên */
+#accountModal .account-title::after {
+    content: "❦";
+
+    display: block;
+
+    margin-top: 7px;
+
+    font-size: 21px;
+
+    color: #98764e;
+}
+
+
+/* =========================================================
+   TÀI KHOẢN NGƯỜI DÙNG
+========================================================= */
+
+#accountModal .account-subtitle {
+    margin-top: 0;
+    margin-bottom: 31px;
+
+    text-align: center;
+
+    font-family: Georgia, serif;
+
+    font-size: 10px;
+
+    font-weight: normal;
+
+    letter-spacing: 3px;
+
+    color: #876b47;
+
+    text-transform: uppercase;
+}
+
+
+/* =========================================================
+   🌸 PHẦN XIN CHÀO / THÔNG TIN
+========================================================= */
+
+#accountModal #accountInfoSection h3 {
+    margin: 0 0 22px;
+
+    font-family: Georgia, "Times New Roman", serif;
+
+    font-size: 29px;
+
+    font-weight: normal;
+
+    color: #302820;
+}
+
+
+/* Thông tin tài khoản */
+#accountModal #accountInfoSection p {
+    margin: 10px 0;
+
+    font-family: Georgia, "Times New Roman", serif;
+
+    font-size: 16px;
+
+    line-height: 1.55;
+
+    color: #443b31;
+}
+
+
+/* Tên người dùng */
+#accountModal #accountUsername {
+    color: #815f3f;
+
+    font-style: italic;
+
+    font-size: 18px;
+}
+
+
+/* Ngày tạo */
+#accountModal #accountCreatedAt {
+    color: #5c5145;
+}
+
+
+/* =========================================================
+   ✉️ NÚT LỊCH SỬ + ĐĂNG XUẤT
+========================================================= */
+
+#accountModal #loginHistoryButton,
+#accountModal #logoutButton {
+    margin-top: 14px;
+
+    padding: 8px 11px;
+
+    border: none;
+
+    background: transparent;
+
+    font-family: Georgia, "Times New Roman", serif;
+
+    font-size: 14px;
+
+    cursor: pointer;
+
+    transition: 0.25s ease;
+}
+
+
+/* Lịch sử đăng nhập */
+#accountModal #loginHistoryButton {
+    color: #755c40;
+
+    border-bottom: 1px solid rgba(117, 92, 64, 0.45);
+}
+
+#accountModal #loginHistoryButton:hover {
+    color: #9a6849;
+
+    border-bottom-color: #9a6849;
+}
+
+
+/* Đăng xuất */
+#accountModal #logoutButton {
+    color: #80675b;
+}
+
+#accountModal #logoutButton:hover {
+    color: #a14f42;
+}
+
+
+/* =========================================================
+   🔐 LOGIN / REGISTER
+   Chỉ tác động bên trong popup
+========================================================= */
+
+#accountModal input {
+    box-sizing: border-box;
+
+    width: 100%;
+
+    padding: 12px 5px;
+
+    margin-bottom: 15px;
+
+    border: none;
+
+    border-bottom: 1px solid #b7a486;
+
+    outline: none;
+
+    background: rgba(255, 250, 239, 0.45);
+
+    font-family: Georgia, "Times New Roman", serif;
+
+    font-size: 15px;
+
+    color: #352e28;
+}
+
+#accountModal input:focus {
+    border-bottom-color: #826644;
+
+    background: rgba(255, 252, 244, 0.85);
+}
+
+
+/* Nút đăng nhập / đăng ký */
+#accountModal #loginButton,
+#accountModal #registerButton {
+    width: 100%;
+
+    padding: 12px;
+
+    margin-top: 7px;
+
+    border: 1px solid #856b4b;
+
+    background: #856b4b;
+
+    color: #fffaf0;
+
+    font-family: Georgia, "Times New Roman", serif;
+
+    font-size: 14px;
+
+    letter-spacing: 1.5px;
+
+    cursor: pointer;
+
+    transition: 0.25s ease;
+}
+
+#accountModal #loginButton:hover,
+#accountModal #registerButton:hover {
+    background: #6e573d;
+
+    transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   🌙 HIỆU ỨNG MỞ THƯ
+========================================================= */
+
+@keyframes irisLetterOpen {
+    from {
+        opacity: 0;
+
+        transform:
+            translateY(15px)
+            scale(0.97);
+    }
+
+    to {
+        opacity: 1;
+
+        transform:
+            translateY(0)
+            scale(1);
+    }
+}
+
+
+/* =========================================================
+   📱 MÀN HÌNH NHỎ
+========================================================= */
+
+@media (max-width: 600px) {
+
+    #accountModal .account-box {
+        width: calc(100vw - 30px);
+
+        padding: 42px 30px 35px;
+    }
+
+    #accountModal .account-title {
+        font-size: 25px;
+
+        letter-spacing: 2px;
+    }
+
+    #accountModal #accountInfoSection h3 {
+        font-size: 25px;
+    }
+}
     </style>
 </head>
 <body>
+   
+<!-- =========================
+     ACCOUNT MODAL
+========================= -->
+
+<div id="accountModal" class="account-modal">
+
+    <div class="account-box">
+
+        <!-- Nút đóng -->
+        <button type="button" id="closeAccount" class="close-account">
+            ×
+        </button>
+
+
+        <!-- Tiêu đề -->
+        <div class="account-title">
+            IRIS BOTANICA
+        </div>
+
+        <div class="account-subtitle">
+            TÀI KHOẢN NGƯỜI DÙNG
+        </div>
+
+<!-- =========================
+     ACCOUNT MODAL
+========================= -->
+
+
+
+        <!-- =========================
+             FORM ĐĂNG NHẬP
+        ========================= -->
+
+        <div id="loginSection">
+
+            <h2>Đăng nhập</h2>
+
+            <input
+                type="text"
+                id="loginUsername"
+                placeholder="Tên đăng nhập"
+                autocomplete="username"
+            >
+
+            <input
+                type="password"
+                id="loginPassword"
+                placeholder="Mật khẩu"
+                autocomplete="current-password"
+            >
+
+            <button type="button" id="loginButton">
+                ĐĂNG NHẬP
+            </button>
+
+            <p id="loginMessage"></p>
+
+            <div class="switch-account">
+                Chưa có tài khoản?
+
+                <button type="button" id="showRegister">
+                    Đăng ký
+                </button>
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             FORM ĐĂNG KÝ
+        ========================= -->
+
+        <div id="registerSection" style="display: none;">
+
+            <h2>Đăng ký</h2>
+
+            <input
+                type="text"
+                id="registerUsername"
+                placeholder="Tên đăng ký"
+                autocomplete="username"
+            >
+
+            <input
+                type="password"
+                id="registerPassword"
+                placeholder="Mật khẩu"
+                autocomplete="new-password"
+            >
+
+            <button type="button" id="registerButton">
+                TẠO TÀI KHOẢN
+            </button>
+
+            <p id="registerMessage"></p>
+
+            <div class="switch-account">
+                Đã có tài khoản?
+
+                <button type="button" id="showLogin">
+                    Đăng nhập
+                </button>
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             THÔNG TIN TÀI KHOẢN
+        ========================= -->
+
+        <div id="accountInfoSection" style="display: none;">
+
+            <h2>Xin chào!</h2>
+
+            <div class="account-info">
+
+                <p>
+                    <strong>Tên đăng nhập:</strong>
+                    <span id="accountUsername"></span>
+                </p>
+
+                <p>
+                    <strong>Ngày tạo tài khoản:</strong>
+                    <span id="accountCreatedAt"></span>
+                </p>
+
+            </div>
+<button type="button" id="loginHistoryButton">
+     LỊCH SỬ ĐĂNG NHẬP
+</button>
+
+<button type="button" id="logoutButton">
+    ĐĂNG XUẤT
+</button>
+
+<div id="loginHistorySection" style="display: none; margin-top: 20px;">
+
+    <h3>Lịch sử đăng nhập</h3>
+
+    <div id="loginHistoryList">
+        Đang tải lịch sử...
+    </div>
+
+</div>
+
+</div> <!-- đóng accountInfoSection -->
+
+</div> <!-- đóng account-box -->
+
+</div> <!-- đóng accountModal -->
+
+
+
 
 <!-- HEADER -->
 <header>
@@ -495,12 +1283,17 @@
         <div class="logo-flower">❧</div>
         <div class="logo-text">IRIS BOTANICA AI</div>
     </div>
-    <nav>
-        <a href="/" class="active">Trang chủ</a>
-        <a href="/species">Bộ sưu tập loài hoa</a>
-        <a href="/docs">Về mô hình AI</a>
-    </nav>
+   <nav>
+    <a href="/" class="active">Trang chủ</a>
+    <a href="/species">Bộ sưu tập loài hoa</a>
+    <a href="/model-evaluation-page">Các mô hình dự đoán</a>
+
+    <button type="button" id="accountButton" class="account-button">
+        ĐĂNG NHẬP
+    </button>
+</nav>
 </header>
+
 
 <!-- HERO SECTION -->
 <section class="hero">
@@ -605,20 +1398,423 @@
     </div>
 </section>
 
+
 <!-- ABOUT MODEL -->
 <section class="about">
-    <div>
-        <div class="box-title" style="margin-bottom: 6px;">ABOUT THE MODEL</div>
-        <h2>Khi dữ liệu kể câu chuyện <br> về một bông hoa</h2>
+
+    <div class="about-heading">
+        <div class="box-title">
+            ABOUT THE MODEL
+        </div>
+
+        <h2>
+            Khi dữ liệu kể câu chuyện
+            <br>
+            về một bông hoa
+        </h2>
     </div>
+
     <div class="about-text">
-        IRIS BOTANICA AI sử dụng mô hình Support Vector Machine với <strong>kernel tuyến tính</strong> để phân loại hoa Iris dựa trên bốn đặc trưng hình thái: chiều dài và chiều rộng của đài hoa và cánh hoa.
+        IRIS BOTANICA AI sử dụng các mô hình học máy để phân loại
+        hoa Iris dựa trên bốn đặc trưng hình thái: chiều dài và
+        chiều rộng của đài hoa và cánh hoa.
     </div>
-   
+
 </section>
+
+
+<!-- FOOTER -->
+<footer class="site-footer">
+
+    <div class="footer-line"></div>
+
+    <div class="footer-content">
+
+        <div class="footer-brand">
+            IRIS BOTANICA AI
+        </div>
+
+        <div class="footer-author">
+            <span>PROJECT BY</span>
+            <strong>Nguyễn Thị Thanh Thảo</strong>
+        </div>
+
+        <div class="footer-year">
+            © 2026
+        </div>
+
+    </div>
+
+</footer>
+
 
 <script>
     document.addEventListener("DOMContentLoaded", () => {
+        // =========================
+// ACCOUNT ELEMENTS
+// =========================
+
+const accountButton = document.getElementById("accountButton");
+const accountModal = document.getElementById("accountModal");
+const closeAccount = document.getElementById("closeAccount");
+
+const loginSection = document.getElementById("loginSection");
+const registerSection = document.getElementById("registerSection");
+
+const showRegister = document.getElementById("showRegister");
+const showLogin = document.getElementById("showLogin");
+
+const loginButton = document.getElementById("loginButton");
+const registerButton = document.getElementById("registerButton");
+
+const accountInfoSection =
+    document.getElementById("accountInfoSection");
+const loginHistoryButton =
+    document.getElementById("loginHistoryButton");
+
+const logoutButton =
+    document.getElementById("logoutButton");
+
+const loginHistorySection =
+    document.getElementById("loginHistorySection");
+
+const loginHistoryList =
+    document.getElementById("loginHistoryList");
+
+// =========================
+// XEM LỊCH SỬ ĐĂNG NHẬP
+// =========================
+
+loginHistoryButton.addEventListener("click", async () => {
+
+    const userId = localStorage.getItem("ma_nguoi_dung");
+
+    if (!userId) {
+        alert("Bạn chưa đăng nhập!");
+        return;
+    }
+
+    // Hiện khu vực lịch sử
+    loginHistorySection.style.display = "block";
+
+    loginHistoryList.innerHTML = "Đang tải lịch sử...";
+
+    try {
+
+        const response = await fetch(
+            `/login-history/${userId}`
+        );
+
+       if (!response.ok) {
+            throw new Error("API lịch sử đăng nhập lỗi");
+        }
+
+        const data = await response.json();
+        if (!data.success || data.history.length === 0) {
+
+            loginHistoryList.innerHTML =
+                "<p>Chưa có lịch sử đăng nhập.</p>";
+
+            return;
+        }
+
+        loginHistoryList.innerHTML = "";
+
+        data.history.forEach((item, index) => {
+
+            const historyItem = document.createElement("div");
+
+            historyItem.style.marginBottom = "10px";
+
+            historyItem.innerHTML = `
+                <strong>Lần đăng nhập ${index + 1}</strong>
+                <br>
+                <span> ${item.thoi_gian_dang_nhap}</span>
+            `;
+
+            loginHistoryList.appendChild(historyItem);
+
+        });
+
+    } catch (error) {
+
+        console.error(
+            "Lỗi lấy lịch sử đăng nhập:",
+            error
+        );
+
+        loginHistoryList.innerHTML =
+            "<p>Không thể tải lịch sử đăng nhập.</p>";
+    }
+
+});
+// =========================
+// ĐĂNG XUẤT
+// =========================
+
+logoutButton.addEventListener("click", async () => {
+
+    try {
+
+        const response = await fetch("/logout", {
+            method: "POST"
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+
+            // Xóa thông tin đăng nhập trên trình duyệt
+            localStorage.removeItem("ma_nguoi_dung");
+            localStorage.removeItem("ten_dang_nhap");
+
+            // Đóng popup tài khoản
+            accountModal.style.display = "none";
+
+            // Đưa giao diện về trạng thái chưa đăng nhập
+            accountButton.textContent = "ĐĂNG NHẬP";
+
+            // Reset các khu vực tài khoản
+            loginSection.style.display = "block";
+            registerSection.style.display = "none";
+            accountInfoSection.style.display = "none";
+
+            loginHistorySection.style.display = "none";
+
+            // Xóa dữ liệu cũ
+            loginHistoryList.innerHTML = "";
+
+            // Quay về trang chủ
+            window.location.href = "/";
+
+        } else {
+
+            alert(data.message || "Đăng xuất thất bại!");
+
+        }
+
+    } catch (error) {
+
+        console.error("Lỗi đăng xuất:", error);
+
+        alert("Không thể kết nối đến máy chủ!");
+
+    }
+
+});
+// =========================
+// XỬ LÝ ĐĂNG KÝ TÀI KHOẢN
+// =========================
+registerButton.addEventListener("click", async () => {
+    const username = document.getElementById("registerUsername").value.trim();
+    const password = document.getElementById("registerPassword").value;
+
+    // Kiểm tra dữ liệu
+   if (!username || !password) {
+    alert("Vui lòng nhập đầy đủ tên đăng ký và mật khẩu!");
+    return;
+}
+
+if (password.length < 8) {
+    alert("Mật khẩu phải có ít nhất 8 ký tự!");
+    return;
+}
+
+if (!/[A-Za-z]/.test(password)) {
+    alert("Mật khẩu phải có ít nhất 1 chữ cái!");
+    return;
+}
+
+if (!/[0-9]/.test(password)) {
+    alert("Mật khẩu phải có ít nhất 1 chữ số!");
+    return;
+}
+    try {
+        const response = await fetch("/register", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                ten_dang_nhap: username,
+                mat_khau: password
+            })
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+            alert(data.message);
+
+            // Chuyển sang form đăng nhập
+            registerSection.style.display = "none";
+            loginSection.style.display = "block";
+
+            // Xóa dữ liệu đăng ký
+            document.getElementById("registerUsername").value = "";
+            document.getElementById("registerPassword").value = "";
+
+        } else {
+            alert(data.message);
+        }
+
+    } catch (error) {
+        console.error("Lỗi đăng ký:", error);
+        alert("Không thể kết nối đến máy chủ!");
+    }
+});
+// =========================
+// XỬ LÝ ĐĂNG NHẬP TÀI KHOẢN
+// =========================
+
+loginButton.addEventListener("click", async () => {
+    const username = document.getElementById("loginUsername").value.trim();
+    const password = document.getElementById("loginPassword").value;
+
+    // Kiểm tra dữ liệu
+    if (!username || !password) {
+        alert("Vui lòng nhập đầy đủ tên đăng nhập và mật khẩu!");
+        return;
+    }
+
+    try {
+        const response = await fetch("/login", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                ten_dang_nhap: username,
+                mat_khau: password
+            })
+        });
+
+        const data = await response.json();
+
+       if (data.success) {
+    alert(data.message);
+
+    // Đổi nút tài khoản thành tên người dùng
+    accountButton.textContent = data.ten_dang_nhap;
+
+    // Lưu thông tin đăng nhập trên trình duyệt
+    localStorage.setItem("ma_nguoi_dung", data.ma_nguoi_dung);
+    localStorage.setItem("ten_dang_nhap", data.ten_dang_nhap);
+
+    // Ẩn form đăng nhập
+    loginSection.style.display = "none";
+
+    // Ẩn form đăng ký
+    registerSection.style.display = "none";
+
+    // Hiện thông tin tài khoản
+    accountInfoSection.style.display = "block";
+
+    // Hiện tên đăng nhập
+    document.getElementById("accountUsername").textContent =
+        data.ten_dang_nhap;
+
+    // Lấy thông tin tài khoản từ API
+    const userResponse = await fetch(
+        `/user/${data.ma_nguoi_dung}`
+    );
+
+    const userData = await userResponse.json();
+
+    if (userData.success) {
+        document.getElementById("accountCreatedAt").textContent =
+            userData.ngay_tao;
+    }
+
+        // Xóa nội dung ô đăng nhập
+    document.getElementById("loginUsername").value = "";
+    document.getElementById("loginPassword").value = "";
+
+    // Đóng modal sau khi đăng nhập
+    accountModal.style.display = "none";
+
+} else {
+    alert(data.message);
+}
+
+} catch (error) {
+    console.error("Lỗi đăng nhập:", error);
+    alert("Không thể kết nối đến máy chủ!");
+}
+});
+// =========================
+// OPEN / CLOSE MODAL
+// =========================
+
+accountButton.addEventListener("click", async () => {
+
+    const userId = localStorage.getItem("ma_nguoi_dung");
+
+    // =========================
+    // CHƯA ĐĂNG NHẬP
+    // =========================
+    if (!userId) {
+
+        loginSection.style.display = "block";
+        registerSection.style.display = "none";
+        accountInfoSection.style.display = "none";
+
+        accountModal.style.display = "flex";
+
+        return;
+    }
+
+    // =========================
+    // ĐÃ ĐĂNG NHẬP
+    // =========================
+
+    loginSection.style.display = "none";
+    registerSection.style.display = "none";
+    accountInfoSection.style.display = "block";
+
+    accountModal.style.display = "flex";
+
+    try {
+
+        const response = await fetch(`/user/${userId}`);
+        const data = await response.json();
+
+        if (data.success) {
+
+            document.getElementById("accountUsername").textContent =
+                data.ten_dang_nhap;
+
+            document.getElementById("accountCreatedAt").textContent =
+                data.ngay_tao;
+
+        }
+
+    } catch (error) {
+
+        console.error("Lỗi lấy thông tin tài khoản:", error);
+
+    }
+
+});
+
+closeAccount.addEventListener("click", () => {
+    accountModal.style.display = "none";
+});
+
+
+// =========================
+// CHUYỂN ĐĂNG NHẬP / ĐĂNG KÝ
+// =========================
+
+showRegister.addEventListener("click", () => {
+    loginSection.style.display = "none";
+    registerSection.style.display = "block";
+});
+
+showLogin.addEventListener("click", () => {
+    registerSection.style.display = "none";
+    loginSection.style.display = "block";
+});
         const form = document.getElementById("predictionForm");
         const button = document.getElementById("predictButton");
         const errorMessage = document.getElementById("errorMessage");
@@ -728,11 +1924,18 @@
                 if (!response.ok) throw new Error("API trả về lỗi " + response.status);
 
                 const data = await response.json();
-                const classId = Number(data.class_id);
 
-                if (!Number.isInteger(classId) || !speciesInfo[classId]) {
-                    throw new Error("Kết quả từ mô hình không hợp lệ.");
-                }
+if (!data.success) {
+    errorMessage.textContent = data.message || "Vui lòng đăng nhập trước khi dự đoán.";
+    errorMessage.style.display = "block";
+    return;
+}
+
+const classId = Number(data.class_id);
+
+if (!Number.isInteger(classId) || !speciesInfo[classId]) {
+    throw new Error("Kết quả từ mô hình không hợp lệ.");
+}
 
                 updateResultUI(classId, sepalLength, sepalWidth, petalLength, petalWidth);
                 document.querySelector(".result-card").scrollIntoView({ behavior: "smooth", block: "center" });

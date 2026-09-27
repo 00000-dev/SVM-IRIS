@@ -3,3 +3,7 @@ uvicorn[standard]
 scikit-learn
 joblib
 pydantic
+sqlalchemy
+passlib[bcrypt]
+python-jose[cryptography]
+python-multipart
