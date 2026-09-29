@@ -387,7 +387,7 @@ def register(data: RegisterInput):
         INSERT INTO nguoi_dung (ten_dang_nhap, mat_khau, ngay_tao )
         VALUES (?, ?)
         """,
-        (data.ten_dang_nhap, data.mat_khau, get_time_vietnam()) 
+        (data.ten_dang_nhap, data.mat_khau, get_vietnam_time()) 
     )
 
     conn.commit()
