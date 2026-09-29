@@ -385,7 +385,7 @@ def register(data: RegisterInput):
     cursor.execute(
         """
         INSERT INTO nguoi_dung (ten_dang_nhap, mat_khau, ngay_tao )
-        VALUES (?, ?)
+        VALUES (?, ?, ?)
         """,
         (data.ten_dang_nhap, data.mat_khau, get_vietnam_time()) 
     )
@@ -441,7 +441,7 @@ def login(data: LoginInput, request: Request):
     cursor.execute(
         """
         INSERT INTO lich_su_dang_nhap (ma_nguoi_dung, thoi_gian_dang_nhap )
-        VALUES (?)
+        VALUES (?,?)
         """,
         (user["ma_nguoi_dung"],
         get_vietnam_time())
