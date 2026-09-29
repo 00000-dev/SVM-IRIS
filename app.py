@@ -8,7 +8,14 @@ import time
 
 from database import get_connection
 from starlette.middleware.sessions import SessionMiddleware 
+from datetime import datetime
+from zoneinfo import ZoneInfo
 
+
+def get_vietnam_time():
+    return datetime.now(
+        ZoneInfo("Asia/Ho_Chi_Minh")
+    ).strftime("%Y-%m-%d %H:%M:%S")
 # =========================
 # 1. ĐƯỜNG DẪN PROJECT
 # =========================
@@ -377,10 +384,10 @@ def register(data: RegisterInput):
     # Thêm người dùng mới
     cursor.execute(
         """
-        INSERT INTO nguoi_dung (ten_dang_nhap, mat_khau)
+        INSERT INTO nguoi_dung (ten_dang_nhap, mat_khau, ngay_tao )
         VALUES (?, ?)
         """,
-        (data.ten_dang_nhap, data.mat_khau)
+        (data.ten_dang_nhap, data.mat_khau, get_time_vietnam()) 
     )
 
     conn.commit()
@@ -433,10 +440,11 @@ def login(data: LoginInput, request: Request):
     # Lưu lịch sử đăng nhập
     cursor.execute(
         """
-        INSERT INTO lich_su_dang_nhap (ma_nguoi_dung)
+        INSERT INTO lich_su_dang_nhap (ma_nguoi_dung, thoi_gian_dang_nhap )
         VALUES (?)
         """,
-        (user["ma_nguoi_dung"],)
+        (user["ma_nguoi_dung"],
+        get_vietnam_time())
     )
 
     conn.commit()
