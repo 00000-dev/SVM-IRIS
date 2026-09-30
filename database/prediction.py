@@ -80,14 +80,17 @@ def get_prediction_history(ma_nguoi_dung):
         INNER JOIN nguoi_dung AS n
             ON l.ma_nguoi_dung = n.ma_nguoi_dung
         WHERE l.ma_nguoi_dung = :ma_nguoi_dung
-          AND l.da_xoa = 0
+          AND l.da_xoa = :da_xoa
         ORDER BY l.thoi_gian_du_doan DESC
     """)
 
     with engine.connect() as connection:
         result = connection.execute(
             sql,
-            {"ma_nguoi_dung": ma_nguoi_dung}
+            {
+                "ma_nguoi_dung": ma_nguoi_dung,
+                "da_xoa": False
+            }
         )
 
         history = []
@@ -134,14 +137,17 @@ def get_deleted_prediction_history(ma_nguoi_dung):
         INNER JOIN nguoi_dung AS n
             ON l.ma_nguoi_dung = n.ma_nguoi_dung
         WHERE l.ma_nguoi_dung = :ma_nguoi_dung
-          AND l.da_xoa = 1
+          AND l.da_xoa = :da_xoa
         ORDER BY l.thoi_gian_du_doan DESC
     """)
 
     with engine.connect() as connection:
         result = connection.execute(
             sql,
-            {"ma_nguoi_dung": ma_nguoi_dung}
+            {
+                "ma_nguoi_dung": ma_nguoi_dung,
+                "da_xoa": True
+            }
         )
 
         history = []
@@ -185,7 +191,7 @@ def get_prediction_by_id(ma_du_doan, ma_nguoi_dung):
         FROM lich_su_du_doan
         WHERE ma_du_doan = :ma_du_doan
           AND ma_nguoi_dung = :ma_nguoi_dung
-          AND da_xoa = 0
+          AND da_xoa = :da_xoa
     """)
 
     with engine.connect() as connection:
@@ -193,7 +199,8 @@ def get_prediction_by_id(ma_du_doan, ma_nguoi_dung):
             sql,
             {
                 "ma_du_doan": ma_du_doan,
-                "ma_nguoi_dung": ma_nguoi_dung
+                "ma_nguoi_dung": ma_nguoi_dung,
+                "da_xoa": False
             }
         ).fetchone()
 
@@ -221,10 +228,10 @@ def get_prediction_by_id(ma_du_doan, ma_nguoi_dung):
 def soft_delete_prediction_history(ma_du_doan, ma_nguoi_dung):
     sql = text("""
         UPDATE lich_su_du_doan
-        SET da_xoa = 1
+        SET da_xoa = :da_xoa
         WHERE ma_du_doan = :ma_du_doan
           AND ma_nguoi_dung = :ma_nguoi_dung
-          AND da_xoa = 0
+          AND da_xoa = :da_xoa_hien_tai
     """)
 
     with engine.begin() as connection:
@@ -232,7 +239,9 @@ def soft_delete_prediction_history(ma_du_doan, ma_nguoi_dung):
             sql,
             {
                 "ma_du_doan": ma_du_doan,
-                "ma_nguoi_dung": ma_nguoi_dung
+                "ma_nguoi_dung": ma_nguoi_dung,
+                "da_xoa": True,
+                "da_xoa_hien_tai": False
             }
         )
 
@@ -246,10 +255,10 @@ def soft_delete_prediction_history(ma_du_doan, ma_nguoi_dung):
 def restore_prediction_history(ma_du_doan, ma_nguoi_dung):
     sql = text("""
         UPDATE lich_su_du_doan
-        SET da_xoa = 0
+        SET da_xoa = :da_xoa
         WHERE ma_du_doan = :ma_du_doan
           AND ma_nguoi_dung = :ma_nguoi_dung
-          AND da_xoa = 1
+          AND da_xoa = :da_xoa_hien_tai
     """)
 
     with engine.begin() as connection:
@@ -257,7 +266,9 @@ def restore_prediction_history(ma_du_doan, ma_nguoi_dung):
             sql,
             {
                 "ma_du_doan": ma_du_doan,
-                "ma_nguoi_dung": ma_nguoi_dung
+                "ma_nguoi_dung": ma_nguoi_dung,
+                "da_xoa": False,
+                "da_xoa_hien_tai": True
             }
         )
 
@@ -265,7 +276,7 @@ def restore_prediction_history(ma_du_doan, ma_nguoi_dung):
 
 
 # =========================================================
-# 7. XÓA VĨNH VIỄN
+# 7. XÓA VĨNH VIỄN 1 LỊCH SỬ
 # =========================================================
 
 def permanently_delete_prediction_history(ma_du_doan, ma_nguoi_dung):
@@ -273,7 +284,7 @@ def permanently_delete_prediction_history(ma_du_doan, ma_nguoi_dung):
         DELETE FROM lich_su_du_doan
         WHERE ma_du_doan = :ma_du_doan
           AND ma_nguoi_dung = :ma_nguoi_dung
-          AND da_xoa = 1
+          AND da_xoa = :da_xoa
     """)
 
     with engine.begin() as connection:
@@ -281,38 +292,32 @@ def permanently_delete_prediction_history(ma_du_doan, ma_nguoi_dung):
             sql,
             {
                 "ma_du_doan": ma_du_doan,
-                "ma_nguoi_dung": ma_nguoi_dung
+                "ma_nguoi_dung": ma_nguoi_dung,
+                "da_xoa": True
             }
         )
 
         return result.rowcount > 0
+
+
+# =========================================================
+# 8. XÓA VĨNH VIỄN TOÀN BỘ THÙNG RÁC
+# =========================================================
+
 def permanently_delete_all_prediction_history(ma_nguoi_dung):
     sql = text("""
         DELETE FROM lich_su_du_doan
         WHERE ma_nguoi_dung = :ma_nguoi_dung
-          AND da_xoa = 1
+          AND da_xoa = :da_xoa
     """)
 
     with engine.begin() as connection:
         result = connection.execute(
             sql,
             {
-                "ma_nguoi_dung": ma_nguoi_dung
+                "ma_nguoi_dung": ma_nguoi_dung,
+                "da_xoa": True
             }
-        )
-
-        return result.rowcount
-def permanently_delete_all_prediction_history(ma_nguoi_dung):
-    sql = text("""
-        DELETE FROM lich_su_du_doan
-        WHERE ma_nguoi_dung = :ma_nguoi_dung
-          AND da_xoa = 1
-    """)
-
-    with engine.begin() as connection:
-        result = connection.execute(
-            sql,
-            {"ma_nguoi_dung": ma_nguoi_dung}
         )
 
         return result.rowcount
