@@ -1760,7 +1760,7 @@ async function deletePredictionHistory(event, id) {
 
         const response =
             await fetch(
-                `/model-history/${id}/delete`,
+                `/prediction-history/${id}/delete`,
                 {
                     method: "PATCH"
                 }
@@ -1805,7 +1805,7 @@ async function loadTrash() {
     try {
 
         const response =
-            await fetch("/model-history/trash");
+            await fetch("/prediction-history/trash");
 
         const data =
             await response.json();
@@ -1948,7 +1948,7 @@ async function restorePredictionHistory(id) {
 
         const response =
             await fetch(
-                `/model-history/${id}/restore`,
+                `/prediction-history/${id}/restore`,
                 {
                     method: "PATCH"
                 }
@@ -2003,7 +2003,7 @@ async function permanentlyDeletePrediction(id) {
 
         const response =
             await fetch(
-                `/model-history/${id}`,
+                `/prediction-history/${id}`,
                 {
                     method: "DELETE"
                 }
@@ -2105,7 +2105,7 @@ document
         try {
 
             const response = await fetch(
-                "/model-history/trash",
+                "/prediction-history/trash",
                 {
                     method: "DELETE"
                 }
@@ -2161,7 +2161,7 @@ async function openPredictionHistory(id) {
 
         const response =
             await fetch(
-                `/model-history/${id}`
+                `/prediction-history/${id}`
             );
 
         const data =

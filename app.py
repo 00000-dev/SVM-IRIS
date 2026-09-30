@@ -247,7 +247,6 @@ def save_model_history(data: SaveModelHistoryInput):
 # =========================================================
 # LỊCH SỬ DỰ ĐOÁN
 # =========================================================
-
 @app.get("/prediction-history")
 def prediction_history(request: Request):
     ma_nguoi_dung = request.session.get("ma_nguoi_dung")
@@ -264,14 +263,14 @@ def prediction_history(request: Request):
         "success": True,
         "history": history
     }
-print(">>> ĐÃ ĐĂNG KÝ ROUTE PREDICTION HISTORY")
+
 
 # =========================================================
 # THÙNG RÁC
 # =========================================================
 
-@app.get("/model-history/trash")
-def model_history_trash(request: Request):
+@app.get("/prediction-history/trash")
+def prediction_history_trash(request: Request):
     ma_nguoi_dung = request.session.get("ma_nguoi_dung")
 
     if ma_nguoi_dung is None:
@@ -287,9 +286,11 @@ def model_history_trash(request: Request):
         "history": history
     }
 
-@app.delete("/model-history/trash")
-async def permanently_delete_all_history(request: Request):
 
+@app.delete("/prediction-history/trash")
+async def permanently_delete_all_prediction_history_route(
+    request: Request
+):
     ma_nguoi_dung = request.session.get("ma_nguoi_dung")
 
     if ma_nguoi_dung is None:
@@ -323,28 +324,14 @@ async def permanently_delete_all_history(request: Request):
             "success": False,
             "message": f"Lỗi: {str(e)}"
         }
+
+
 # =========================================================
-@app.get("/model-history/trash")
-def model_history_trash(request: Request):
-    ma_nguoi_dung = request.session.get("ma_nguoi_dung")
-
-    if not ma_nguoi_dung:
-        return {
-            "success": False,
-            "message": "Bạn chưa đăng nhập!"
-        }
-
-    history = get_deleted_prediction_history(ma_nguoi_dung)
-
-    return {
-        "success": True,
-        "history": history
-    }
 # LẤY 1 LỊCH SỬ
 # =========================================================
 
-@app.get("/model-history/{ma_du_doan}")
-def get_one_model_history(
+@app.get("/prediction-history/{ma_du_doan}")
+def get_one_prediction_history(
     ma_du_doan: int,
     request: Request
 ):
@@ -377,7 +364,7 @@ def get_one_model_history(
 # XÓA VÀO THÙNG RÁC
 # =========================================================
 
-@app.patch("/model-history/{ma_du_doan}/delete")
+@app.patch("/prediction-history/{ma_du_doan}/delete")
 def delete_model_history(
     ma_du_doan: int,
     request: Request
@@ -409,7 +396,7 @@ def delete_model_history(
 # KHÔI PHỤC
 # =========================================================
 
-@app.patch("/model-history/{ma_du_doan}/restore")
+@app.patch("/prediction-history/{ma_du_doan}/restore")
 def restore_model_history(
     ma_du_doan: int,
     request: Request
@@ -441,7 +428,7 @@ def restore_model_history(
 # XÓA VĨNH VIỄN
 # =========================================================
 
-@app.delete("/model-history/{ma_du_doan}")
+@app.delete("/prediction-history/{ma_du_doan}")
 def permanently_delete_model_history(
     ma_du_doan: int,
     request: Request
