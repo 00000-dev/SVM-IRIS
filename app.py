@@ -6,11 +6,39 @@ from pydantic import BaseModel
 import joblib
 import time
 
-from database import get_connection
-from starlette.middleware.sessions import SessionMiddleware 
+from database.user import (
+    username_exists,
+    create_user,
+    check_login,
+    get_user_by_id
+)
+
+from database.history import (
+    create_login_history,
+    get_login_history
+)
+
+from database.prediction import (
+    create_prediction_history,
+    get_prediction_history,
+    get_deleted_prediction_history,
+    get_prediction_by_id,
+    soft_delete_prediction_history,
+    restore_prediction_history,
+    permanently_delete_prediction_history,
+    permanently_delete_all_prediction_history
+)
+from database.model import (
+    get_model_evaluations
+)
+
+from database.model_history import (
+    create_model_history,
+    get_model_history
+)
+from starlette.middleware.sessions import SessionMiddleware
 from datetime import datetime
 from zoneinfo import ZoneInfo
-
 
 def get_vietnam_time():
     return datetime.now(
@@ -46,7 +74,11 @@ app = FastAPI(
     description="SVM model for the Iris dataset",
     version="1.0.0",
 )
-
+print("ROUTE DELETE TRASH:", any(
+    route.path == "/model-history/trash"
+    and "DELETE" in route.methods
+    for route in app.routes
+))
 app.add_middleware(
     SessionMiddleware,
     secret_key="iris-botanica-secret-key"
@@ -78,6 +110,8 @@ class PredictModelInput(BaseModel):
     sepal_width: float
     petal_length: float
     petal_width: float
+class SaveModelHistoryInput(BaseModel):
+    model_name: str
 # =========================
 # =========================
 # 6. INPUT ĐĂNG KÝ
@@ -138,23 +172,7 @@ def about_page():
 @app.get("/model-evaluation")
 def get_model_evaluation():
 
-    conn = get_connection()
-    cursor = conn.cursor()
-
-    results = cursor.execute("""
-        SELECT
-            ten_mo_hinh,
-            accuracy,
-            precision,
-            recall,
-            f1_score,
-            thoi_gian_huan_luyen,
-            thoi_gian_du_doan
-        FROM ket_qua_mo_hinh
-        ORDER BY ma_mo_hinh
-    """).fetchall()
-
-    conn.close()
+    results = get_model_evaluations()
 
     return {
         "success": True,
@@ -171,6 +189,8 @@ def get_model_evaluation():
             for row in results
         ]
     }
+
+
 # =========================
 # TRANG ĐÁNH GIÁ MÔ HÌNH
 # =========================
@@ -178,6 +198,259 @@ def get_model_evaluation():
 @app.get("/model-evaluation-page")
 def model_evaluation_page():
     return FileResponse(BASE_DIR / "model-evaluation.html")
+
+
+# =========================
+@app.get("/model-history-page")
+def model_history_page():
+    return FileResponse(BASE_DIR / "model-history.html")
+
+@app.post("/model-history")
+def save_model_history(data: SaveModelHistoryInput):
+
+    results = get_model_evaluations()
+
+    selected_model = None
+
+    for item in results:
+        if item["ten_mo_hinh"] == data.model_name:
+            selected_model = item
+            break
+
+    if selected_model is None:
+        return {
+            "success": False,
+            "message": "Không tìm thấy mô hình cần lưu!"
+        }
+
+    success = create_model_history(
+        ma_mo_hinh=selected_model["ma_mo_hinh"],
+        accuracy=selected_model["accuracy"],
+        precision=selected_model["precision"],
+        recall=selected_model["recall"],
+        f1_score=selected_model["f1_score"],
+        thoi_gian_huan_luyen=selected_model["thoi_gian_huan_luyen"],
+        thoi_gian_du_doan=selected_model["thoi_gian_du_doan"]
+    )
+
+    if not success:
+        return {
+            "success": False,
+            "message": "Không thể lưu lịch sử mô hình!"
+        }
+
+    return {
+        "success": True,
+        "message": f"Đã lưu kết quả {data.model_name} vào lịch sử mô hình!",
+        "ten_mo_hinh": data.model_name
+    }
+# =========================================================
+# LỊCH SỬ DỰ ĐOÁN
+# =========================================================
+
+@app.get("/model-history")
+def model_history(request: Request):
+    ma_nguoi_dung = request.session.get("ma_nguoi_dung")
+
+    if ma_nguoi_dung is None:
+        return {
+            "success": False,
+            "message": "Vui lòng đăng nhập để xem lịch sử dự đoán!"
+        }
+
+    history = get_prediction_history(ma_nguoi_dung)
+
+    return {
+        "success": True,
+        "history": history
+    }
+
+
+# =========================================================
+# THÙNG RÁC
+# =========================================================
+
+@app.get("/model-history/trash")
+def model_history_trash(request: Request):
+    ma_nguoi_dung = request.session.get("ma_nguoi_dung")
+
+    if ma_nguoi_dung is None:
+        return {
+            "success": False,
+            "message": "Vui lòng đăng nhập!"
+        }
+
+    history = get_deleted_prediction_history(ma_nguoi_dung)
+
+    return {
+        "success": True,
+        "history": history
+    }
+
+@app.delete("/model-history/trash")
+async def permanently_delete_all_history(request: Request):
+
+    ma_nguoi_dung = request.session.get("ma_nguoi_dung")
+
+    if ma_nguoi_dung is None:
+        return {
+            "success": False,
+            "message": "Bạn chưa đăng nhập!"
+        }
+
+    try:
+
+        deleted_count = permanently_delete_all_prediction_history(
+            ma_nguoi_dung
+        )
+
+        print(
+            f"Đã xóa vĩnh viễn {deleted_count} bản ghi "
+            f"của user {ma_nguoi_dung}"
+        )
+
+        return {
+            "success": True,
+            "message": f"Đã xóa vĩnh viễn {deleted_count} bản ghi.",
+            "deleted_count": deleted_count
+        }
+
+    except Exception as e:
+
+        print("LỖI XÓA TẤT CẢ:", repr(e))
+
+        return {
+            "success": False,
+            "message": f"Lỗi: {str(e)}"
+        }
+# =========================================================
+# LẤY 1 LỊCH SỬ
+# =========================================================
+
+@app.get("/model-history/{ma_du_doan}")
+def get_one_model_history(
+    ma_du_doan: int,
+    request: Request
+):
+    ma_nguoi_dung = request.session.get("ma_nguoi_dung")
+
+    if ma_nguoi_dung is None:
+        return {
+            "success": False,
+            "message": "Vui lòng đăng nhập!"
+        }
+
+    history = get_prediction_by_id(
+        ma_du_doan,
+        ma_nguoi_dung
+    )
+
+    if history is None:
+        return {
+            "success": False,
+            "message": "Không tìm thấy lịch sử dự đoán!"
+        }
+
+    return {
+        "success": True,
+        "history": history
+    }
+
+
+# =========================================================
+# XÓA VÀO THÙNG RÁC
+# =========================================================
+
+@app.patch("/model-history/{ma_du_doan}/delete")
+def delete_model_history(
+    ma_du_doan: int,
+    request: Request
+):
+    ma_nguoi_dung = request.session.get("ma_nguoi_dung")
+
+    if ma_nguoi_dung is None:
+        return {
+            "success": False,
+            "message": "Vui lòng đăng nhập!"
+        }
+
+    success = soft_delete_prediction_history(
+        ma_du_doan,
+        ma_nguoi_dung
+    )
+
+    return {
+        "success": success,
+        "message": (
+            "Đã chuyển vào thùng rác!"
+            if success
+            else "Không tìm thấy lịch sử!"
+        )
+    }
+
+
+# =========================================================
+# KHÔI PHỤC
+# =========================================================
+
+@app.patch("/model-history/{ma_du_doan}/restore")
+def restore_model_history(
+    ma_du_doan: int,
+    request: Request
+):
+    ma_nguoi_dung = request.session.get("ma_nguoi_dung")
+
+    if ma_nguoi_dung is None:
+        return {
+            "success": False,
+            "message": "Vui lòng đăng nhập!"
+        }
+
+    success = restore_prediction_history(
+        ma_du_doan,
+        ma_nguoi_dung
+    )
+
+    return {
+        "success": success,
+        "message": (
+            "Đã khôi phục lịch sử!"
+            if success
+            else "Không tìm thấy lịch sử trong thùng rác!"
+        )
+    }
+
+
+# =========================================================
+# XÓA VĨNH VIỄN
+# =========================================================
+
+@app.delete("/model-history/{ma_du_doan}")
+def permanently_delete_model_history(
+    ma_du_doan: int,
+    request: Request
+):
+    ma_nguoi_dung = request.session.get("ma_nguoi_dung")
+
+    if ma_nguoi_dung is None:
+        return {
+            "success": False,
+            "message": "Vui lòng đăng nhập!"
+        }
+
+    success = permanently_delete_prediction_history(
+        ma_du_doan,
+        ma_nguoi_dung
+    )
+
+    return {
+        "success": success,
+        "message": (
+            "Đã xóa vĩnh viễn!"
+            if success
+            else "Không tìm thấy lịch sử!"
+        )
+    }
 # 11. HEALTH CHECK
 # =========================
 
@@ -189,12 +462,11 @@ def health():
 # =========================
 # 12. DỰ ĐOÁN
 # =========================
+
 @app.post("/predict")
 def predict(data: IrisInput, request: Request):
 
-    # =========================
     # 1. Kiểm tra người dùng
-    # =========================
     ma_nguoi_dung = request.session.get("ma_nguoi_dung")
 
     if ma_nguoi_dung is None:
@@ -203,19 +475,15 @@ def predict(data: IrisInput, request: Request):
             "message": "Vui lòng đăng nhập trước khi dự đoán!"
         }
 
-    # =========================
     # 2. Chuẩn bị dữ liệu
-    # =========================
     features = [[
         data.sepal_length,
         data.sepal_width,
         data.petal_length,
-        data.petal_width,
+        data.petal_width
     ]]
 
-    # =========================
     # 3. Chạy mô hình + đo thời gian
-    # =========================
     start_time = time.perf_counter()
 
     prediction = int(model.predict(features)[0])
@@ -224,44 +492,19 @@ def predict(data: IrisInput, request: Request):
 
     execution_time = end_time - start_time
 
-    # =========================
-    # 4. Lưu lịch sử dự đoán
-    # =========================
-    conn = get_connection()
-    cursor = conn.cursor()
-
-    cursor.execute(
-        """
-        INSERT INTO lich_su_du_doan (
-            ma_nguoi_dung,
-            sepal_length,
-            sepal_width,
-            petal_length,
-            petal_width,
-            ket_qua,
-            ten_mo_hinh,
-            thoi_gian_chay
-        )
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-        """,
-        (
-            ma_nguoi_dung,
-            data.sepal_length,
-            data.sepal_width,
-            data.petal_length,
-            data.petal_width,
-            prediction,
-            "SVM",
-            execution_time
-        )
+    # 4. Lưu lịch sử dự đoán vào SQL Server
+    create_prediction_history(
+        ma_nguoi_dung=ma_nguoi_dung,
+        sepal_length=data.sepal_length,
+        sepal_width=data.sepal_width,
+        petal_length=data.petal_length,
+        petal_width=data.petal_width,
+        ket_qua=prediction,
+        ten_mo_hinh="SVM",
+        thoi_gian_chay=execution_time
     )
 
-    conn.commit()
-    conn.close()
-
-    # =========================
     # 5. Trả kết quả về website
-    # =========================
     return {
         "success": True,
         "class_id": prediction,
@@ -269,11 +512,23 @@ def predict(data: IrisInput, request: Request):
         "model": "SVM",
         "execution_time": execution_time
     }
-@app.post("/predict-model")
-def predict_model(data: PredictModelInput, request: Request):
+# =========================
+# 12.1. API DỰ ĐOÁN THEO MÔ HÌNH
+# =========================
 
-    # 1. Kiểm tra đăng nhập
-    ma_nguoi_dung = request.session.get("ma_nguoi_dung")
+@app.post("/predict-model")
+def predict_model(
+    data: PredictModelInput,
+    request: Request
+):
+
+    # =========================
+    # 1. KIỂM TRA ĐĂNG NHẬP
+    # =========================
+
+    ma_nguoi_dung = request.session.get(
+        "ma_nguoi_dung"
+    )
 
     if ma_nguoi_dung is None:
         return {
@@ -281,7 +536,10 @@ def predict_model(data: PredictModelInput, request: Request):
             "message": "Vui lòng đăng nhập trước khi dự đoán!"
         }
 
-    # 2. Chọn mô hình
+    # =========================
+    # 2. CHỌN MÔ HÌNH
+    # =========================
+
     models = {
         "SVM": model,
         "LDA": lda_model,
@@ -296,7 +554,10 @@ def predict_model(data: PredictModelInput, request: Request):
 
     selected_model = models[data.model_name]
 
-    # 3. Chuẩn bị dữ liệu đầu vào
+    # =========================
+    # 3. CHUẨN BỊ DỮ LIỆU
+    # =========================
+
     features = [[
         data.sepal_length,
         data.sepal_width,
@@ -304,49 +565,41 @@ def predict_model(data: PredictModelInput, request: Request):
         data.petal_width
     ]]
 
-    # 4. Đo thời gian dự đoán
+    # =========================
+    # 4. CHẠY MÔ HÌNH
+    # =========================
+
     start_time = time.perf_counter()
 
-    prediction = int(selected_model.predict(features)[0])
+    prediction = int(
+        selected_model.predict(features)[0]
+    )
 
     end_time = time.perf_counter()
 
-    execution_time = end_time - start_time
-
-    # 5. Lưu lịch sử dự đoán vào database
-    conn = get_connection()
-    cursor = conn.cursor()
-
-    cursor.execute(
-        """
-        INSERT INTO lich_su_du_doan (
-            ma_nguoi_dung,
-            sepal_length,
-            sepal_width,
-            petal_length,
-            petal_width,
-            ket_qua,
-            ten_mo_hinh,
-            thoi_gian_chay
-        )
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-        """,
-        (
-            ma_nguoi_dung,
-            data.sepal_length,
-            data.sepal_width,
-            data.petal_length,
-            data.petal_width,
-            prediction,
-            data.model_name,
-            execution_time
-        )
+    execution_time = (
+        end_time - start_time
     )
 
-    conn.commit()
-    conn.close()
+    # =========================
+    # 5. LƯU LỊCH SỬ DỰ ĐOÁN
+    # =========================
 
-    # 6. Trả kết quả về giao diện
+    create_prediction_history(
+        ma_nguoi_dung=ma_nguoi_dung,
+        sepal_length=data.sepal_length,
+        sepal_width=data.sepal_width,
+        petal_length=data.petal_length,
+        petal_width=data.petal_width,
+        ket_qua=prediction,
+        ten_mo_hinh=data.model_name,
+        thoi_gian_chay=execution_time
+    )
+
+    # =========================
+    # 6. TRẢ KẾT QUẢ
+    # =========================
+
     return {
         "success": True,
         "class_id": prediction,
@@ -354,44 +607,25 @@ def predict_model(data: PredictModelInput, request: Request):
         "model": data.model_name,
         "execution_time": execution_time
     }
+# =========================
 # 13. API ĐĂNG KÝ
 # =========================
 
 @app.post("/register")
 def register(data: RegisterInput):
 
-    conn = get_connection()
-    cursor = conn.cursor()
-
-    # Kiểm tra tên đăng nhập đã tồn tại chưa
-    user = cursor.execute(
-        """
-        SELECT ma_nguoi_dung
-        FROM nguoi_dung
-        WHERE ten_dang_nhap = ?
-        """,
-        (data.ten_dang_nhap,)
-    ).fetchone()
-
-    if user:
-        conn.close()
-
+    # Kiểm tra tên đăng nhập
+    if username_exists(data.ten_dang_nhap):
         return {
             "success": False,
             "message": "Tên đăng nhập đã tồn tại!"
         }
 
-    # Thêm người dùng mới
-    cursor.execute(
-        """
-        INSERT INTO nguoi_dung (ten_dang_nhap, mat_khau, ngay_tao )
-        VALUES (?, ?, ?)
-        """,
-        (data.ten_dang_nhap, data.mat_khau, get_vietnam_time()) 
+    # Tạo tài khoản
+    create_user(
+        data.ten_dang_nhap,
+        data.mat_khau
     )
-
-    conn.commit()
-    conn.close()
 
     return {
         "success": True,
@@ -401,34 +635,23 @@ def register(data: RegisterInput):
 # 14. API ĐĂNG NHẬP
 # =========================
 
-
 @app.post("/login")
 def login(data: LoginInput, request: Request):
 
-    conn = get_connection()
-    cursor = conn.cursor()
+    user = check_login(
+        data.ten_dang_nhap,
+        data.mat_khau
+    )
 
-    # Tìm người dùng theo tên đăng nhập
-    user = cursor.execute(
-        """
-        SELECT ma_nguoi_dung, ten_dang_nhap, mat_khau
-        FROM nguoi_dung
-        WHERE ten_dang_nhap = ?
-        """,
-        (data.ten_dang_nhap,)
-    ).fetchone()
-
-    # Không tìm thấy tài khoản
     if user is None:
-        conn.close()
-        return {
-            "success": False,
-            "message": "Tên đăng nhập không tồn tại!"
-        }
 
-    # Kiểm tra mật khẩu
-    if user["mat_khau"] != data.mat_khau:
-        conn.close()
+        # Phân biệt tài khoản không tồn tại
+        if not username_exists(data.ten_dang_nhap):
+            return {
+                "success": False,
+                "message": "Tên đăng nhập không tồn tại!"
+            }
+
         return {
             "success": False,
             "message": "Mật khẩu không đúng!"
@@ -437,18 +660,10 @@ def login(data: LoginInput, request: Request):
     # Lưu người dùng vào Session
     request.session["ma_nguoi_dung"] = user["ma_nguoi_dung"]
 
-    # Lưu lịch sử đăng nhập
-    cursor.execute(
-        """
-        INSERT INTO lich_su_dang_nhap (ma_nguoi_dung, thoi_gian_dang_nhap )
-        VALUES (?,?)
-        """,
-        (user["ma_nguoi_dung"],
-        get_vietnam_time())
+    # Ghi lịch sử đăng nhập
+    create_login_history(
+        user["ma_nguoi_dung"]
     )
-
-    conn.commit()
-    conn.close()
 
     return {
         "success": True,
@@ -456,27 +671,41 @@ def login(data: LoginInput, request: Request):
         "ma_nguoi_dung": user["ma_nguoi_dung"],
         "ten_dang_nhap": user["ten_dang_nhap"]
     }
-
 # =========================
+@app.get("/me")
+def get_current_user(request: Request):
+
+    ma_nguoi_dung = request.session.get("ma_nguoi_dung")
+
+    if ma_nguoi_dung is None:
+        return {
+            "success": False,
+            "message": "Chưa đăng nhập!"
+        }
+
+    user = get_user_by_id(ma_nguoi_dung)
+
+    if user is None:
+        request.session.clear()
+
+        return {
+            "success": False,
+            "message": "Phiên đăng nhập không hợp lệ!"
+        }
+
+    return {
+        "success": True,
+        "ma_nguoi_dung": user["ma_nguoi_dung"],
+        "ten_dang_nhap": user["ten_dang_nhap"],
+        "ngay_tao": user["ngay_tao"]
+    }
 # 15. API KIỂM TRA NGƯỜI DÙNG
 # =========================
 
 @app.get("/user/{ma_nguoi_dung}")
 def get_user(ma_nguoi_dung: int):
 
-    conn = get_connection()
-    cursor = conn.cursor()
-
-    user = cursor.execute(
-        """
-        SELECT ma_nguoi_dung, ten_dang_nhap, ngay_tao
-        FROM nguoi_dung
-        WHERE ma_nguoi_dung = ?
-        """,
-        (ma_nguoi_dung,)
-    ).fetchone()
-    
-    conn.close()
+    user = get_user_by_id(ma_nguoi_dung)
 
     if user is None:
         return {
@@ -495,31 +724,18 @@ def get_user(ma_nguoi_dung: int):
 # =========================
 
 @app.get("/login-history/{ma_nguoi_dung}")
-def get_login_history(ma_nguoi_dung: int):
+def get_login_history_api(ma_nguoi_dung: int):
 
-    conn = get_connection()
-    cursor = conn.cursor()
-
-    history = cursor.execute(
-        """
-        SELECT ma_dang_nhap, thoi_gian_dang_nhap
-        FROM lich_su_dang_nhap
-        WHERE ma_nguoi_dung = ?
-        ORDER BY thoi_gian_dang_nhap DESC
-        """,
-        (ma_nguoi_dung,)
-    ).fetchall()
-
-    conn.close()
+    history = get_login_history(ma_nguoi_dung)
 
     return {
         "success": True,
         "history": [
             {
-                "ma_dang_nhap": row["ma_dang_nhap"],
-                "thoi_gian_dang_nhap": row["thoi_gian_dang_nhap"]
+                "ma_dang_nhap": item["ma_dang_nhap"],
+                "thoi_gian_dang_nhap": item["thoi_gian_dang_nhap"]
             }
-            for row in history
+            for item in history
         ]
     }
 # =========================
@@ -534,4 +750,22 @@ def logout(request: Request):
     return {
         "success": True,
         "message": "Đăng xuất thành công!"
+    }
+
+
+@app.get("/prediction-history")
+def prediction_history(request: Request):
+    ma_nguoi_dung = request.session.get("ma_nguoi_dung")
+
+    if ma_nguoi_dung is None:
+        return {
+            "success": False,
+            "message": "Vui lòng đăng nhập để xem lịch sử dự đoán!"
+        }
+
+    history = get_prediction_history(ma_nguoi_dung)
+
+    return {
+        "success": True,
+        "history": history
     }

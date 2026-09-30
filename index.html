@@ -1448,8 +1448,46 @@
 </footer>
 
 
+
+
+
 <script>
     document.addEventListener("DOMContentLoaded", () => {
+
+    loadSpeciesFromURL();
+
+    checkLoginStatus();
+
+});
+async function checkLoginStatus() {
+
+    try {
+
+        const response = await fetch("/me");
+        const data = await response.json();
+
+        if (data.success) {
+
+            // Hiển thị tên người dùng trên nút tài khoản
+            accountButton.textContent = data.ten_dang_nhap;
+
+        } else {
+
+            // Chưa đăng nhập
+            accountButton.textContent = "ĐĂNG NHẬP";
+
+        }
+
+    } catch (error) {
+
+        console.error(
+            "Không thể kiểm tra trạng thái đăng nhập:",
+            error
+        );
+
+        accountButton.textContent = "ĐĂNG NHẬP";
+    }
+}
         // =========================
 // ACCOUNT ELEMENTS
 // =========================
@@ -1484,32 +1522,34 @@ const loginHistoryList =
 // =========================
 // XEM LỊCH SỬ ĐĂNG NHẬP
 // =========================
-
 loginHistoryButton.addEventListener("click", async () => {
 
-    const userId = localStorage.getItem("ma_nguoi_dung");
-
-    if (!userId) {
-        alert("Bạn chưa đăng nhập!");
-        return;
-    }
-
-    // Hiện khu vực lịch sử
-    loginHistorySection.style.display = "block";
-
-    loginHistoryList.innerHTML = "Đang tải lịch sử...";
-
     try {
+
+        const meResponse = await fetch("/me");
+        const meData = await meResponse.json();
+
+        if (!meData.success) {
+            alert("Bạn chưa đăng nhập!");
+            return;
+        }
+
+        const userId = meData.ma_nguoi_dung;
+
+        // Hiện khu vực lịch sử
+        loginHistorySection.style.display = "block";
+        loginHistoryList.innerHTML = "Đang tải lịch sử...";
 
         const response = await fetch(
             `/login-history/${userId}`
         );
 
-       if (!response.ok) {
+        if (!response.ok) {
             throw new Error("API lịch sử đăng nhập lỗi");
         }
 
         const data = await response.json();
+
         if (!data.success || data.history.length === 0) {
 
             loginHistoryList.innerHTML =
@@ -1529,7 +1569,7 @@ loginHistoryButton.addEventListener("click", async () => {
             historyItem.innerHTML = `
                 <strong>Lần đăng nhập ${index + 1}</strong>
                 <br>
-                <span> ${item.thoi_gian_dang_nhap}</span>
+                <span>${item.thoi_gian_dang_nhap}</span>
             `;
 
             loginHistoryList.appendChild(historyItem);
@@ -1564,9 +1604,7 @@ logoutButton.addEventListener("click", async () => {
 
         if (data.success) {
 
-            // Xóa thông tin đăng nhập trên trình duyệt
-            localStorage.removeItem("ma_nguoi_dung");
-            localStorage.removeItem("ten_dang_nhap");
+            
 
             // Đóng popup tài khoản
             accountModal.style.display = "none";
@@ -1697,9 +1735,6 @@ loginButton.addEventListener("click", async () => {
     // Đổi nút tài khoản thành tên người dùng
     accountButton.textContent = data.ten_dang_nhap;
 
-    // Lưu thông tin đăng nhập trên trình duyệt
-    localStorage.setItem("ma_nguoi_dung", data.ma_nguoi_dung);
-    localStorage.setItem("ten_dang_nhap", data.ten_dang_nhap);
 
     // Ẩn form đăng nhập
     loginSection.style.display = "none";
@@ -1748,50 +1783,49 @@ loginButton.addEventListener("click", async () => {
 
 accountButton.addEventListener("click", async () => {
 
-    const userId = localStorage.getItem("ma_nguoi_dung");
+    try {
 
-    // =========================
-    // CHƯA ĐĂNG NHẬP
-    // =========================
-    if (!userId) {
+        const meResponse = await fetch("/me");
+        const meData = await meResponse.json();
 
-        loginSection.style.display = "block";
+        // =========================
+        // CHƯA ĐĂNG NHẬP
+        // =========================
+        if (!meData.success) {
+
+            loginSection.style.display = "block";
+            registerSection.style.display = "none";
+            accountInfoSection.style.display = "none";
+
+            accountModal.style.display = "flex";
+
+            return;
+        }
+
+        // =========================
+        // ĐÃ ĐĂNG NHẬP
+        // =========================
+
+        loginSection.style.display = "none";
         registerSection.style.display = "none";
-        accountInfoSection.style.display = "none";
+        accountInfoSection.style.display = "block";
 
         accountModal.style.display = "flex";
 
-        return;
-    }
+        document.getElementById("accountUsername").textContent =
+            meData.ten_dang_nhap;
 
-    // =========================
-    // ĐÃ ĐĂNG NHẬP
-    // =========================
-
-    loginSection.style.display = "none";
-    registerSection.style.display = "none";
-    accountInfoSection.style.display = "block";
-
-    accountModal.style.display = "flex";
-
-    try {
-
-        const response = await fetch(`/user/${userId}`);
-        const data = await response.json();
-
-        if (data.success) {
-
-            document.getElementById("accountUsername").textContent =
-                data.ten_dang_nhap;
-
-            document.getElementById("accountCreatedAt").textContent =
-                data.ngay_tao;
-
-        }
+        document.getElementById("accountCreatedAt").textContent =
+            meData.ngay_tao;
 
     } catch (error) {
 
-        console.error("Lỗi lấy thông tin tài khoản:", error);
+        console.error(
+            "Lỗi kiểm tra trạng thái đăng nhập:",
+            error
+        );
+
+        alert("Không thể kết nối đến máy chủ!");
 
     }
 
@@ -1950,7 +1984,6 @@ if (!Number.isInteger(classId) || !speciesInfo[classId]) {
             }
         });
 
-        loadSpeciesFromURL();
     });
 </script>
 

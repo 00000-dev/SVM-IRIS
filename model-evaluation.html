@@ -154,6 +154,24 @@ nav a.active::after {
     color: white;
 }
 
+#historyButton {
+    border: 1px solid var(--gold);
+    background: transparent;
+    color: var(--gold);
+    padding: 9px 16px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: .3s;
+}
+
+#historyButton:hover {
+    background: var(--gold);
+    color: white;
+}
+
 /* =========================
    HERO
 ========================= */
@@ -811,7 +829,9 @@ footer {
             Các mô hình dự đoán
         </a>
 
-        
+        <button id="historyButton" type="button">
+                Lịch sử mô hình
+        </button>
 
     </nav>
 
@@ -1372,6 +1392,9 @@ footer {
 
 
 <script>
+    document.getElementById("historyButton").addEventListener("click", function () {
+    window.location.href = "/model-history-page";
+});
 
 const state = {
     models: [],
@@ -1581,77 +1604,94 @@ $('predictButton').addEventListener(
     'click',
     async () => {
 
-        const userId =
-            localStorage.getItem('ma_nguoi_dung');
-
-
-        if (!userId) {
-
-            alert(
-                'Vui lòng đăng nhập trước khi dự đoán!'
-            );
-
-            return;
-
-        }
-
-
-        const payload = {
-
-            model_name: state.selected,
-
-            sepal_length:
-                Number($('sepal_length').value),
-
-            sepal_width:
-                Number($('sepal_width').value),
-
-            petal_length:
-                Number($('petal_length').value),
-
-            petal_width:
-                Number($('petal_width').value)
-
-        };
-
-
-        if (
-            Object
-                .values(payload)
-                .slice(1)
-                .some(v => !Number.isFinite(v))
-        ) {
-
-            alert(
-                'Vui lòng nhập đầy đủ 4 thông số hợp lệ.'
-            );
-
-            return;
-
-        }
-
-
-        const btn = $('predictButton');
-
-        btn.disabled = true;
-
-        btn.textContent =
-            'ĐANG XỬ LÝ...';
-
-
-        $('resultPlaceholder').style.display =
-            'none';
-
-        $('resultContent')
-            .classList
-            .remove('show');
-
-        $('loader')
-            .classList
-            .add('show');
-
+        // =========================
+        // 1. KIỂM TRA ĐĂNG NHẬP
+        // =========================
 
         try {
+
+            const meResponse = await fetch('/me');
+            const meData = await meResponse.json();
+
+            if (!meData.success) {
+
+                alert(
+                    'Vui lòng đăng nhập trước khi dự đoán!'
+                );
+
+                return;
+            }
+
+
+            // =========================
+            // 2. TẠO DỮ LIỆU DỰ ĐOÁN
+            // =========================
+
+            const payload = {
+
+                model_name: state.selected,
+
+                sepal_length:
+                    Number($('sepal_length').value),
+
+                sepal_width:
+                    Number($('sepal_width').value),
+
+                petal_length:
+                    Number($('petal_length').value),
+
+                petal_width:
+                    Number($('petal_width').value)
+
+            };
+
+
+            // =========================
+            // 3. KIỂM TRA DỮ LIỆU
+            // =========================
+
+            if (
+                Object
+                    .values(payload)
+                    .slice(1)
+                    .some(v => !Number.isFinite(v))
+            ) {
+
+                alert(
+                    'Vui lòng nhập đầy đủ 4 thông số hợp lệ.'
+                );
+
+                return;
+            }
+
+
+            // =========================
+            // 4. HIỂN THỊ TRẠNG THÁI
+            // =========================
+
+            const btn = $('predictButton');
+
+            btn.disabled = true;
+
+            btn.textContent =
+                'ĐANG XỬ LÝ...';
+
+
+            $('resultPlaceholder').style.display =
+                'none';
+
+            $('resultContent')
+                .classList
+                .remove('show');
+
+            $('loader')
+                .classList
+                .add('show');
+
+
+            // =========================
+            // 5. GỌI API
+            // =========================
 
             const res = await fetch(
                 '/predict-model',
@@ -1672,6 +1712,10 @@ $('predictButton').addEventListener(
             const data = await res.json();
 
 
+            // =========================
+            // 6. KIỂM TRA KẾT QUẢ API
+            // =========================
+
             if (!data.success) {
 
                 throw new Error(
@@ -1681,6 +1725,10 @@ $('predictButton').addEventListener(
 
             }
 
+
+            // =========================
+            // 7. LẤY THÔNG TIN LOÀI HOA
+            // =========================
 
             const s =
                 species[
@@ -1696,6 +1744,10 @@ $('predictButton').addEventListener(
 
             }
 
+
+            // =========================
+            // 8. HIỂN THỊ KẾT QUẢ
+            // =========================
 
             $('resultImage').src =
                 s.image;
@@ -1716,6 +1768,10 @@ $('predictButton').addEventListener(
                 );
 
 
+            // =========================
+            // 9. HIỂN THỊ CARD KẾT QUẢ
+            // =========================
+
             $('loader')
                 .classList
                 .remove('show');
@@ -1727,6 +1783,11 @@ $('predictButton').addEventListener(
         }
 
         catch (e) {
+
+            console.error(
+                'Lỗi dự đoán:',
+                e
+            );
 
             $('loader')
                 .classList
@@ -1745,6 +1806,9 @@ $('predictButton').addEventListener(
         }
 
         finally {
+
+            const btn =
+                $('predictButton');
 
             btn.disabled = false;
 

@@ -3,6 +3,7 @@ __pycache__/
 *.exe
 *.zip
 *.pdf
+
 archive/
 database.sqlite
-HHWHW
+iris_database.db
