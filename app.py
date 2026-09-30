@@ -68,9 +68,8 @@ knn_model = joblib.load(KNN_MODEL_PATH)
 # =========================
 # 3. FASTAPI APP
 # =========================
-
 app = FastAPI(
-    title="Iris Classification API",
+    title="IRIS BOTANICA TEST 123",
     description="SVM model for the Iris dataset",
     version="1.0.0",
 )
@@ -245,17 +244,18 @@ def save_model_history(data: SaveModelHistoryInput):
         "ten_mo_hinh": data.model_name
     }
 # =========================================================
+# =========================================================
 # LỊCH SỬ DỰ ĐOÁN
 # =========================================================
 
-@app.get("/model-history")
-def model_history(request: Request):
+@app.get("/prediction-history")
+def prediction_history(request: Request):
     ma_nguoi_dung = request.session.get("ma_nguoi_dung")
 
-    if ma_nguoi_dung is None:
+    if not ma_nguoi_dung:
         return {
             "success": False,
-            "message": "Vui lòng đăng nhập để xem lịch sử dự đoán!"
+            "message": "Bạn chưa đăng nhập!"
         }
 
     history = get_prediction_history(ma_nguoi_dung)
@@ -264,7 +264,7 @@ def model_history(request: Request):
         "success": True,
         "history": history
     }
-
+print(">>> ĐÃ ĐĂNG KÝ ROUTE PREDICTION HISTORY")
 
 # =========================================================
 # THÙNG RÁC
@@ -324,6 +324,22 @@ async def permanently_delete_all_history(request: Request):
             "message": f"Lỗi: {str(e)}"
         }
 # =========================================================
+@app.get("/model-history/trash")
+def model_history_trash(request: Request):
+    ma_nguoi_dung = request.session.get("ma_nguoi_dung")
+
+    if not ma_nguoi_dung:
+        return {
+            "success": False,
+            "message": "Bạn chưa đăng nhập!"
+        }
+
+    history = get_deleted_prediction_history(ma_nguoi_dung)
+
+    return {
+        "success": True,
+        "history": history
+    }
 # LẤY 1 LỊCH SỬ
 # =========================================================
 
@@ -740,6 +756,8 @@ def get_login_history_api(ma_nguoi_dung: int):
     }
 # =========================
 # 17. API ĐĂNG XUẤT
+## =========================
+# 17. API ĐĂNG XUẤT
 # =========================
 
 @app.post("/logout")
@@ -753,19 +771,12 @@ def logout(request: Request):
     }
 
 
-@app.get("/prediction-history")
-def prediction_history(request: Request):
-    ma_nguoi_dung = request.session.get("ma_nguoi_dung")
+# =========================
+# KIỂM TRA ROUTE
+# =========================
 
-    if ma_nguoi_dung is None:
-        return {
-            "success": False,
-            "message": "Vui lòng đăng nhập để xem lịch sử dự đoán!"
-        }
+print("\n=== KIỂM TRA ROUTE ===")
 
-    history = get_prediction_history(ma_nguoi_dung)
-
-    return {
-        "success": True,
-        "history": history
-    }
+for route in app.routes:
+    if "history" in route.path:
+        print(route.methods, route.path)

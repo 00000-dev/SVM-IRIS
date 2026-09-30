@@ -1457,6 +1457,8 @@
     loadSpeciesFromURL();
 
     checkLoginStatus();
+    
+    loadHistoryPrediction();
 
 });
 async function checkLoginStatus() {
@@ -1916,6 +1918,105 @@ showLogin.addEventListener("click", () => {
                 }
             }
         }
+        // =========================
+// MỞ LẠI DỰ ĐOÁN TỪ LỊCH SỬ
+// =========================
+
+function loadHistoryPrediction() {
+
+    const savedHistory =
+        sessionStorage.getItem("historyPrediction");
+
+    if (!savedHistory) {
+        return;
+    }
+
+    try {
+
+        const history =
+            JSON.parse(savedHistory);
+
+        // =========================
+        // ĐIỀN LẠI 4 THÔNG SỐ
+        // =========================
+
+        sepalLengthInput.value =
+            history.sepal_length ?? "";
+
+        sepalWidthInput.value =
+            history.sepal_width ?? "";
+
+        petalLengthInput.value =
+            history.petal_length ?? "";
+
+        petalWidthInput.value =
+            history.petal_width ?? "";
+
+
+        // =========================
+        // HIỂN THỊ LẠI KẾT QUẢ CŨ
+        // =========================
+
+        const classId =
+            Number(history.ket_qua);
+
+        if (
+            Number.isInteger(classId) &&
+            speciesInfo[classId]
+        ) {
+
+            updateResultUI(
+                classId,
+                history.sepal_length,
+                history.sepal_width,
+                history.petal_length,
+                history.petal_width
+            );
+
+        }
+
+
+        // =========================
+        // CUỘN ĐẾN KẾT QUẢ
+        // =========================
+
+        const resultCard =
+            document.querySelector(".result-card");
+
+        if (resultCard) {
+
+            resultCard.scrollIntoView({
+                behavior: "smooth",
+                block: "center"
+            });
+
+        }
+
+
+        // =========================
+        // XÓA DỮ LIỆU TẠM
+        // =========================
+
+        sessionStorage.removeItem(
+            "historyPrediction"
+        );
+
+        } catch (error) {
+
+        console.error(
+            "Không thể mở lại dự đoán từ lịch sử:",
+            error
+        );
+
+        sessionStorage.removeItem(
+            "historyPrediction"
+        );
+
+    }
+}
+        
+
+        
 
         form.addEventListener("submit", async (event) => {
             event.preventDefault();
@@ -1984,7 +2085,7 @@ if (!Number.isInteger(classId) || !speciesInfo[classId]) {
             }
         });
 
-    });
+
 </script>
 
 </body>
