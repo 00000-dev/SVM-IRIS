@@ -19,7 +19,7 @@ def get_model_evaluations():
         FROM mo_hinh AS m
         INNER JOIN ket_qua_mo_hinh AS k
             ON m.ma_mo_hinh = k.ma_mo_hinh
-        WHERE m.trang_thai = 1
+        WHERE m.trang_thai = TRUE
         ORDER BY m.ma_mo_hinh
     """)
 
