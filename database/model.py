@@ -1,3 +1,4 @@
+
 from sqlalchemy import text
 from database.connection import engine
 
@@ -19,12 +20,20 @@ def get_model_evaluations():
         FROM mo_hinh AS m
         INNER JOIN ket_qua_mo_hinh AS k
             ON m.ma_mo_hinh = k.ma_mo_hinh
-        WHERE m.trang_thai = TRUE
+        WHERE m.trang_thai = :trang_thai
+          AND k.ma_ket_qua = (
+              SELECT MAX(k2.ma_ket_qua)
+              FROM ket_qua_mo_hinh AS k2
+              WHERE k2.ma_mo_hinh = m.ma_mo_hinh
+          )
         ORDER BY m.ma_mo_hinh
     """)
 
     with engine.connect() as connection:
-        result = connection.execute(sql)
+        result = connection.execute(
+            sql,
+            {"trang_thai": True}
+        )
 
         models = []
 
