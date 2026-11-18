@@ -5,7 +5,9 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 import joblib
 import time
-
+import math
+from sklearn import datasets
+from sklearn.base import clone
 from database.user import (
     username_exists,
     create_user,
@@ -54,16 +56,25 @@ HTML_PATH = BASE_DIR / "index.html"
 IMAGES_PATH = BASE_DIR / "images"
 
 
-# =========================
-# 2. LOAD MODEL SVM
+# 2. LOAD CÁC MÔ HÌNH
 # =========================
 
-model = joblib.load(MODEL_PATH)
-LDA_MODEL_PATH = BASE_DIR / "lda_model.pkl"
-KNN_MODEL_PATH = BASE_DIR / "knn_model.pkl"
+model = joblib.load(BASE_DIR / "svm_model.pkl")  # SVM Linear
 
-lda_model = joblib.load(LDA_MODEL_PATH)
-knn_model = joblib.load(KNN_MODEL_PATH)
+svm_rbf_model = joblib.load(BASE_DIR / "svm_rbf_model.pkl")
+svm_poly_model = joblib.load(BASE_DIR / "svm_poly_model.pkl")
+svm_sigmoid_model = joblib.load(BASE_DIR / "svm_sigmoid_model.pkl")
+
+lda_model = joblib.load(BASE_DIR / "lda_model.pkl")
+knn_model = joblib.load(BASE_DIR / "knn_model.pkl")
+# =========================
+# DỮ LIỆU HUẤN LUYỆN SVM TÙY CHỈNH
+# =========================
+
+iris_data = datasets.load_iris()
+
+X_IRIS = iris_data.data
+y_IRIS = iris_data.target
 
 # =========================
 # 3. FASTAPI APP
@@ -103,12 +114,20 @@ class IrisInput(BaseModel):
     petal_length: float
     petal_width: float
 
+
 class PredictModelInput(BaseModel):
     model_name: str
     sepal_length: float
     sepal_width: float
     petal_length: float
     petal_width: float
+
+    # Tham số tùy chỉnh cho SVM
+    C: float = 1.0
+    gamma: str = "scale"
+    degree: int = 3
+
+    
 class SaveModelHistoryInput(BaseModel):
     model_name: str
 # =========================
@@ -519,19 +538,20 @@ def predict(data: IrisInput, request: Request):
 # 12.1. API DỰ ĐOÁN THEO MÔ HÌNH
 # =========================
 
+
+# =========================================================
+# API DỰ ĐOÁN THEO 6 MÔ HÌNH
+# HỖ TRỢ TÙY CHỈNH THAM SỐ SVM
+# =========================================================
+
 @app.post("/predict-model")
 def predict_model(
     data: PredictModelInput,
     request: Request
 ):
 
-    # =========================
     # 1. KIỂM TRA ĐĂNG NHẬP
-    # =========================
-
-    ma_nguoi_dung = request.session.get(
-        "ma_nguoi_dung"
-    )
+    ma_nguoi_dung = request.session.get("ma_nguoi_dung")
 
     if ma_nguoi_dung is None:
         return {
@@ -539,12 +559,12 @@ def predict_model(
             "message": "Vui lòng đăng nhập trước khi dự đoán!"
         }
 
-    # =========================
-    # 2. CHỌN MÔ HÌNH
-    # =========================
-
+    # 2. KIỂM TRA TÊN MÔ HÌNH
     models = {
         "SVM": model,
+        "SVM_RBF": svm_rbf_model,
+        "SVM_POLY": svm_poly_model,
+        "SVM_SIGMOID": svm_sigmoid_model,
         "LDA": lda_model,
         "KNN": knn_model
     }
@@ -557,10 +577,7 @@ def predict_model(
 
     selected_model = models[data.model_name]
 
-    # =========================
-    # 3. CHUẨN BỊ DỮ LIỆU
-    # =========================
-
+    # 3. CHUẨN BỊ DỮ LIỆU ĐẦU VÀO
     features = [[
         data.sepal_length,
         data.sepal_width,
@@ -568,26 +585,93 @@ def predict_model(
         data.petal_width
     ]]
 
-    # =========================
-    # 4. CHẠY MÔ HÌNH
-    # =========================
+    # 4. XỬ LÝ THAM SỐ SVM
+    parameters = {}
 
+    if data.model_name.startswith("SVM"):
+
+        C = data.C if data.C is not None else 1.0
+        gamma = data.gamma or "scale"
+        degree = data.degree if data.degree is not None else 3
+
+        # Kiểm tra C
+        if not math.isfinite(C) or C <= 0:
+            return {
+                "success": False,
+                "message": "Tham số C phải là số lớn hơn 0!"
+            }
+
+        # Kiểm tra Gamma
+        if gamma not in ["scale", "auto"]:
+            return {
+                "success": False,
+                "message": "Gamma chỉ được chọn scale hoặc auto!"
+            }
+
+        # Kiểm tra Degree
+        if not isinstance(degree, int) or not 1 <= degree <= 10:
+            return {
+                "success": False,
+                "message": "Degree phải là số nguyên từ 1 đến 10!"
+            }
+
+        # Tạo bản sao Pipeline, không làm thay đổi model gốc
+        selected_model = clone(selected_model)
+
+        # Cấu hình tham số cho SVC bên trong Pipeline
+        svm_params = {
+            "classifier__C": C
+        }
+
+        if data.model_name in [
+            "SVM_RBF",
+            "SVM_POLY",
+            "SVM_SIGMOID"
+        ]:
+            svm_params["classifier__gamma"] = gamma
+
+        if data.model_name == "SVM_POLY":
+            svm_params["classifier__degree"] = degree
+
+        selected_model.set_params(**svm_params)
+
+        parameters = {
+            "C": C
+        }
+
+        if data.model_name in [
+            "SVM_RBF",
+            "SVM_POLY",
+            "SVM_SIGMOID"
+        ]:
+            parameters["gamma"] = gamma
+
+        if data.model_name == "SVM_POLY":
+            parameters["degree"] = degree
+
+   
+    # 5. HUẤN LUYỆN VÀ DỰ ĐOÁN
     start_time = time.perf_counter()
+
+    # Chỉ huấn luyện lại khi là SVM
+    # LDA và KNN sử dụng mô hình đã lưu
+    if data.model_name.startswith("SVM"):
+        print("MODEL:", data.model_name)
+        print("PARAMETERS:", parameters)
+
+        selected_model.fit(X_IRIS, y_IRIS)
+
+        print("SVM TRAINING SUCCESS")
 
     prediction = int(
         selected_model.predict(features)[0]
     )
 
     end_time = time.perf_counter()
+    execution_time = end_time - start_time
 
-    execution_time = (
-        end_time - start_time
-    )
 
-    # =========================
-    # 5. LƯU LỊCH SỬ DỰ ĐOÁN
-    # =========================
-
+    # 6. LƯU LỊCH SỬ DỰ ĐOÁN
     create_prediction_history(
         ma_nguoi_dung=ma_nguoi_dung,
         sepal_length=data.sepal_length,
@@ -599,17 +683,17 @@ def predict_model(
         thoi_gian_chay=execution_time
     )
 
-    # =========================
-    # 6. TRẢ KẾT QUẢ
-    # =========================
-
+    # 7. TRẢ KẾT QUẢ
     return {
         "success": True,
         "class_id": prediction,
         "prediction": species[prediction],
         "model": data.model_name,
-        "execution_time": execution_time
+        "model_name": data.model_name,
+        "execution_time": execution_time,
+        "parameters": parameters
     }
+
 # =========================
 # 13. API ĐĂNG KÝ
 # =========================

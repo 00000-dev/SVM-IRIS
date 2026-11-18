@@ -1,23 +1,23 @@
+
 import os
 
 from sqlalchemy import create_engine, text
 from sqlalchemy.engine import URL
 
 
-# =========================
-# 1. KIỂM TRA DATABASE_URL
-# =========================
+# =========================================================
+# 1. LẤY CẤU HÌNH DATABASE
+# =========================================================
 
 DATABASE_URL = os.getenv("DATABASE_URL")
 
 
-# =========================
-# 2. KẾT NỐI DATABASE
-# =========================
+# =========================================================
+# 2. KẾT NỐI POSTGRESQL TRÊN RENDER
+# =========================================================
 
 if DATABASE_URL:
 
-    # Render PostgreSQL
     if DATABASE_URL.startswith("postgres://"):
         DATABASE_URL = DATABASE_URL.replace(
             "postgres://",
@@ -38,9 +38,13 @@ if DATABASE_URL:
         pool_pre_ping=True
     )
 
+
+# =========================================================
+# 3. KẾT NỐI SQL SERVER LOCAL
+# =========================================================
+
 else:
 
-    # SQL Server chạy trên máy local
     server = r"judieeee\SQLEXPRESS"
     database = "IrisBotanicaDB"
 
@@ -62,18 +66,16 @@ else:
     )
 
 
-# =========================
-# 3. KIỂM TRA KẾT NỐI
-# =========================
+# =========================================================
+# 4. KIỂM TRA KẾT NỐI DATABASE
+# =========================================================
 
 def test_connection():
 
     try:
-
         with engine.connect() as connection:
 
             if DATABASE_URL:
-
                 result = connection.execute(
                     text("SELECT current_database()")
                 )
@@ -81,10 +83,8 @@ def test_connection():
                 database_name = result.scalar()
 
                 print("Kết nối PostgreSQL thành công!")
-                print("Database:", database_name)
 
             else:
-
                 result = connection.execute(
                     text("SELECT DB_NAME()")
                 )
@@ -92,10 +92,10 @@ def test_connection():
                 database_name = result.scalar()
 
                 print("Kết nối SQL Server thành công!")
-                print("Database:", database_name)
+
+            print("Database:", database_name)
 
     except Exception as e:
-
         print("Kết nối Database thất bại!")
         print("Lỗi:", e)
 
