@@ -1,23 +1,37 @@
+
+
 from pathlib import Path
-from fastapi import FastAPI, Request
+import os
+import time
+import math
+import traceback
+import joblib
+
+from fastapi import FastAPI, Request, HTTPException
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
-import joblib
-import time
-import math
+
 from sklearn import datasets
 from sklearn.base import clone
+
+from starlette.middleware.sessions import SessionMiddleware
+from datetime import datetime
+from zoneinfo import ZoneInfo
+
 from database.user import (
     username_exists,
     create_user,
     check_login,
-    get_user_by_id
+    get_user_by_id,
+    get_all_users,
+    update_user_status
 )
 
 from database.history import (
     create_login_history,
-    get_login_history
+    get_login_history,
+    get_all_login_history
 )
 
 from database.prediction import (
@@ -28,19 +42,18 @@ from database.prediction import (
     soft_delete_prediction_history,
     restore_prediction_history,
     permanently_delete_prediction_history,
-    permanently_delete_all_prediction_history
+    permanently_delete_all_prediction_history,
+    get_all_prediction_history,
+    get_prediction_statistics
 )
-from database.model import (
-    get_model_evaluations
-)
+
+from database.model import get_model_evaluations
 
 from database.model_history import (
     create_model_history,
     get_model_history
 )
-from starlette.middleware.sessions import SessionMiddleware
-from datetime import datetime
-from zoneinfo import ZoneInfo
+
 
 def get_vietnam_time():
     return datetime.now(
@@ -91,7 +104,13 @@ print("ROUTE DELETE TRASH:", any(
 ))
 app.add_middleware(
     SessionMiddleware,
-    secret_key="iris-botanica-secret-key"
+    secret_key=os.getenv(
+        "SESSION_SECRET_KEY",
+        "iris-botanica-secret-key-change-this"
+    ),
+    session_cookie="iris_session",
+    same_site="lax",
+    https_only=os.getenv("RENDER", "").lower() == "true"
 )
 # =========================
 # 4. THƯ MỤC HÌNH ẢNH
@@ -697,101 +716,174 @@ def predict_model(
 # =========================
 # 13. API ĐĂNG KÝ
 # =========================
+# =========================
+# 13. API ĐĂNG KÝ
+# =========================
 
 @app.post("/register")
 def register(data: RegisterInput):
+    try:
+        username = data.ten_dang_nhap.strip()
+        password = data.mat_khau
 
-    # Kiểm tra tên đăng nhập
-    if username_exists(data.ten_dang_nhap):
+        if not username or not password:
+            return {
+                "success": False,
+                "message": "Vui lòng nhập đầy đủ tên đăng nhập và mật khẩu!"
+            }
+
+        if username_exists(username):
+            return {
+                "success": False,
+                "message": "Tên đăng nhập đã tồn tại! Vui lòng đăng nhập."
+            }
+
+        create_user(username, password)
+
         return {
-            "success": False,
-            "message": "Tên đăng nhập đã tồn tại!"
+            "success": True,
+            "message": "Đăng ký tài khoản thành công!"
         }
 
-    # Tạo tài khoản
-    create_user(
-        data.ten_dang_nhap,
-        data.mat_khau
-    )
+    except Exception as e:
+        print("REGISTER ERROR:", repr(e))
+        traceback.print_exc()
 
-    return {
-        "success": True,
-        "message": "Đăng ký tài khoản thành công!"
-    }
+        return {
+            "success": False,
+            "message": "Không thể đăng ký tài khoản. Vui lòng thử lại!"
+        }
+
 # =========================
 # 14. API ĐĂNG NHẬP
 # =========================
 
 @app.post("/login")
 def login(data: LoginInput, request: Request):
+    try:
+        username = data.ten_dang_nhap.strip()
 
-    user = check_login(
-        data.ten_dang_nhap,
-        data.mat_khau
-    )
+        user = check_login(username, data.mat_khau)
 
-    if user is None:
-
-        # Phân biệt tài khoản không tồn tại
-        if not username_exists(data.ten_dang_nhap):
+        if user is None:
             return {
                 "success": False,
-                "message": "Tên đăng nhập không tồn tại!"
+                "message": "Tên đăng nhập hoặc mật khẩu không đúng!"
             }
+
+        request.session["ma_nguoi_dung"] = user["ma_nguoi_dung"]
+
+        create_login_history(user["ma_nguoi_dung"])
+
+        return {
+            "success": True,
+            "message": "Đăng nhập thành công!",
+            "user": {
+                "ma_nguoi_dung": user["ma_nguoi_dung"],
+                "ten_dang_nhap": user["ten_dang_nhap"],
+                "vai_tro": user["vai_tro"]
+            }
+        }
+
+    except Exception as e:
+        print("LOGIN ERROR:", repr(e))
+        traceback.print_exc()
 
         return {
             "success": False,
-            "message": "Mật khẩu không đúng!"
+            "message": "Không thể đăng nhập. Vui lòng thử lại!"
         }
 
-    # Lưu người dùng vào Session
-    request.session["ma_nguoi_dung"] = user["ma_nguoi_dung"]
 
-    # Ghi lịch sử đăng nhập
-    create_login_history(
-        user["ma_nguoi_dung"]
-    )
-
-    return {
-        "success": True,
-        "message": "Đăng nhập thành công!",
-        "ma_nguoi_dung": user["ma_nguoi_dung"],
-        "ten_dang_nhap": user["ten_dang_nhap"]
-    }
+# =========================
+# 15. API KIỂM TRA SESSION
 # =========================
 @app.get("/me")
 def get_current_user(request: Request):
+    try:
+        # Lấy mã người dùng từ session
+        ma_nguoi_dung = request.session.get("ma_nguoi_dung")
 
-    ma_nguoi_dung = request.session.get("ma_nguoi_dung")
+        # Chưa đăng nhập
+        if not ma_nguoi_dung:
+            return {
+                "success": False,
+                "message": "Bạn chưa đăng nhập!",
+                "logged_in": False
+            }
 
-    if ma_nguoi_dung is None:
+        # Lấy thông tin mới nhất từ database
+        user = get_user_by_id(ma_nguoi_dung)
+
+        # Tài khoản không tồn tại hoặc đã bị khóa
+        if user is None or not user["trang_thai"]:
+            request.session.clear()
+
+            return {
+                "success": False,
+                "message": "Tài khoản không tồn tại hoặc đã bị khóa!",
+                "logged_in": False
+            }
+
         return {
-            "success": False,
-            "message": "Chưa đăng nhập!"
+            "success": True,
+            "logged_in": True,
+            "ma_nguoi_dung": user["ma_nguoi_dung"],
+            "ten_dang_nhap": user["ten_dang_nhap"],
+            "ngay_tao": user["ngay_tao"],
+            "vai_tro": user["vai_tro"]
         }
 
-    user = get_user_by_id(ma_nguoi_dung)
-
-    if user is None:
-        request.session.clear()
+    except Exception as e:
+        print("Lỗi kiểm tra session:", e)
 
         return {
             "success": False,
-            "message": "Phiên đăng nhập không hợp lệ!"
+            "message": "Không thể kiểm tra thông tin đăng nhập!",
+            "logged_in": False
         }
 
-    return {
-        "success": True,
-        "ma_nguoi_dung": user["ma_nguoi_dung"],
-        "ten_dang_nhap": user["ten_dang_nhap"],
-        "ngay_tao": user["ngay_tao"]
-    }
+
+
+# =========================
 # 15. API KIỂM TRA NGƯỜI DÙNG
 # =========================
 
 @app.get("/user/{ma_nguoi_dung}")
-def get_user(ma_nguoi_dung: int):
+def get_user(ma_nguoi_dung: int, request: Request):
 
+    current_id = request.session.get("ma_nguoi_dung")
+
+    # Kiểm tra đăng nhập
+    if current_id is None:
+        return {
+            "success": False,
+            "message": "Vui lòng đăng nhập!"
+        }
+
+    # Lấy thông tin người đang đăng nhập từ database
+    current_user = get_user_by_id(current_id)
+
+    if current_user is None or not current_user["trang_thai"]:
+        request.session.clear()
+        return {
+            "success": False,
+            "message": "Tài khoản không tồn tại hoặc đã bị khóa!"
+        }
+
+    # Kiểm tra quyền Admin từ database
+    is_admin = (
+        str(current_user["vai_tro"]).strip().lower() == "admin"
+    )
+
+    # USER chỉ được xem thông tin của chính mình
+    if int(current_id) != ma_nguoi_dung and not is_admin:
+        return {
+            "success": False,
+            "message": "Bạn không có quyền truy cập!"
+        }
+
+    # Lấy thông tin tài khoản cần xem
     user = get_user_by_id(ma_nguoi_dung)
 
     if user is None:
@@ -804,14 +896,44 @@ def get_user(ma_nguoi_dung: int):
         "success": True,
         "ma_nguoi_dung": user["ma_nguoi_dung"],
         "ten_dang_nhap": user["ten_dang_nhap"],
-        "ngay_tao": user["ngay_tao"]
+        "ngay_tao": user["ngay_tao"],
+        "vai_tro": user["vai_tro"]
     }
+
 # =========================
 # 16. API LỊCH SỬ ĐĂNG NHẬP
 # =========================
-
 @app.get("/login-history/{ma_nguoi_dung}")
-def get_login_history_api(ma_nguoi_dung: int):
+def get_login_history_api(
+    ma_nguoi_dung: int,
+    request: Request
+):
+    current_id = request.session.get("ma_nguoi_dung")
+
+    if current_id is None:
+        return {
+            "success": False,
+            "message": "Vui lòng đăng nhập!"
+        }
+
+    current_user = get_user_by_id(current_id)
+
+    if current_user is None or not current_user["trang_thai"]:
+        request.session.clear()
+        return {
+            "success": False,
+            "message": "Tài khoản không tồn tại hoặc đã bị khóa!"
+        }
+
+    is_admin = (
+        str(current_user["vai_tro"]).strip().lower() == "admin"
+    )
+
+    if int(current_id) != ma_nguoi_dung and not is_admin:
+        return {
+            "success": False,
+            "message": "Bạn không có quyền xem lịch sử này!"
+        }
 
     history = get_login_history(ma_nguoi_dung)
 
@@ -820,13 +942,13 @@ def get_login_history_api(ma_nguoi_dung: int):
         "history": [
             {
                 "ma_dang_nhap": item["ma_dang_nhap"],
-                "thoi_gian_dang_nhap": item["thoi_gian_dang_nhap"]
+                "thoi_gian_dang_nhap": str(
+                    item["thoi_gian_dang_nhap"]
+                )
             }
             for item in history
         ]
     }
-# =========================
-# 17. API ĐĂNG XUẤT
 ## =========================
 # 17. API ĐĂNG XUẤT
 # =========================
@@ -841,7 +963,236 @@ def logout(request: Request):
         "message": "Đăng xuất thành công!"
     }
 
+# =========================================================
+# 18. ADMIN - KIỂM TRA QUYỀN
+# =========================================================
 
+def get_admin_user(request: Request):
+    ma_nguoi_dung = request.session.get("ma_nguoi_dung")
+
+    if ma_nguoi_dung is None:
+        return None
+
+    # Luôn kiểm tra quyền mới nhất từ database
+    user = get_user_by_id(ma_nguoi_dung)
+
+    if user is None or not user["trang_thai"]:
+        request.session.clear()
+        return None
+
+    if str(user["vai_tro"]).strip().lower() != "admin":
+        return None
+
+    return user
+
+# =========================================================
+# TRANG ADMIN
+# =========================================================
+@app.get("/admin")
+def admin_page(request: Request):
+    admin = get_admin_user(request)
+
+    if admin is None:
+        raise HTTPException(
+            status_code=403,
+            detail="Bạn không có quyền truy cập trang quản trị!"
+        )
+
+    return FileResponse(BASE_DIR / "admin.html")
+
+
+# =========================================================
+# API TỔNG QUAN ADMIN
+# =========================================================
+
+@app.get("/admin/dashboard")
+def admin_dashboard(request: Request):
+
+    admin = get_admin_user(request)
+
+    if admin is None:
+        return {
+            "success": False,
+            "message": "Bạn không có quyền quản trị!"
+        }
+
+    users = get_all_users()
+    prediction_stats = get_prediction_statistics()
+
+    total_users = len(users)
+
+    active_users = sum(
+        1 for user in users
+        if user["trang_thai"]
+    )
+
+    locked_users = sum(
+        1 for user in users
+        if not user["trang_thai"]
+    )
+
+    admin_count = sum(
+        1 for user in users
+        if str(user["vai_tro"]).lower() == "admin"
+    )
+
+    return {
+        "success": True,
+        "total_users": total_users,
+        "active_users": active_users,
+        "locked_users": locked_users,
+        "admin_count": admin_count,
+        "total_predictions": prediction_stats["tong_luot_du_doan"],
+"users_who_predicted": prediction_stats["so_nguoi_da_du_doan"]
+    }
+
+# =========================================================
+# API DANH SÁCH TÀI KHOẢN
+# =========================================================
+
+@app.get("/admin/users")
+def admin_users(request: Request):
+
+    admin = get_admin_user(request)
+
+    if admin is None:
+        return {
+            "success": False,
+            "message": "Bạn không có quyền truy cập!"
+        }
+
+    users = get_all_users()
+
+    return {
+        "success": True,
+        "users": [
+            {
+                "ma_nguoi_dung": user["ma_nguoi_dung"],
+                "ten_dang_nhap": user["ten_dang_nhap"],
+                "ngay_tao": (
+                    str(user["ngay_tao"])
+                    if user["ngay_tao"] else None
+                ),
+                "trang_thai": bool(user["trang_thai"]),
+                "vai_tro": user["vai_tro"]
+            }
+            for user in users
+        ]
+    }
+
+
+# =========================================================
+# API KHÓA / MỞ KHÓA TÀI KHOẢN
+# =========================================================
+
+@app.patch("/admin/users/{ma_nguoi_dung}/status")
+def admin_update_user_status(
+    ma_nguoi_dung: int,
+    request: Request
+):
+
+    admin = get_admin_user(request)
+
+    if admin is None:
+        return {
+            "success": False,
+            "message": "Bạn không có quyền thực hiện!"
+        }
+
+    target_user = get_user_by_id(ma_nguoi_dung)
+
+    if target_user is None:
+        return {
+            "success": False,
+            "message": "Không tìm thấy tài khoản!"
+        }
+
+    if str(target_user["vai_tro"]).lower() != "user":
+        return {
+            "success": False,
+            "message": "Không thể khóa tài khoản quản trị!"
+        }
+
+    new_status = not bool(target_user["trang_thai"])
+
+    success = update_user_status(
+        ma_nguoi_dung,
+        new_status
+    )
+
+    return {
+        "success": success,
+        "message": (
+            "Đã mở khóa tài khoản!"
+            if new_status
+            else "Đã khóa tài khoản!"
+        ) if success else "Không thể cập nhật tài khoản!"
+    }
+# =========================================================
+# ADMIN - TOÀN BỘ LỊCH SỬ ĐĂNG NHẬP
+# =========================================================
+
+@app.get("/admin/login-history")
+def admin_all_login_history(request: Request):
+
+    admin = get_admin_user(request)
+
+    if admin is None:
+        raise HTTPException(
+            status_code=403,
+            detail="Bạn không có quyền truy cập!"
+        )
+
+    history = get_all_login_history()
+
+    return {
+        "success": True,
+        "history": [
+            {
+                "ma_dang_nhap": item["ma_dang_nhap"],
+                "ma_nguoi_dung": item["ma_nguoi_dung"],
+                "ten_dang_nhap": item["ten_dang_nhap"],
+                "vai_tro": item["vai_tro"],
+                "thoi_gian_dang_nhap": str(
+                    item["thoi_gian_dang_nhap"]
+                )
+            }
+            for item in history
+        ]
+    }
+
+# =========================================================
+# ADMIN - TOÀN BỘ LỊCH SỬ DỰ ĐOÁN
+# =========================================================
+
+@app.get("/admin/prediction-history")
+def admin_all_prediction_history(request: Request):
+
+    admin = get_admin_user(request)
+
+    if admin is None:
+        raise HTTPException(
+            status_code=403,
+            detail="Bạn không có quyền truy cập!"
+        )
+
+    history = get_all_prediction_history()
+
+    return {
+        "success": True,
+        "history": [
+            {
+                **item,
+                "thoi_gian_du_doan": str(
+                    item["thoi_gian_du_doan"]
+                ) if item.get("thoi_gian_du_doan") else None,
+                "thoi_gian_chay": float(
+                    item["thoi_gian_chay"]
+                ) if item.get("thoi_gian_chay") is not None else None
+            }
+            for item in history
+        ]
+    }
 # =========================
 # KIỂM TRA ROUTE
 # =========================

@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -8,1008 +7,1229 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
 <style>
 :root{
-    --cream:#f4ecdf;
-    --paper:#fbf4e9;
-    --paper2:#f1e6d5;
-    --olive:#4a5339;
-    --olive-dark:#333b29;
-    --olive-light:#798064;
-    --gold:#987642;
-    --ink:#171710;
-    --muted:#716b5e;
-    --line:#dfd2bd;
-    --white:#fffaf1;
-    --shadow:0 12px 30px rgba(67,54,35,.11);
+ --cream:#f4ecdf;
+ --paper:#fffaf1;
+ --paper2:#f1e6d5;
+ --olive:#4a5339;
+ --olive-dark:#333b29;
+ --olive-light:#798064;
+ --gold:#987642;
+ --ink:#242319;
+ --muted:#716b5e;
+ --line:#dfd2bd;
+ --purple:#7254bd;
+ --purple-dark:#51399b;
+ --purple-soft:#eee7fb;
+ --green-soft:#dcece1;
+ --shadow:0 10px 28px rgba(67,54,35,.09);
 }
 
 *{box-sizing:border-box}
-
 html{scroll-behavior:smooth}
-
 body{
-    margin:0;
-    color:var(--ink);
-    background:var(--cream);
-    font-family:'Montserrat',sans-serif;
-    overflow-x:hidden;
+ margin:0;
+ background:var(--cream);
+ color:var(--ink);
+ font-family:'Montserrat',sans-serif
 }
-
-button,input{font-family:inherit}
+button,input,select{font:inherit}
 button{cursor:pointer}
-a{text-decoration:none;color:inherit}
-
-h1,h2,h3,.logo-text,.result-name,.result-scientific{
-    font-family:'Cormorant Garamond',serif;
+a{color:inherit;text-decoration:none}
+h1,h2,h3,.brand-name,.result-name{
+ font-family:'Cormorant Garamond',serif
 }
 
 /* HEADER */
 
-header{
-    height:53px;
-    padding:0 3.3%;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    border-bottom:1px solid var(--line);
-    background:rgba(248,241,229,.96);
-    position:sticky;
-    top:0;
-    z-index:50;
-    backdrop-filter:blur(12px);
+.site-header{
+ height:64px;
+ padding:0 4%;
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ gap:20px;
+ background:rgba(248,241,229,.97);
+ border-bottom:1px solid var(--line);
+ position:sticky;
+ top:0;
+ z-index:30;
+ backdrop-filter:blur(12px)
 }
 
-.logo{
-    display:flex;
-    align-items:center;
-    gap:10px;
-    white-space:nowrap;
+.site-brand{
+ display:flex;
+ align-items:center;
+ gap:10px;
+ white-space:nowrap;
+ font-family:'Cormorant Garamond',serif;
+ font-size:21px;
+ font-weight:700;
+ letter-spacing:2px
 }
 
-.logo-flower{
-    color:var(--olive);
-    font-size:31px;
-    line-height:1;
+.site-brand-flower{
+ font-family:Montserrat,sans-serif;
+ color:var(--olive);
+ font-size:29px
 }
 
-.logo-text{
-    font-size:21px;
-    font-weight:700;
-    letter-spacing:2.1px;
+.site-nav{
+ display:flex;
+ align-items:center;
+ gap:clamp(12px,2.6vw,34px)
 }
 
-nav{
-    display:flex;
-    align-items:center;
-    gap:29px;
+.site-nav a{
+ font-size:9px;
+ font-weight:800;
+ letter-spacing:.65px;
+ white-space:nowrap;
+ position:relative
 }
 
-nav a{
-    font-size:10px;
-    font-weight:800;
-    letter-spacing:.8px;
-    text-transform:uppercase;
-    position:relative;
-    white-space:nowrap;
+.site-nav a:hover,
+.site-nav a.active{color:var(--gold)}
+
+.site-nav a.active:after{
+ content:"";
+ position:absolute;
+ left:0;
+ right:0;
+ bottom:-9px;
+ height:2px;
+ background:var(--gold)
 }
 
-nav a:hover,nav a.active{color:var(--gold)}
-
-nav a.active:after{
-    content:"";
-    position:absolute;
-    bottom:-7px;
-    left:0;
-    right:0;
-    height:2px;
-    background:var(--gold);
+.site-nav .site-history{
+ border:1px solid var(--gold);
+ border-radius:30px;
+ padding:9px 17px;
+ color:var(--gold)
 }
+
+.site-nav .site-history:after{display:none}
+
+/* LAYOUT */
+
+.app{
+ min-height:calc(100vh - 64px);
+ display:grid;
+ grid-template-columns:220px minmax(0,1fr)
+}
+
+.sidebar{
+ position:sticky;
+ top:64px;
+ height:calc(100vh - 64px);
+ background:#f8f2e9;
+ border-right:1px solid var(--line);
+ padding:25px 15px 18px;
+ display:flex;
+ flex-direction:column;
+ z-index:5
+}
+
+.sidebar .brand{
+ text-align:center;
+ padding:0 8px 18px;
+ border-bottom:1px solid var(--line)
+}
+
+.brand-flower{
+ font-size:42px;
+ color:var(--olive);
+ line-height:1
+}
+
+.brand-name{
+ font-size:25px;
+ font-weight:700;
+ line-height:1.05;
+ letter-spacing:.7px;
+ margin-top:7px
+}
+
+.brand-tag{
+ font-family:'Cormorant Garamond',serif;
+ font-style:italic;
+ font-size:17px;
+ color:var(--muted);
+ line-height:1.2;
+ margin-top:8px
+}
+
+.side-label{
+ font-size:9px;
+ font-weight:800;
+ letter-spacing:1.5px;
+ color:#95866b;
+ margin:22px 12px 9px
+}
+
+.side-nav{display:grid;gap:5px}
+
+.side-link{
+ display:flex;
+ align-items:center;
+ gap:12px;
+ padding:11px 12px;
+ border-radius:11px;
+ font-size:12px;
+ font-weight:600;
+ color:#484638;
+ transition:.2s
+}
+
+.side-link:hover{background:#eee7da}
+
+.side-link.active{
+ background:linear-gradient(110deg,#7254bd,#8c70ce);
+ color:white;
+ box-shadow:0 6px 15px #7254bd33
+}
+
+.side-icon{
+ width:20px;
+ text-align:center;
+ font-size:17px
+}
+
+.sidebar-bottom{
+ margin-top:auto;
+ padding:13px 12px;
+ background:#f1e9dc;
+ border:1px solid var(--line);
+ border-radius:14px
+}
+
+.sidebar-bottom strong{
+ font-size:11px;
+ display:block
+}
+
+.sidebar-bottom span{
+ font-size:9px;
+ color:var(--muted);
+ display:block;
+ margin-top:5px;
+ line-height:1.5
+}
+
+.main{
+ min-width:0;
+ padding:20px 24px 30px
+}
+
+.topbar{
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ margin-bottom:17px;
+ gap:12px
+}
+
+.breadcrumb{
+ font-size:10px;
+ color:var(--muted);
+ font-weight:700;
+ letter-spacing:1px
+}
+
+.top-actions{display:flex;align-items:center;gap:10px}
 
 .history-button{
-    border:1px solid var(--gold);
-    border-radius:30px;
-    background:transparent;
-    color:var(--gold);
-    padding:9px 22px;
-    font-size:10px;
-    font-weight:800;
-    letter-spacing:.5px;
-    transition:.25s;
+ border:1px solid var(--gold);
+ border-radius:30px;
+ background:transparent;
+ color:var(--gold);
+ padding:9px 17px;
+ font-size:9px;
+ font-weight:800;
+ letter-spacing:.5px
 }
 
 .history-button:hover{
-    background:var(--gold);
-    color:white;
+ background:var(--gold);
+ color:white
 }
 
 /* HERO */
 
 .hero{
-    min-height:265px;
-    display:grid;
-    grid-template-columns: .92fr 1.08fr;
-    position:relative;
-    overflow:hidden;
-    border-bottom:1px solid var(--line);
-    background:
-        radial-gradient(ellipse at 10% 20%,#fff9ee 0%,transparent 48%),
-        linear-gradient(110deg,#f8f0e3,#eee2cf);
+ min-height:205px;
+ display:grid;
+ grid-template-columns:1fr .95fr;
+ overflow:hidden;
+ border-radius:18px;
+ background:linear-gradient(110deg,#f8f0e3,#eee2cf);
+ box-shadow:var(--shadow);
+ margin-bottom:18px
 }
 
 .hero-copy{
-    padding:27px 0 20px 8%;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    position:relative;
-    z-index:2;
+ padding:25px 30px;
+ display:flex;
+ flex-direction:column;
+ justify-content:center;
+ position:relative
 }
 
 .hero-copy:before{
-    content:"";
-    position:absolute;
-    left:5.2%;
-    top:28px;
-    bottom:28px;
-    width:1px;
-    background:var(--olive-light);
+ content:"";
+ position:absolute;
+ left:16px;
+ top:25px;
+ bottom:25px;
+ width:1px;
+ background:var(--olive-light)
 }
 
 .eyebrow{
-    font-size:10px;
-    font-weight:800;
-    letter-spacing:1.6px;
-    color:var(--olive);
-    margin-bottom:10px;
+ font-size:9px;
+ font-weight:800;
+ letter-spacing:1.6px;
+ color:var(--olive);
+ margin-bottom:8px
 }
 
 .hero h1{
-    font-size:49px;
-    line-height:.87;
-    font-weight:500;
-    letter-spacing:-1.6px;
-    margin:0 0 13px;
+ font-size:42px;
+ line-height:.92;
+ font-weight:500;
+ letter-spacing:-1px;
+ margin:0 0 10px
 }
 
 .hero h1 em{
-    color:var(--olive);
-    font-weight:600;
+ color:var(--olive);
+ font-weight:600
 }
 
 .hero-copy p{
-    font-size:10px;
-    line-height:1.7;
-    color:var(--muted);
-    max-width:490px;
-    margin:0 0 13px;
+ font-size:10px;
+ line-height:1.7;
+ color:var(--muted);
+ max-width:480px;
+ margin:0 0 12px
 }
 
 .hero-cta{
-    width:max-content;
-    padding:10px 20px;
-    border-radius:30px;
-    color:white;
-    background:var(--olive-dark);
-    font-size:10px;
-    font-weight:800;
-    letter-spacing:.7px;
-    transition:.25s;
+ width:max-content;
+ padding:9px 17px;
+ border-radius:30px;
+ color:white;
+ background:var(--olive-dark);
+ font-size:9px;
+ font-weight:800;
+ letter-spacing:.5px
 }
-
-.hero-cta:hover{transform:translateY(-2px)}
 
 .hero-art{
-    position:relative;
-    min-height:265px;
-    overflow:hidden;
-    background:
-        linear-gradient(90deg,rgba(244,236,223,.2),transparent 25%),
-        url('/images/VIRGINICA_v2.jpg') center 44%/cover no-repeat;
-    border-radius:170px 0 0 170px;
-    margin:0;
-}
-
-.hero-art:before{
-    content:"";
-    position:absolute;
-    inset:0;
-    background:linear-gradient(90deg,rgba(35,47,24,.1),rgba(29,44,20,.3));
+ position:relative;
+ min-height:205px;
+ background:
+ linear-gradient(90deg,#4a533944,#29391a33),
+ url('/images/VIRGINICA_v2.jpg') center 43%/cover no-repeat;
+ border-radius:130px 0 0 130px
 }
 
 .hero-art:after{
-    content:"";
-    position:absolute;
-    width:370px;
-    height:370px;
-    border:1px solid rgba(255,247,225,.5);
-    border-radius:50%;
-    left:10%;
-    top:-55px;
+ content:"";
+ position:absolute;
+ width:310px;
+ height:310px;
+ border:1px solid #fff8e877;
+ border-radius:50%;
+ left:10%;
+ top:-55px
 }
 
 .hero-ring{
-    position:absolute;
-    width:480px;
-    height:480px;
-    border:1px solid rgba(255,247,225,.28);
-    border-radius:50%;
-    right:-100px;
-    top:-130px;
+ position:absolute;
+ width:390px;
+ height:390px;
+ border:1px solid #fff8e855;
+ border-radius:50%;
+ right:-110px;
+ top:-115px
 }
 
 .hero-label{
-    position:absolute;
-    right:7%;
-    bottom:35px;
-    z-index:2;
-    color:#f9eed7;
-    text-align:center;
+ position:absolute;
+ right:7%;
+ bottom:23px;
+ color:#fff4df;
+ text-align:center;
+ z-index:1
 }
 
 .hero-label strong{
-    display:block;
-    font-family:'Cormorant Garamond',serif;
-    font-size:27px;
-    font-style:italic;
-    font-weight:500;
+ display:block;
+ font-family:'Cormorant Garamond',serif;
+ font-size:23px;
+ font-style:italic;
+ font-weight:500
 }
 
 .hero-label small{
-    font-size:9px;
-    letter-spacing:2px;
+ font-size:8px;
+ letter-spacing:1.7px
 }
 
-/* GENERAL SECTION */
+/* GENERAL */
 
-.section{
-    padding:11px 3.3% 12px;
+.page-loading,
+.error-box{
+ padding:14px 17px;
+ border-radius:12px;
+ background:var(--paper);
+ font-size:11px;
+ margin-bottom:15px
 }
 
-.section-head{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:10px;
+.error-box{
+ display:none;
+ background:#f7e5df;
+ color:#843e32;
+ border:1px solid #e6c4b8
 }
 
-.section-kicker{
-    font-size:10px;
-    font-weight:800;
-    letter-spacing:1.5px;
-    color:#807342;
+.section-heading{
+ display:flex;
+ align-items:end;
+ justify-content:space-between;
+ margin:4px 0 12px;
+ gap:12px
 }
 
-.section h2{
-    font-size:28px;
-    line-height:1;
-    font-weight:600;
-    margin:4px 0 0;
+.kicker{
+ font-size:9px;
+ font-weight:800;
+ letter-spacing:1.5px;
+ color:var(--gold)
+}
+
+.section-heading h2{
+ font-size:27px;
+ line-height:1;
+ margin:4px 0 0;
+ font-weight:600
 }
 
 .section-note{
-    color:var(--muted);
-    font-family:'Cormorant Garamond',serif;
-    font-size:15px;
-    font-style:italic;
-    line-height:1.4;
+ font-family:'Cormorant Garamond',serif;
+ font-style:italic;
+ color:var(--muted);
+ font-size:14px;
+ text-align:right
 }
 
-/* MODEL CARDS */
+/* MODEL SELECTION */
 
-
-/* MODEL CARDS */
-
-.model-grid{
-    display:grid;
-    grid-template-columns:repeat(3,minmax(0,1fr));
-    gap:18px;
+.model-strip{
+ display:flex;
+ gap:8px;
+ flex-wrap:wrap;
+ margin-bottom:16px
 }
 
-.model-card{
-    background:linear-gradient(145deg,#fffaf1,#f2e8d8);
-    border:1px solid var(--line);
-    border-radius:20px;
-    overflow:hidden;
-    position:relative;
-    box-shadow:0 8px 22px rgba(57,47,31,.07);
-    transition:transform .3s,box-shadow .3s,border-color .3s;
-    min-width:0;
+.model-chip{
+ border:1px solid var(--line);
+ background:#fbf6ed;
+ color:#625b4d;
+ border-radius:30px;
+ padding:8px 12px;
+ font-size:9px;
+ font-weight:800;
+ letter-spacing:.3px
 }
 
-.model-card:hover{
-    transform:translateY(-5px);
-    box-shadow:0 15px 30px rgba(57,47,31,.13);
+.model-chip.active{
+ background:var(--purple);
+ border-color:var(--purple);
+ color:white
 }
 
-.model-card.selected{
-    border:2px solid var(--olive);
-    box-shadow:0 10px 28px rgba(62,76,43,.18);
+/* DASHBOARD */
+
+.dashboard{
+ display:grid;
+ grid-template-columns:minmax(300px,.92fr) minmax(360px,1.08fr);
+ gap:14px;
+ align-items:start
 }
 
-.model-image{
-    height:145px;
-    overflow:hidden;
-    position:relative;
-    background:#d8dfc6;
+.left-column,
+.right-column{
+ display:grid;
+ gap:13px;
+ min-width:0
 }
 
-.model-image:after{
-    content:"";
-    position:absolute;
-    inset:0;
-    background:linear-gradient(0deg,rgba(29,39,22,.30),transparent 65%);
-    pointer-events:none;
+.panel{
+ background:var(--paper);
+ border:1px solid #e9dfd0;
+ border-radius:16px;
+ padding:18px;
+ box-shadow:var(--shadow);
+ min-width:0
 }
 
-.model-image img{
-    width:100%;
-    height:100%;
-    display:block;
-    object-fit:cover;
-    transition:transform .5s;
+.panel-title{
+ display:flex;
+ align-items:center;
+ gap:10px;
+ margin:0 0 8px;
+ font-size:21px;
+ font-weight:700;
+ color:#37302a
 }
 
-.model-card:hover .model-image img{
-    transform:scale(1.07);
+.panel-icon{
+ width:30px;
+ height:30px;
+ border-radius:10px;
+ background:var(--purple-soft);
+ display:grid;
+ place-items:center;
+ color:var(--purple);
+ font-size:17px
 }
 
-.model-tag{
-    position:absolute;
-    top:12px;
-    right:12px;
-    z-index:2;
-    background:rgba(255,250,239,.92);
-    border-radius:30px;
-    padding:6px 11px;
-    color:var(--olive-dark);
-    font-size:9px;
-    font-weight:800;
+.panel-subtitle{
+ font-size:10px;
+ color:var(--muted);
+ line-height:1.6;
+ margin:0 0 14px
 }
 
-.selected-tag{
-    display:none;
-    position:absolute;
-    top:12px;
-    left:12px;
-    z-index:3;
-    background:var(--olive);
-    color:white;
-    border-radius:30px;
-    padding:7px 12px;
-    font-size:9px;
-    font-weight:800;
+.selected-model-line{
+ display:flex;
+ align-items:center;
+ gap:8px;
+ margin-left:auto
 }
 
-.model-card.selected .selected-tag{display:block}
-
-.model-body{
-    padding:17px 18px 18px;
+.selected-model-line span{
+ font-size:9px;
+ color:var(--muted)
 }
 
-.model-body h3{
-    font-size:27px;
-    line-height:1;
-    margin:0 0 8px;
-    font-weight:700;
+.selected-model-line strong{
+ font-size:10px;
+ color:var(--purple-dark)
 }
 
-.model-desc{
-    font-size:11px;
-    line-height:1.6;
-    color:var(--muted);
-    min-height:36px;
-    margin-bottom:14px;
-}
-
-.metric-mini{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    padding:9px 0;
-    border-top:1px solid #e4d9c7;
-}
-
-.metric-mini span{
-    font-size:10px;
-    color:var(--muted);
-    font-weight:600;
-}
-
-.metric-mini strong{
-    font-size:13px;
-    color:var(--olive-dark);
-    font-weight:800;
-}
-
-.select-model{
-    width:100%;
-    border:1px solid var(--olive);
-    border-radius:30px;
-    padding:11px;
-    margin-top:10px;
-    background:transparent;
-    color:var(--olive-dark);
-    font-size:10px;
-    font-weight:800;
-    letter-spacing:.7px;
-    transition:.25s;
-}
-
-.select-model:hover,
-.model-card.selected .select-model{
-    background:var(--olive-dark);
-    color:white;
-}
-
-.model-card.selected .select-model:before{
-    content:"✓  ";
-}
-
-/* MODEL SECTION SPACING */
-#models{
-    padding-top:30px;
-    padding-bottom:35px;
-}
-
-#models .section-head{
-    margin-bottom:20px;
-}
-
-
-/* ===== FLOWER RECOGNITION ===== */
-
-/* ===== FLOWER RECOGNITION ===== */
-
-.prediction-section{
-    padding:65px 5%;
-    background:
-        radial-gradient(circle at 0% 0%,rgba(255,255,255,.65),transparent 32%),
-        linear-gradient(135deg,#eee4d4,#f8f1e6 55%,#e9dfce);
-    border-top:1px solid var(--line);
-}
-
-.recognition-heading{
-    text-align:center;
-    margin-bottom:35px;
-}
-
-.recognition-heading .section-kicker{
-    letter-spacing:2.5px;
-}
-
-.recognition-heading h2{
-    font-size:clamp(38px,5vw,57px);
-    font-weight:500;
-    margin:12px 0;
-}
-
-.recognition-heading h2 em{
-    color:var(--olive);
-}
-
-.recognition-heading p{
-    color:var(--muted);
-    font-size:12px;
-    line-height:1.8;
-    max-width:580px;
-    margin:auto;
-}
-
-.prediction-layout{
-    display:grid;
-    grid-template-columns:minmax(300px,.9fr) minmax(380px,1.1fr);
-    gap:24px;
-    max-width:1120px;
-    margin:auto;
-    align-items:stretch;
-}
-
-.predict-form{
-    background:rgba(255,250,241,.94);
-    border:1px solid var(--line);
-    border-radius:24px;
-    padding:27px;
-    box-shadow:var(--shadow);
-}
-
-.form-heading{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:20px;
-}
-
-.form-heading h3{
-    font-size:29px;
-    margin:0;
-}
-
-.form-step{
-    color:var(--gold);
-    font-size:9px;
-    font-weight:800;
-    letter-spacing:1px;
-}
-
-.selected-model{
-    display:flex;
-    align-items:center;
-    gap:13px;
-    background:#ecebdc;
-    border:1px solid #d9dcc8;
-    padding:14px;
-    border-radius:15px;
-    margin-bottom:22px;
-}
-
-.model-dot{
-    width:12px;
-    height:12px;
-    flex-shrink:0;
-    border-radius:50%;
-    background:var(--olive);
-    box-shadow:0 0 0 5px rgba(74,83,57,.12);
-}
-
-.selected-model small{
-    display:block;
-    font-size:9px;
-    letter-spacing:1px;
-    color:var(--muted);
-    font-weight:800;
-    margin-bottom:3px;
-}
-
-.selected-model strong{
-    font-family:'Cormorant Garamond',serif;
-    font-size:24px;
-}
-
-.input-title{
-    font-size:10px;
-    font-weight:800;
-    letter-spacing:1px;
-    color:var(--olive);
-    margin:0 0 13px;
-}
+/* INPUTS */
 
 .input-grid{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:15px;
+ display:grid;
+ grid-template-columns:1fr 1fr;
+ gap:13px 12px
 }
 
 .field label{
-    display:block;
-    font-size:10px;
-    font-weight:700;
-    margin-bottom:7px;
+ display:block;
+ font-size:10px;
+ font-weight:600;
+ margin-bottom:7px;
+ color:#514b40
+}
+
+.field label:before{
+ content:"✿";
+ color:var(--olive-light);
+ margin-right:7px
+}
+
+.field input{
+ width:100%;
+ height:42px;
+ border:1px solid #ded2c5;
+ border-radius:10px;
+ background:#fffdf8;
+ padding:0 12px;
+ color:var(--ink);
+ font-size:13px;
+ outline:none;
+ transition:.2s
+}
+
+.field input:focus{
+ border-color:var(--purple);
+ box-shadow:0 0 0 3px #7254bd18
+}
+
+/* SVM PARAMETERS */
+
+.parameter-box{
+ margin-top:14px;
+ padding:12px;
+ border-radius:11px;
+ background:#f4effb;
+ border:1px solid #e5dcf5
+}
+
+.parameter-heading{
+ font-size:10px;
+ font-weight:800;
+ color:var(--purple-dark);
+ margin-bottom:10px
+}
+
+.parameter-grid{
+ display:grid;
+ grid-template-columns:repeat(3,1fr);
+ gap:9px
+}
+
+.parameter-field label{
+ font-size:9px;
+ color:#625879;
+ display:block;
+ margin-bottom:5px
+}
+
+.parameter-field input,
+.parameter-field select{
+ width:100%;
+ height:34px;
+ border:1px solid #d9cdec;
+ border-radius:8px;
+ background:#fff;
+ padding:0 8px;
+ font-size:10px;
+ color:#40345c
+}
+
+.hidden{display:none!important}
+
+/* PREDICT BUTTON */
+
+.predict-button{
+ width:100%;
+ margin-top:15px;
+ border:0;
+ border-radius:11px;
+ padding:13px;
+ background:linear-gradient(110deg,#6c4cba,#8567cc);
+ color:white;
+ font-size:11px;
+ font-weight:800;
+ letter-spacing:.5px;
+ box-shadow:0 7px 16px #7254bd30
+}
+
+.predict-button:hover{
+ filter:brightness(1.05);
+ transform:translateY(-1px)
+}
+
+.predict-button:disabled{
+ opacity:.6;
+ cursor:wait;
+ transform:none
+}
+
+/* RESULT */
+
+.result-card{
+ background:linear-gradient(115deg,#f0eafa,#e8e0f8);
+ border:1px solid #e4d9f6;
+ border-radius:14px;
+ padding:16px;
+ min-height:160px;
+ display:flex;
+ align-items:center;
+ justify-content:center
+}
+
+.result-placeholder{
+ text-align:center;
+ color:#71668b;
+ font-size:10px;
+ line-height:1.7
+}
+
+.placeholder-flower{
+ display:block;
+ font-size:30px;
+ color:var(--purple);
+ margin-bottom:5px
+}
+
+.result-placeholder strong{
+ display:block;
+ color:#42346c;
+ font-size:13px;
+ margin-bottom:3px
+}
+
+.result-content{
+ display:none;
+ align-items:center;
+ gap:18px;
+ width:100%
+}
+
+.result-content.show{display:flex}
+
+.result-image-wrap{
+ width:112px;
+ height:112px;
+ flex:0 0 112px;
+ border-radius:50%;
+ overflow:hidden;
+ border:5px solid #fffaf5;
+ box-shadow:0 5px 16px #47326b22
+}
+
+.result-image-wrap img{
+ width:100%;
+ height:100%;
+ object-fit:cover
+}
+
+.result-divider{
+ height:95px;
+ width:1px;
+ background:#b9a6e0
+}
+
+.result-text{min-width:0}
+
+.result-text small{
+ font-size:10px;
+ font-weight:700;
+ color:#594a7b
+}
+
+.result-name{
+ font-size:31px;
+ line-height:1;
+ color:#4e3698;
+ margin:4px 0
+}
+
+.result-scientific{
+ font-size:15px;
+ font-style:italic;
+ color:#6b5b8e
+}
+
+.result-meta{
+ display:flex;
+ gap:7px;
+ flex-wrap:wrap;
+ margin-top:10px
+}
+
+.meta-pill{
+ background:#d9eee4;
+ color:#24634d;
+ border-radius:30px;
+ padding:7px 10px;
+ font-size:9px;
+ font-weight:800
+}
+
+.meta-pill.alt{
+ background:#fffaf1;
+ color:#68558d
+}
+
+.loader{
+ display:none;
+ text-align:center;
+ color:#604b91;
+ font-size:10px;
+ padding:15px
+}
+
+.loader.show{display:block}
+
+/* METRICS */
+
+.metric-grid{
+ display:grid;
+ grid-template-columns:repeat(2,1fr);
+ gap:9px;
+ margin-top:12px
+}
+
+.metric-box{
+ background:#fbf6ed;
+ border:1px solid var(--line);
+ border-radius:10px;
+ padding:10px
+}
+
+.metric-box span{
+ display:block;
+ font-size:9px;
+ color:var(--muted);
+ margin-bottom:5px
+}
+
+.metric-box strong{
+ font-size:17px;
+ color:var(--olive-dark)
+}
+
+/* CHART */
+
+.chart-wrap{padding:10px 3px 0}
+
+.chart-title{
+ display:flex;
+ align-items:center;
+ gap:9px;
+ font-size:15px;
+ font-weight:800;
+ color:#44366f;
+ margin-bottom:7px
+}
+
+.chart-title span{
+ font-size:19px;
+ color:var(--purple)
+}
+
+.chart-svg{
+ width:100%;
+ height:auto;
+ min-height:250px;
+ shape-rendering:geometricPrecision;
+ text-rendering:geometricPrecision;
+ display:block
+}
+
+.chart-legend{
+ display:flex;
+ justify-content:center;
+ gap:15px;
+ flex-wrap:wrap;
+ font-size:9px;
+ color:#5f594e;
+ margin-top:5px
+}
+
+.legend-dot{
+ display:inline-block;
+ width:8px;
+ height:8px;
+ border-radius:50%;
+ margin-right:5px
+}
+
+.history-empty{
+ padding:14px;
+ border:1px dashed var(--line);
+ border-radius:10px;
+ color:var(--muted);
+ font-size:10px;
+ line-height:1.6
+}
+
+.toast{
+ position:fixed;
+ right:20px;
+ bottom:20px;
+ z-index:20;
+ background:var(--olive-dark);
+ color:white;
+ border-radius:11px;
+ padding:12px 16px;
+ font-size:10px;
+ box-shadow:var(--shadow);
+ display:none;
+ max-width:320px
+}
+
+.toast.show{display:block}
+
+/* RESPONSIVE */
+
+@media(max-width:1100px){
+ .main{padding:17px}
+ .dashboard{grid-template-columns:1fr}
+ .hero h1{font-size:36px}
+}
+
+@media(max-width:850px){
+ .site-header{
+  height:auto;
+  min-height:62px;
+  flex-wrap:wrap;
+  padding:10px 4%
+ }
+ .site-nav{
+  width:100%;
+  justify-content:space-between;
+  gap:8px;
+  overflow-x:auto;
+  padding:5px 0
+ }
+ .site-nav a{font-size:8px}
+ .app{grid-template-columns:185px minmax(0,1fr)}
+ .sidebar{
+  top:92px;
+  height:calc(100vh - 92px)
+ }
+}
+
+@media(max-width:720px){
+ .app{display:block}
+ .main{padding:13px}
+ .topbar{margin-bottom:12px}
+ .hero{grid-template-columns:1fr}
+ .hero-copy{padding:24px 25px}
+ .hero-art{
+  min-height:130px;
+  border-radius:70px 0 0 0
+ }
+ .hero h1{font-size:35px}
+ .section-heading{
+  align-items:flex-start;
+  flex-direction:column
+ }
+ .section-note{text-align:left}
+ .dashboard{grid-template-columns:1fr}
+ .result-content{gap:10px}
+ .result-image-wrap{
+  width:82px;
+  height:82px;
+  flex-basis:82px
+ }
+ .result-name{font-size:25px}
+}
+
+@media(max-width:600px){
+ .site-header{position:relative}
+ .site-brand{font-size:18px}
+ .site-nav{
+  flex-wrap:wrap;
+  justify-content:flex-start
+ }
+ .site-nav a{font-size:8px}
+ .sidebar{
+  position:relative;
+  top:auto;
+  height:auto
+ }
+ .sidebar .brand{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px
+ }
+ .sidebar .brand-flower{font-size:28px}
+ .sidebar .brand-name{font-size:18px}
+ .sidebar .brand-tag{display:none}
+ .sidebar .side-label{margin:10px 5px 7px}
+ .sidebar .side-nav{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .sidebar .side-link{font-size:10px;padding:9px}
+ .sidebar-bottom{display:none}
+}
+
+@media(max-width:420px){
+ .input-grid{grid-template-columns:1fr}
+ .parameter-grid{grid-template-columns:1fr 1fr}
+ .result-divider{display:none}
+ .result-content{flex-wrap:wrap}
+ .result-text{flex:1}
+ .top-link{display:none}
+}
+
+/* ===== IRIS BOTANICA — LUXURY REFINEMENT ===== */
+
+:root {
+ --cream:#f5f0e7;
+ --paper:#fffdf8;
+ --paper2:#eee7da;
+ --olive:#505a3d;
+ --olive-dark:#343c2b;
+ --olive-light:#81886c;
+ --gold:#a18450;
+ --ink:#29271f;
+ --muted:#817969;
+ --line:#e2d8c8;
+ --purple:#7661a6;
+ --purple-dark:#57447f;
+ --purple-soft:#f0ebf7;
+ --shadow:0 12px 32px rgba(57,48,34,.065);
+}
+
+body {
+ background:
+  radial-gradient(ellipse at 85% 0%,rgba(118,97,166,.055),transparent 34%),
+  var(--cream);
+}
+
+.site-header {
+ background:rgba(250,247,240,.96);
+ border-bottom:1px solid var(--line);
+}
+
+.site-brand {
+ font-size:20px;
+ letter-spacing:2.5px;
+ color:var(--olive-dark);
+}
+
+.site-nav a {
+ font-size:9px;
+ letter-spacing:1px;
+}
+
+.app {
+ grid-template-columns:225px minmax(0,1fr);
+}
+
+.sidebar {
+ background:#f9f5ed;
+ border-right:1px solid var(--line);
+}
+
+.brand-name {
+ font-size:27px;
+ letter-spacing:1.1px;
+}
+
+.brand-tag {
+ color:#89816f;
+}
+
+.side-label {
+ color:var(--gold);
+ letter-spacing:1.8px;
+}
+
+.side-link {
+ border-radius:8px;
+ padding:12px 13px;
+ transition:background .25s,color .25s;
+}
+
+.side-link:hover {
+ background:#eee9df;
+}
+
+.side-link.active {
+ background:var(--olive-dark);
+ color:#fffdf7;
+ box-shadow:0 5px 14px rgba(52,60,43,.13);
+}
+
+.sidebar-bottom {
+ background:#f3eee4;
+ border:1px solid #e7ddcd;
+ border-radius:9px;
+}
+
+.main {
+ padding:25px 28px 36px;
+}
+
+.hero {
+ border-radius:5px;
+ background:linear-gradient(115deg,#f8f2e8,#eee5d6);
+ box-shadow:0 12px 30px rgba(67,54,35,.055);
+}
+
+.hero-copy {
+ padding:32px 36px;
+}
+
+.hero-copy:before {
+ background:var(--gold);
+ opacity:.65;
+}
+
+.hero h1 {
+ font-size:47px;
+ line-height:.98;
+}
+
+.hero h1 em {
+ color:var(--olive);
+}
+
+.hero-cta {
+ border-radius:3px;
+ padding:12px 20px;
+ background:var(--olive-dark);
+ letter-spacing:1px;
+ transition:.25s;
+}
+
+.hero-cta:hover {
+ background:var(--gold);
+ transform:translateY(-2px);
+}
+
+.hero-art {
+ filter:saturate(.78);
+}
+
+.section-heading h2 {
+ font-size:30px;
+}
+
+.kicker {
+ letter-spacing:2px;
+}
+
+.model-chip {
+ border-radius:4px;
+ padding:10px 15px;
+ background:#fbf8f1;
+ border-color:#ded4c4;
+ letter-spacing:1px;
+ transition:.2s;
+}
+
+.model-chip:hover {
+ border-color:var(--olive);
+ color:var(--olive-dark);
+}
+
+.model-chip.active {
+ background:var(--olive-dark);
+ border-color:var(--olive-dark);
+}
+
+.panel {
+ border:1px solid #e7dfd2;
+ border-radius:7px;
+ box-shadow:0 8px 24px rgba(57,48,34,.045);
+ padding:21px;
+}
+
+.panel-title {
+ font-size:24px;
+ color:var(--olive-dark);
+}
+
+.panel-subtitle {
+ color:#827b6e;
+}
+
+.field label {
+ color:#5c574b;
+ letter-spacing:.15px;
+}
+
+.field label:before {
+ content:none;
 }
 
 .field input,
 .parameter-field input,
-.parameter-field select{
-    width:100%;
-    height:43px;
-    padding:8px 12px;
-    border:1px solid var(--line);
-    border-radius:11px;
-    background:#fffdf8;
-    outline:none;
-    font-family:inherit;
-    font-size:12px;
-    color:var(--ink);
-    transition:.2s;
+.parameter-field select {
+ border-radius:5px;
+ border-color:#ded5c7;
+ background:#fffefa;
 }
 
-.field input:focus,
-.parameter-field input:focus,
-.parameter-field select:focus{
-    border-color:var(--olive);
-    box-shadow:0 0 0 3px rgba(74,83,57,.09);
+.field input:focus {
+ border-color:var(--olive-light);
+ box-shadow:0 0 0 3px rgba(80,90,61,.09);
 }
 
-.parameter-box{
-    margin-top:22px;
-    padding:17px;
-    background:#f1eadc;
-    border:1px solid #e1d5c2;
-    border-radius:16px;
+.parameter-box {
+ background:#f3eff7;
+ border:1px solid #e4dced;
+ border-radius:6px;
 }
 
-.parameter-heading{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:13px;
+.parameter-heading {
+ letter-spacing:.8px;
 }
 
-.parameter-heading strong{
-    font-size:10px;
-    letter-spacing:.8px;
-    color:var(--olive-dark);
+.predict-button {
+ border-radius:4px;
+ background:var(--olive-dark);
+ box-shadow:none;
+ letter-spacing:1px;
+ padding:15px;
+ transition:.25s;
 }
 
-.parameter-heading span{
-    font-size:9px;
-    color:var(--muted);
+.predict-button:hover {
+ background:var(--gold);
+ filter:none;
 }
 
-.parameter-grid{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:12px;
+.result-card {
+ background:linear-gradient(120deg,#f3eff7,#eee8f5);
+ border:1px solid #e6ddec;
+ border-radius:6px;
 }
 
-.parameter-field label{
-    display:block;
-    font-size:10px;
-    font-weight:700;
-    margin-bottom:7px;
+.result-image-wrap {
+ border-radius:4px;
+ border:3px solid #fffdf8;
+ box-shadow:0 5px 16px rgba(57,48,34,.1);
 }
 
-.parameter-field small{
-    display:block;
-    font-size:9px;
-    color:var(--muted);
-    line-height:1.5;
-    margin-top:5px;
+.result-name {
+ color:var(--purple-dark);
 }
 
-.parameter-field.hidden{
-    display:none;
+.meta-pill {
+ border-radius:3px;
+ background:#e2eadf;
+ color:#46543b;
 }
 
-.parameter-note{
-    margin-top:12px;
-    font-size:9px;
-    line-height:1.6;
-    color:var(--muted);
+.meta-pill.alt {
+ background:#fffdf8;
+ color:var(--purple-dark);
 }
 
-.input-hint{
-    margin-top:15px;
-    color:var(--muted);
-    font-size:10px;
-    line-height:1.7;
+.chart-title {
+ color:var(--olive-dark);
+ letter-spacing:.2px;
 }
 
-.predict-button{
-    width:100%;
-    margin-top:20px;
-    border:0;
-    border-radius:30px;
-    background:var(--olive-dark);
-    color:white;
-    padding:15px;
-    font-size:10px;
-    font-weight:800;
-    letter-spacing:1px;
-    transition:.25s;
+.chart-legend {
+ color:#70695d;
 }
 
-.predict-button:hover{
-    background:var(--olive);
-    transform:translateY(-2px);
+.page-loading,
+.error-box {
+ border-radius:5px;
 }
 
-.predict-button:disabled{
-    opacity:.6;
-    cursor:wait;
+.toast {
+ border-radius:4px;
+ background:var(--olive-dark);
+ letter-spacing:.2px;
 }
 
-.try-button{
-    width:100%;
-    margin-top:10px;
-    border:1px solid var(--gold);
-    background:transparent;
-    color:var(--ink);
-    border-radius:30px;
-    padding:12px;
-    font-size:10px;
-    font-weight:800;
-    transition:.2s;
+/* Ẩn các biểu tượng trang trí */
+.site-brand-flower,
+.brand-flower,
+.side-icon,
+.panel-icon,
+.placeholder-flower,
+.chart-title span {
+ display:none !important;
 }
 
-.try-button:hover{
-    background:var(--paper2);
+/* Responsive */
+@media(max-width:1100px) {
+ .main {padding:18px;}
 }
 
-/* RESULT CARD */
-
-.result-panel{
-    min-height:540px;
-    border:1px solid var(--line);
-    border-radius:25px;
-    background:#fffaf1;
-    padding:17px;
-    box-shadow:var(--shadow);
-    position:relative;
-    overflow:hidden;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-}
-
-.result-panel:before{
-    content:"";
-    position:absolute;
-    width:290px;
-    height:290px;
-    border:1px solid rgba(145,113,63,.15);
-    border-radius:50%;
-    right:-120px;
-    top:-130px;
-    pointer-events:none;
-}
-
-.result-placeholder{
-    text-align:center;
-    color:var(--muted);
-    padding:45px 20px;
-    font-size:11px;
-    line-height:1.9;
-    position:relative;
-    z-index:1;
-}
-
-.placeholder-flower{
-    display:block;
-    font-size:52px;
-    color:var(--olive);
-    margin-bottom:15px;
-}
-
-.result-placeholder strong{
-    display:block;
-    font-family:'Cormorant Garamond',serif;
-    font-size:35px;
-    font-weight:600;
-    color:var(--ink);
-    margin-bottom:8px;
-}
-
-.result-content{
-    display:none;
-    position:relative;
-    z-index:2;
-}
-
-.result-content.show{
-    display:block;
-}
-
-.result-image-wrap{
-    height:315px;
-    overflow:hidden;
-    border-radius:18px;
-    background:#d5dfc5;
-    position:relative;
-}
-
-.result-image{
-    width:100%;
-    height:100%;
-    object-fit:cover;
-    display:block;
-}
-
-.result-info{
-    padding:20px 10px 10px;
-}
-
-.result-status{
-    display:inline-block;
-    border-radius:30px;
-    padding:7px 12px;
-    background:#e6e6c9;
-    color:var(--olive-dark);
-    font-size:9px;
-    font-weight:800;
-    letter-spacing:.7px;
-}
-
-.result-name{
-    font-size:44px;
-    font-weight:600;
-    line-height:1;
-    margin:12px 0 3px;
-}
-
-.result-scientific{
-    font-size:21px;
-    font-style:italic;
-    color:var(--muted);
-}
-
-.result-meta{
-    display:flex;
-    flex-wrap:wrap;
-    gap:9px;
-    margin-top:17px;
-}
-
-.pill{
-    display:flex;
-    align-items:center;
-    gap:8px;
-    border:1px solid var(--line);
-    background:#fffdf8;
-    border-radius:12px;
-    padding:10px 13px;
-    font-size:10px;
-}
-
-.pill strong{
-    font-size:11px;
-}
-
-.loader{
-    display:none;
-    text-align:center;
-    padding:55px 10px;
-}
-
-.loader.show{
-    display:block;
-}
-
-.loader-flower{
-    display:block;
-    font-size:45px;
-    color:var(--olive);
-    animation:spin 1s linear infinite;
-}
-
-@keyframes spin{
-    to{transform:rotate(360deg)}
-}
-
-/* RESPONSIVE */
-
-@media(max-width:900px){
-    .model-grid{
-        grid-template-columns:repeat(2,minmax(0,1fr));
-    }
-
-    .prediction-layout{
-        grid-template-columns:1fr;
-    }
-
-    .result-panel{
-        min-height:400px;
-    }
-}
-
-@media(max-width:600px){
-    .model-grid{
-        grid-template-columns:1fr;
-        gap:14px;
-    }
-
-    .model-image{
-        height:180px;
-    }
-
-    .prediction-section{
-        padding:40px 4%;
-    }
-
-    .input-grid,
-    .parameter-grid{
-        gap:12px 9px;
-    }
-
-    .predict-form{
-        padding:18px;
-    }
-
-    .result-image-wrap{
-        height:230px;
-    }
-
-    .result-name{
-        font-size:35px;
-    }
-}
-
-
-/* FLOWER COLLECTION BELOW */
-.flower-showcase{
-    padding:55px 5%;
-    background:#e9dfce;
-}
-.flower-showcase-head{
-    text-align:center;
-    margin-bottom:28px;
-}
-.flower-showcase-head h2{
-    font-size:40px;
-    font-weight:500;
-    margin:8px 0;
-}
-.flower-showcase-head p{
-    color:var(--muted);
-    font-size:11px;
-}
-.flower-grid{
-    display:grid;
-    grid-template-columns:repeat(3,minmax(0,1fr));
-    gap:18px;
-    max-width:1100px;
-    margin:auto;
-}
-.flower-card{
-    background:var(--paper);
-    border:1px solid var(--line);
-    border-radius:19px;
-    overflow:hidden;
-    box-shadow:0 8px 20px rgba(57,47,31,.07);
-}
-.flower-card img{
-    width:100%;
-    height:210px;
-    display:block;
-    object-fit:cover;
-}
-.flower-card-body{padding:17px}
-.flower-card h3{
-    font-size:27px;
-    margin:0 0 3px;
-}
-.flower-card em{
-    color:var(--muted);
-    font-family:'Cormorant Garamond',serif;
-    font-size:16px;
-}
-.flower-card p{
-    font-size:10px;
-    color:var(--muted);
-    line-height:1.7;
-    margin-bottom:0;
-}
-
-/* ERROR AND TOAST */
-.error-box{
-    display:none;
-    margin:12px 3.3%;
-    padding:12px;
-    border-radius:12px;
-    background:#f7e5df;
-    color:#843e32;
-    border:1px solid #e6c4b8;
-    font-size:11px;
-}
-.toast{
-    position:fixed;
-    bottom:22px;right:22px;
-    z-index:100;
-    background:var(--olive-dark);
-    color:white;
-    border-radius:12px;
-    padding:13px 18px;
-    font-size:11px;
-    box-shadow:var(--shadow);
-    display:none;
-    max-width:320px;
-}
-.toast.show{display:block}
-
-@media(max-width:850px){
-    .prediction-layout{grid-template-columns:1fr}
-    .result-panel{min-height:350px}
-}
-@media(max-width:600px){
-    .prediction-section,.flower-showcase{padding:38px 4%}
-    .input-grid{gap:12px 9px}
-    .predict-form{padding:18px}
-    .result-image-wrap{height:220px}
-    .result-name{font-size:35px}
-    .flower-grid{grid-template-columns:1fr}
-    .flower-card img{height:230px}
+@media(max-width:720px) {
+ .hero-copy {padding:26px;}
+ .hero h1 {font-size:38px;}
 }
 
 </style>
@@ -1017,784 +1237,956 @@ nav a.active:after{
 
 <body>
 
-<header>
-    <a href="/" class="logo">
-        <span class="logo-flower">✿</span>
-        <span class="logo-text">IRIS BOTANICA AI</span>
-    </a>
+<!-- HEADER -->
+<header class="site-header">
+ <a href="/" class="site-brand">
+  <span class="site-brand-flower">✿</span>
+  <span>IRIS BOTANICA AI</span>
+ </a>
 
-    <nav>
-        <a href="/">TRANG CHỦ</a>
-        <a href="/species">BỘ SƯU TẬP LOÀI HOA</a>
-        <a href="/model-evaluation-page" class="active">CÁC MÔ HÌNH DỰ ĐOÁN</a>
-        <button class="history-button" id="historyButton" type="button">
-            LỊCH SỬ MÔ HÌNH
-        </button>
-    </nav>
+ <nav class="site-nav">
+  <a href="/">TRANG CHỦ</a>
+  <a href="/species">BỘ SƯU TẬP LOÀI HOA</a>
+  <a href="/model-evaluation-page" class="active">CÁC MÔ HÌNH DỰ ĐOÁN</a>
+  <a href="/model-history-page" class="site-history">LỊCH SỬ MÔ HÌNH</a>
+ </nav>
 </header>
 
-<main>
+<div class="app">
 
-<!-- HERO -->
+<!-- SIDEBAR -->
+<aside class="sidebar">
 
-<section class="hero">
+ <div class="brand">
+  <div class="brand-flower">✿</div>
+  <div>
+   <div class="brand-name">IRIS BOTANICA AI</div>
+   <div class="brand-tag">Khám phá vẻ đẹp của hoa Iris</div>
+  </div>
+ </div>
 
-    <div class="hero-copy">
-        <div class="eyebrow">MACHINE LEARNING · IRIS CLASSIFICATION —</div>
+ <div class="side-label">SÁU MÔ HÌNH PHÂN LOẠI</div>
 
-        <h1>
-            Khám phá<br>
-            <em>sáu cách</em> mô hình nhìn một bông hoa.
-        </h1>
+ <nav class="side-nav" id="modelNav">
+  <a href="#prediction" class="side-link active" data-nav-model="SVM">
+   <span class="side-icon">⌁</span>SVM Linear
+  </a>
 
-        <p>
-            Chọn mô hình, nhập bốn đặc trưng của hoa Iris và quan sát
-            cách hệ thống đưa ra dự đoán.
-        </p>
+  <a href="#prediction" class="side-link" data-nav-model="SVM_RBF">
+   <span class="side-icon">⌁</span>SVM RBF
+  </a>
 
-        <a href="#models" class="hero-cta">✦ BẮT ĐẦU KHÁM PHÁ →</a>
+  <a href="#prediction" class="side-link" data-nav-model="SVM_POLY">
+   <span class="side-icon">⌁</span>SVM Polynomial
+  </a>
+
+  <a href="#prediction" class="side-link" data-nav-model="SVM_SIGMOID">
+   <span class="side-icon">⌁</span>SVM Sigmoid
+  </a>
+
+  <a href="#prediction" class="side-link" data-nav-model="LDA">
+   <span class="side-icon">♧</span>LDA
+  </a>
+
+  <a href="#prediction" class="side-link" data-nav-model="KNN">
+   <span class="side-icon">◎</span>KNN
+  </a>
+ </nav>
+
+ <div class="sidebar-bottom">
+  <strong>✿ Iris Botanica AI</strong>
+  <span>
+   Know · Predict · Bloom<br>
+   Khám phá sáu góc nhìn phân loại hoa Iris.
+  </span>
+ </div>
+
+</aside>
+
+<!-- MAIN -->
+<main class="main">
+
+ <div class="topbar">
+  <div class="breadcrumb">IRIS BOTANICA AI&nbsp; / &nbsp; MODEL LAB</div>
+
+ </div>
+
+ <!-- HERO -->
+ <section class="hero">
+
+  <div class="hero-copy">
+   <div class="eyebrow">MACHINE LEARNING · IRIS CLASSIFICATION</div>
+
+   <h1>
+    Khám phá<br>
+    <em>sáu góc nhìn</em> về một bông hoa.
+   </h1>
+
+   <p>
+    Chọn một mô hình, nhập bốn đặc trưng của hoa Iris
+    và quan sát cách hệ thống đưa ra dự đoán.
+   </p>
+
+   <a href="#prediction" class="hero-cta">
+    ✦ BẮT ĐẦU KHÁM PHÁ →
+   </a>
+  </div>
+
+  <div class="hero-art">
+   <div class="hero-ring"></div>
+   <div class="hero-label">
+    <strong>Iris Botanica AI</strong>
+    <small>KNOW · PREDICT · BLOOM</small>
+   </div>
+  </div>
+
+ </section>
+
+ <div id="pageLoading" class="page-loading">
+  Đang tải dữ liệu đánh giá mô hình...
+ </div>
+
+ <div id="pageError" class="error-box"></div>
+
+ <!-- MODEL SELECTION -->
+ <div class="section-heading">
+  <div>
+   <div class="kicker">01 · MODEL SELECTION</div>
+   <h2>Phòng thí nghiệm mô hình</h2>
+  </div>
+
+  <div class="section-note">
+   Sáu mô hình · Hai nhóm thuật toán · Một bộ dữ liệu Iris
+  </div>
+ </div>
+
+ <div class="model-strip">
+  <button class="model-chip active" data-chip-model="SVM">SVM LINEAR</button>
+  <button class="model-chip" data-chip-model="SVM_RBF">SVM RBF</button>
+  <button class="model-chip" data-chip-model="SVM_POLY">SVM POLYNOMIAL</button>
+  <button class="model-chip" data-chip-model="SVM_SIGMOID">SVM SIGMOID</button>
+  <button class="model-chip" data-chip-model="LDA">LDA</button>
+  <button class="model-chip" data-chip-model="KNN">KNN</button>
+ </div>
+
+ <!-- DASHBOARD -->
+ <section class="dashboard" id="prediction">
+
+  <div class="left-column">
+
+   <!-- INPUT PANEL -->
+   <section class="panel">
+
+    <div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap">
+     <h2 class="panel-title">
+      <span class="panel-icon">❀</span>
+      Thông số đầu vào
+     </h2>
+
+     <div class="selected-model-line">
+      <span>Mô hình:</span>
+      <strong id="selectedModelName">SVM Linear</strong>
+     </div>
     </div>
 
-    <div class="hero-art">
-        <div class="hero-ring"></div>
-        <div class="hero-label">
-            <strong>Iris Botanica AI</strong>
-            <small>KNOW · PREDICT · BLOOM</small>
-        </div>
+    <p class="panel-subtitle">
+     Nhập các đặc trưng đo được của hoa Iris để thực hiện phân loại.
+    </p>
+
+    <div class="input-grid">
+
+     <div class="field">
+      <label for="sepal_length">Sepal Length (cm)</label>
+      <input id="sepal_length" type="number" step="0.1" min="0.1" value="5.1">
+     </div>
+
+     <div class="field">
+      <label for="sepal_width">Sepal Width (cm)</label>
+      <input id="sepal_width" type="number" step="0.1" min="0.1" value="3.5">
+     </div>
+
+     <div class="field">
+      <label for="petal_length">Petal Length (cm)</label>
+      <input id="petal_length" type="number" step="0.1" min="0.1" value="1.4">
+     </div>
+
+     <div class="field">
+      <label for="petal_width">Petal Width (cm)</label>
+      <input id="petal_width" type="number" step="0.1" min="0.1" value="0.2">
+     </div>
+
     </div>
 
-</section>
+    <!-- SVM PARAMETERS -->
+    <div id="svmParameters" class="parameter-box">
 
-<div id="pageLoading" class="page-loading">
-    Đang tải dữ liệu đánh giá mô hình...
-</div>
+     <div class="parameter-heading">⚙ THAM SỐ KERNEL SVM</div>
 
-<div id="pageError" class="error-box"></div>
+     <div class="parameter-grid">
 
-<!-- MODEL SELECTION -->
+      <div class="parameter-field">
+       <label for="svmC">C</label>
+       <input id="svmC" type="number" min="0.001" step="0.1" value="1">
+      </div>
 
-<section id="models" class="section" style="display:none">
+      <div class="parameter-field" id="gammaField">
+       <label for="svmGamma">Gamma</label>
+       <select id="svmGamma">
+        <option value="scale">scale</option>
+        <option value="auto">auto</option>
+       </select>
+      </div>
 
-    <div class="section-head">
-        <div>
-            <div class="section-kicker">01 · MODEL SELECTION</div>
-            <h2>Chọn mô hình dự đoán</h2>
-        </div>
+      <div class="parameter-field hidden" id="degreeField">
+       <label for="svmDegree">Degree</label>
+       <input id="svmDegree" type="number" min="1" step="1" value="3">
+      </div>
 
-        <div class="section-note">
-            Mỗi mô hình có cách tiếp cận khác nhau.<br>
-            Hãy chọn một mô hình để thực hiện dự đoán trực tiếp.
-        </div>
+     </div>
     </div>
+
+    <button id="predictButton" class="predict-button" type="button">
+     ✦ PHÂN LOẠI HOA
+    </button>
+
+   </section>
+
+  </div>
+
+  <div class="right-column">
+
+   <!-- RESULT PANEL -->
+   <section class="panel">
+
+    <h2 class="panel-title">
+     <span class="panel-icon">🏆</span>
+     Kết quả dự đoán
+    </h2>
+
+    <div class="result-card">
+
+     <div id="resultPlaceholder" class="result-placeholder">
+      <span class="placeholder-flower">✿</span>
+      <strong>Sẵn sàng dự đoán</strong>
+      Chọn mô hình và nhập bốn đặc trưng của hoa.<br>
+      Kết quả sẽ được trả về từ hệ thống phân loại.
+     </div>
+
+     <div id="loader" class="loader">
+      Đang phân tích các đặc trưng của hoa...
+     </div>
+
+     <div id="resultContent" class="result-content">
+
+      <div class="result-image-wrap">
+       <img id="resultImage" src="/images/SETOSA.jpg" alt="Hoa được dự đoán">
+      </div>
+
+      <div class="result-divider"></div>
+
+      <div class="result-text">
+       <small>Loài hoa được dự đoán:</small>
+       <div id="resultName" class="result-name">Iris Setosa</div>
+       <div id="resultScientific" class="result-scientific">Iris setosa</div>
+
+       <div class="result-meta">
+        <span class="meta-pill" id="resultModel">SVM Linear</span>
+        <span class="meta-pill alt" id="resultRuntime">—</span>
+       </div>
+      </div>
+
+     </div>
+    </div>
+
+
+   </section>
+
+   <!-- CHART PANEL -->
+   <section class="panel">
+
+    <div class="chart-title">
+     <span>▥</span>
+     Phân bố đặc trưng bộ dữ liệu Iris
+    </div>
+
+    <div class="chart-wrap">
+
+     <svg class="chart-svg" viewBox="0 0 800 390" role="img" aria-label="Biểu đồ phân bố đặc trưng bộ dữ liệu Iris">
+
+      <defs>
+       <pattern id="fineGrid" width="80" height="58" patternUnits="userSpaceOnUse">
+        <path d="M80 0H0V58" fill="none" stroke="#e5dced" stroke-width="1"/>
+       </pattern>
+      </defs>
+
+      <rect x="78" y="24" width="670" height="292" fill="url(#fineGrid)"/>
+
+      <g stroke="#8f829e" stroke-width="1.5">
+       <path d="M78 24V316H748"/>
+      </g>
+
+      <g fill="#62596d" font-size="13" font-family="Montserrat">
+       <text x="65" y="320" text-anchor="end">0</text>
+       <text x="65" y="262" text-anchor="end">1</text>
+       <text x="65" y="204" text-anchor="end">2</text>
+       <text x="65" y="146" text-anchor="end">3</text>
+       <text x="65" y="88" text-anchor="end">4</text>
+       <text x="65" y="30" text-anchor="end">5</text>
+
+       <text x="78" y="340" text-anchor="middle">0</text>
+       <text x="212" y="340" text-anchor="middle">1</text>
+       <text x="346" y="340" text-anchor="middle">2</text>
+       <text x="480" y="340" text-anchor="middle">3</text>
+       <text x="614" y="340" text-anchor="middle">4</text>
+       <text x="748" y="340" text-anchor="middle">5</text>
+
+       <text x="413" y="375" text-anchor="middle" font-weight="600">
+        Petal Length (cm)
+       </text>
+
+       <text transform="translate(20 170) rotate(-90)" text-anchor="middle" font-weight="600">
+        Petal Width (cm)
+       </text>
+      </g>
+
+      <g fill="#80afe5" stroke="#fff" stroke-width="1.4" opacity=".96">
+       <circle cx="180" cy="278" r="6"/>
+       <circle cx="196" cy="255" r="6"/>
+       <circle cx="211" cy="270" r="6"/>
+       <circle cx="225" cy="244" r="6"/>
+       <circle cx="238" cy="260" r="6"/>
+       <circle cx="250" cy="232" r="6"/>
+       <circle cx="215" cy="292" r="6"/>
+       <circle cx="265" cy="250" r="6"/>
+       <circle cx="190" cy="297" r="6"/>
+       <circle cx="242" cy="281" r="6"/>
+       <circle cx="280" cy="267" r="6"/>
+       <circle cx="205" cy="235" r="6"/>
+       <circle cx="230" cy="275" r="6"/>
+       <circle cx="255" cy="286" r="6"/>
+       <circle cx="170" cy="260" r="6"/>
+      </g>
+
+      <g fill="#e99a60" stroke="#fff" stroke-width="1.4" opacity=".96">
+       <circle cx="435" cy="180" r="6"/>
+       <circle cx="462" cy="153" r="6"/>
+       <circle cx="486" cy="195" r="6"/>
+       <circle cx="505" cy="168" r="6"/>
+       <circle cx="525" cy="145" r="6"/>
+       <circle cx="544" cy="185" r="6"/>
+       <circle cx="450" cy="210" r="6"/>
+       <circle cx="490" cy="220" r="6"/>
+       <circle cx="560" cy="160" r="6"/>
+       <circle cx="520" cy="205" r="6"/>
+       <circle cx="470" cy="185" r="6"/>
+       <circle cx="540" cy="225" r="6"/>
+       <circle cx="475" cy="172" r="6"/>
+      </g>
+
+      <g fill="#b184d0" stroke="#fff" stroke-width="1.4" opacity=".96">
+       <circle cx="590" cy="115" r="6"/>
+       <circle cx="615" cy="82" r="6"/>
+       <circle cx="638" cy="104" r="6"/>
+       <circle cx="660" cy="65" r="6"/>
+       <circle cx="682" cy="92" r="6"/>
+       <circle cx="706" cy="55" r="6"/>
+       <circle cx="604" cy="140" r="6"/>
+       <circle cx="650" cy="132" r="6"/>
+       <circle cx="690" cy="120" r="6"/>
+       <circle cx="720" cy="85" r="6"/>
+       <circle cx="672" cy="150" r="6"/>
+       <circle cx="625" cy="125" r="6"/>
+       <circle cx="700" cy="145" r="6"/>
+      </g>
+
+     </svg>
+
+     <div class="chart-legend">
+      <span><i class="legend-dot" style="background:#8db8e9"></i>Setosa</span>
+      <span><i class="legend-dot" style="background:#e9a16c"></i>Versicolor</span>
+      <span><i class="legend-dot" style="background:#b68bd4"></i>Virginica</span>
+     </div>
+
+     <div style="font-size:8px;color:#918777;text-align:center;margin-top:7px">
+      Hình minh họa phân bố, không phải kết quả đo trực tiếp từ mô hình.
+     </div>
+
+    </div>
+   </section>
 
    
-<div class="model-grid">
 
-    <article class="model-card selected" data-model="SVM">
-        <div class="model-image">
-            <img src="/images/SETOSA.jpg" alt="SVM Linear">
-        </div>
-        <div class="model-body">
-            <h3>SVM Linear</h3>
-            <div class="model-desc">SVM sử dụng kernel tuyến tính.</div>
-            <div class="metric-mini">
-                <span>Accuracy</span>
-                <strong id="svmAccuracy">—</strong>
-            </div>
-            <div class="metric-mini">
-                <span>F1-score</span>
-                <strong id="svmF1">—</strong>
-            </div>
-            <button class="select-model">CHỌN MÔ HÌNH</button>
-        </div>
-    </article>
-
-    <article class="model-card" data-model="SVM_RBF">
-        <div class="model-image">
-            <img src="/images/VERSICOLOR_v2.jpg" alt="SVM RBF">
-        </div>
-        <div class="model-body">
-            <h3>SVM RBF</h3>
-            <div class="model-desc">SVM sử dụng hàm cơ sở xuyên tâm RBF.</div>
-            <div class="metric-mini">
-                <span>Accuracy</span>
-                <strong id="svm_rbfAccuracy">—</strong>
-            </div>
-            <div class="metric-mini">
-                <span>F1-score</span>
-                <strong id="svm_rbfF1">—</strong>
-            </div>
-            <button class="select-model">CHỌN MÔ HÌNH</button>
-        </div>
-    </article>
-
-    <article class="model-card" data-model="SVM_POLY">
-        <div class="model-image">
-            <img src="/images/VIRGINICA_v2.jpg" alt="SVM Polynomial">
-        </div>
-        <div class="model-body">
-            <h3>SVM Polynomial</h3>
-            <div class="model-desc">SVM sử dụng kernel đa thức.</div>
-            <div class="metric-mini">
-                <span>Accuracy</span>
-                <strong id="svm_polyAccuracy">—</strong>
-            </div>
-            <div class="metric-mini">
-                <span>F1-score</span>
-                <strong id="svm_polyF1">—</strong>
-            </div>
-            <button class="select-model">CHỌN MÔ HÌNH</button>
-        </div>
-    </article>
-
-    <article class="model-card" data-model="SVM_SIGMOID">
-        <div class="model-image">
-            <img src="/images/SETOSA.jpg" alt="SVM Sigmoid">
-        </div>
-        <div class="model-body">
-            <h3>SVM Sigmoid</h3>
-            <div class="model-desc">SVM sử dụng kernel Sigmoid.</div>
-            <div class="metric-mini">
-                <span>Accuracy</span>
-                <strong id="svm_sigmoidAccuracy">—</strong>
-            </div>
-            <div class="metric-mini">
-                <span>F1-score</span>
-                <strong id="svm_sigmoidF1">—</strong>
-            </div>
-            <button class="select-model">CHỌN MÔ HÌNH</button>
-        </div>
-    </article>
-
-    <article class="model-card" data-model="LDA">
-        <div class="model-image">
-            <img src="/images/VERSICOLOR_v2.jpg" alt="LDA">
-        </div>
-        <div class="model-body">
-            <h3>LDA</h3>
-            <div class="model-desc">Linear Discriminant Analysis cho bài toán phân lớp.</div>
-            <div class="metric-mini">
-                <span>Accuracy</span>
-                <strong id="ldaAccuracy">—</strong>
-            </div>
-            <div class="metric-mini">
-                <span>F1-score</span>
-                <strong id="ldaF1">—</strong>
-            </div>
-            <button class="select-model">CHỌN MÔ HÌNH</button>
-        </div>
-    </article>
-
-    <article class="model-card" data-model="KNN">
-        <div class="model-image">
-            <img src="/images/VIRGINICA_v2.jpg" alt="KNN">
-        </div>
-        <div class="model-body">
-            <h3>KNN</h3>
-            <div class="model-desc">K-Nearest Neighbors với k = 15.</div>
-            <div class="metric-mini">
-                <span>Accuracy</span>
-                <strong id="knnAccuracy">—</strong>
-            </div>
-            <div class="metric-mini">
-                <span>F1-score</span>
-                <strong id="knnF1">—</strong>
-            </div>
-            <button class="select-model">CHỌN MÔ HÌNH</button>
-        </div>
-    </article>
-
-</div>
-</section>
-
-<!-- LIVE PREDICTION -->
-
-<!-- FLOWER RECOGNITION -->
-<section id="prediction" class="prediction-section">
-
-    <div class="recognition-heading">
-        <div class="section-kicker">02 · FLOWER RECOGNITION</div>
-        <h2>Nhận diện <em>vẻ đẹp</em> của Iris</h2>
-        <p>
-            Khám phá khả năng phân loại của trí tuệ nhân tạo.
-            Cung cấp bốn đặc trưng hình thái để mô hình xác định loài hoa phù hợp.
-        </p>
-    </div>
-
-    <div class="prediction-layout">
-
-        <div class="predict-form">
-            <div class="form-heading">
-                <h3>Thông số đầu vào</h3>
-                <span class="form-step">STEP 01 / 02</span>
-            </div>
-
-            <div class="selected-model">
-                <span class="model-dot"></span>
-                <div>
-                    <small>MÔ HÌNH ĐANG ĐƯỢC SỬ DỤNG</small>
-                    <strong id="selectedModelName">SVM Linear</strong>
-                </div>
-            </div>
-
-            <div class="input-title">NHẬP ĐẶC TRƯNG HOA IRIS</div>
-
-<div class="parameter-box" id="svmParameters">
-
-    <div class="parameter-heading">
-        <strong>⚙ TÙY CHỈNH THAM SỐ SVM</strong>
-        <span>MODEL SETTINGS</span>
-    </div>
-
-    <div class="parameter-grid">
-
-        <div class="parameter-field">
-            <label for="svmC">C – Regularization</label>
-            <input id="svmC" type="number" min="0.001"
-                   step="0.1" value="1.0">
-            <small>Điều chỉnh mức phạt lỗi phân loại.</small>
-        </div>
-
-        <div class="parameter-field" id="gammaField">
-            <label for="svmGamma">Gamma</label>
-            <select id="svmGamma">
-                <option value="scale" selected>scale</option>
-                <option value="auto">auto</option>
-            </select>
-            <small>Phạm vi ảnh hưởng của từng mẫu dữ liệu.</small>
-        </div>
-
-        <div class="parameter-field hidden" id="degreeField">
-            <label for="svmDegree">Degree – Bậc đa thức</label>
-            <input id="svmDegree" type="number"
-                   min="1" max="10" step="1" value="3">
-            <small>Chỉ áp dụng cho Polynomial.</small>
-        </div>
-
-    </div>
-
-    <div class="parameter-note">
-        Các tham số này dành cho SVM. Khi chuyển sang LDA hoặc KNN,
-        nhóm tùy chỉnh sẽ tự động được ẩn.
-    </div>
-
-</div>
-
-
-            <div class="input-grid">
-                <div class="field">
-                    <label for="sepal_length">Sepal Length (cm)</label>
-                    <input id="sepal_length" type="number" step="0.1" min="0" value="5.1">
-                </div>
-                <div class="field">
-                    <label for="sepal_width">Sepal Width (cm)</label>
-                    <input id="sepal_width" type="number" step="0.1" min="0" value="3.5">
-                </div>
-                <div class="field">
-                    <label for="petal_length">Petal Length (cm)</label>
-                    <input id="petal_length" type="number" step="0.1" min="0" value="1.4">
-                </div>
-                <div class="field">
-                    <label for="petal_width">Petal Width (cm)</label>
-                    <input id="petal_width" type="number" step="0.1" min="0" value="0.2">
-                </div>
-            </div>
-
-            <div class="input-hint">
-                <strong>Gợi ý:</strong> Các giá trị được tính bằng centimet.
-                Hãy nhập số đo thực tế hoặc sử dụng bộ giá trị mẫu để thử nghiệm.
-            </div>
-
-            <button id="predictButton" class="predict-button">
-                ✦ PHÂN TÍCH VÀ NHẬN DIỆN HOA
-            </button>
-
-            <button id="tryAnother" class="try-button">
-                ↔ CHỌN MỘT MÔ HÌNH KHÁC
-            </button>
-        </div>
-
-        <div class="result-panel" id="resultPanel">
-
-            <div id="resultPlaceholder" class="result-placeholder">
-                <span class="placeholder-flower">✿</span>
-                <strong>Kết quả sẽ xuất hiện tại đây</strong>
-                Hãy nhập thông số và nhấn nút phân loại hoa.<br>
-                Hệ thống sẽ gửi dữ liệu đến mô hình đã chọn.
-            </div>
-
-            <div id="loader" class="loader">
-                <span class="loader-flower">✿</span>
-                <strong>ĐANG PHÂN TÍCH...</strong>
-                <div style="font-size:10px;color:var(--muted);margin-top:8px">
-                    Đang xử lý dữ liệu bằng mô hình học máy
-                </div>
-            </div>
-
-            <div id="resultContent" class="result-content">
-                <div class="result-image-wrap">
-                    <img id="resultImage" class="result-image"
-                         src="/images/SETOSA.jpg" alt="Hoa Iris được dự đoán">
-                </div>
-
-                <div class="result-info">
-                    <span class="result-status">✓ PHÂN TÍCH HOÀN TẤT</span>
-                    <div id="resultName" class="result-name">Iris Setosa</div>
-                    <div id="resultScientific" class="result-scientific">Iris setosa</div>
-
-                    <div class="result-meta">
-                        <div class="pill">
-                            ◈ <span>Mô hình<br><strong id="resultModel">SVM Linear</strong></span>
-                        </div>
-                        <div class="pill">
-                            ◷ <span>Thời gian chạy<br><strong id="resultRuntime">—</strong></span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
-</section>
-
+  </div>
+ </section>
 
 </main>
-
-
-<footer>
-    <span>IRIS BOTANICA AI · MACHINE LEARNING PROJECT</span>
-    <span class="footer-flower">✿</span>
-    <span>SVM LINEAR · RBF · POLY · SIGMOID · LDA · KNN</span>
-</footer>
+</div>
 
 <div id="toast" class="toast"></div>
 
 <script>
 
-/* ========================================
-   1. CẤU HÌNH HỆ THỐNG
-======================================== */
+/* =====================================================
+   1. CẤU HÌNH
+===================================================== */
 
 const state = {
-    selected: 'SVM',
-    models: [],
-    isPredicting: false
+ selected:'SVM',
+ models:[],
+ isPredicting:false
 };
 
 const modelConfig = {
-    SVM: {
-        name: 'SVM Linear',
-        accuracyId: 'svmAccuracy',
-        f1Id: 'svmF1'
-    },
-    SVM_RBF: {
-        name: 'SVM RBF',
-        accuracyId: 'svm_rbfAccuracy',
-        f1Id: 'svm_rbfF1'
-    },
-    SVM_POLY: {
-        name: 'SVM Polynomial',
-        accuracyId: 'svm_polyAccuracy',
-        f1Id: 'svm_polyF1'
-    },
-    SVM_SIGMOID: {
-        name: 'SVM Sigmoid',
-        accuracyId: 'svm_sigmoidAccuracy',
-        f1Id: 'svm_sigmoidF1'
-    },
-    LDA: {
-        name: 'LDA',
-        accuracyId: 'ldaAccuracy',
-        f1Id: 'ldaF1'
-    },
-    KNN: {
-        name: 'KNN',
-        accuracyId: 'knnAccuracy',
-        f1Id: 'knnF1'
-    }
+
+ SVM:{
+  name:'SVM Linear',
+  accuracyId:'svmAccuracy',
+  f1Id:'svmF1',
+  description:'SVM Linear sử dụng kernel tuyến tính để tìm siêu phẳng phân tách các lớp dữ liệu trong không gian đặc trưng.',
+  features:[
+   'Mô hình tuyến tính, cấu trúc đơn giản và dễ diễn giải',
+   'Phù hợp khi dữ liệu có thể phân tách gần tuyến tính',
+   'Có thể điều chỉnh mức phạt C trong quá trình dự đoán'
+  ]
+ },
+
+ SVM_RBF:{
+  name:'SVM RBF',
+  accuracyId:'svm_rbfAccuracy',
+  f1Id:'svm_rbfF1',
+  description:'SVM RBF sử dụng hàm cơ sở xuyên tâm để mô hình hóa ranh giới phân loại phi tuyến.',
+  features:[
+   'Có khả năng mô hình hóa quan hệ phi tuyến',
+   'Gamma điều khiển phạm vi ảnh hưởng của từng điểm dữ liệu',
+   'Phù hợp với ranh giới phân lớp phức tạp'
+  ]
+ },
+
+ SVM_POLY:{
+  name:'SVM Polynomial',
+  accuracyId:'svm_polyAccuracy',
+  f1Id:'svm_polyF1',
+  description:'SVM Polynomial sử dụng kernel đa thức để biểu diễn các quan hệ tương tác giữa đặc trưng.',
+  features:[
+   'Mô hình hóa ranh giới phân loại dạng đa thức',
+   'Degree điều khiển bậc của đa thức',
+   'Có thể điều chỉnh C, gamma và degree'
+  ]
+ },
+
+ SVM_SIGMOID:{
+  name:'SVM Sigmoid',
+  accuracyId:'svm_sigmoidAccuracy',
+  f1Id:'svm_sigmoidF1',
+  description:'SVM Sigmoid sử dụng hàm sigmoid làm kernel để tạo ranh giới phân loại phi tuyến.',
+  features:[
+   'Sử dụng hàm sigmoid trong phép biến đổi kernel',
+   'Có thể điều chỉnh C và gamma',
+   'Cho phép so sánh một cách tiếp cận kernel khác'
+  ]
+ },
+
+ LDA:{
+  name:'LDA',
+  accuracyId:'ldaAccuracy',
+  f1Id:'ldaF1',
+  description:'Linear Discriminant Analysis tìm các hướng chiếu giúp phân biệt các nhóm dữ liệu dựa trên cấu trúc phương sai.',
+  features:[
+   'Phương pháp phân tích biệt thức tuyến tính',
+   'Tìm không gian chiếu có khả năng phân biệt lớp',
+   'Là mô hình đối chiếu với nhóm SVM'
+  ]
+ },
+
+ KNN:{
+  name:'KNN',
+  accuracyId:'knnAccuracy',
+  f1Id:'knnF1',
+  description:'K-Nearest Neighbors phân loại một mẫu dựa trên nhãn của các điểm dữ liệu lân cận gần nhất.',
+  features:[
+   'Dựa trên khoảng cách giữa các mẫu',
+   'Kết quả phụ thuộc vào số lượng láng giềng k',
+   'Dùng làm mô hình đối chiếu với SVM và LDA'
+  ]
+ }
+
 };
 
 const species = {
-    0: {
-        name: 'Iris Setosa',
-        scientific: 'Iris setosa',
-        image: '/images/SETOSA.jpg'
-    },
-    1: {
-        name: 'Iris Versicolor',
-        scientific: 'Iris versicolor',
-        image: '/images/VERSICOLOR_v2.jpg'
-    },
-    2: {
-        name: 'Iris Virginica',
-        scientific: 'Iris virginica',
-        image: '/images/VIRGINICA_v2.jpg'
-    }
+
+ 0:{
+  name:'Iris Setosa',
+  scientific:'Iris setosa',
+  image:'/images/SETOSA.jpg'
+ },
+
+ 1:{
+  name:'Iris Versicolor',
+  scientific:'Iris versicolor',
+  image:'/images/VERSICOLOR_v2.jpg'
+ },
+
+ 2:{
+  name:'Iris Virginica',
+  scientific:'Iris virginica',
+  image:'/images/VIRGINICA_v2.jpg'
+ }
+
 };
 
 const $ = id => document.getElementById(id);
 
 
-/* ========================================
-   2. ĐỊNH DẠNG
-======================================== */
+/* =====================================================
+   2. ĐỊNH DẠNG VÀ NHẬN DIỆN MODEL
+===================================================== */
 
-function fmtPct(value) {
-    if (value === null || value === undefined ||
-        value === '' || !Number.isFinite(Number(value))) {
-        return 'Chưa có dữ liệu';
-    }
+function fmtPct(value){
 
-    let number = Number(value);
+ if(
+  value===null ||
+  value===undefined ||
+  value==='' ||
+  !Number.isFinite(Number(value))
+ ){
+  return 'Chưa có dữ liệu';
+ }
 
-    if (number >= 0 && number <= 1) {
-        number *= 100;
-    }
+ let n = Number(value);
 
-    return number.toFixed(2) + '%';
+ if(n>=0 && n<=1){
+  n *= 100;
+ }
+
+ return n.toFixed(2)+'%';
 }
 
-function fmtSec(value) {
-    if (value === null || value === undefined ||
-        !Number.isFinite(Number(value))) {
-        return '—';
-    }
+function fmtSec(value){
 
-    return Number(value).toFixed(6) + ' s';
+ if(
+  value===null ||
+  value===undefined ||
+  !Number.isFinite(Number(value))
+ ){
+  return '—';
+ }
+
+ return Number(value).toFixed(6)+' s';
 }
 
-function normalizeName(value) {
-    return String(value || '')
-        .normalize('NFD')
-        .replace(/[\u0300-\u036f]/g, '')
-        .toUpperCase()
-        .replace(/[^A-Z0-9]/g, '');
+function normalizeName(value){
+
+ return String(value||'')
+  .normalize('NFD')
+  .replace(/[\u0300-\u036f]/g,'')
+  .toUpperCase()
+  .replace(/[^A-Z0-9]/g,'');
 }
 
-function getModelKey(item) {
-    const name = normalizeName(
-        item.ten_mo_hinh ||
-        item.model_name ||
-        item.model ||
-        item.name
-    );
+function getModelKey(item){
 
-    const kernel = normalizeName(
-        item.kernel || item.kernel_type || ''
-    );
+ const name = normalizeName(
+  item.ten_mo_hinh ||
+  item.model_name ||
+  item.model ||
+  item.name
+ );
 
-    if (name.includes('SIGMOID')) return 'SVM_SIGMOID';
-    if (name.includes('POLYNOMIAL') || name.includes('POLY')) {
-        return 'SVM_POLY';
-    }
-    if (name.includes('RBF')) return 'SVM_RBF';
+ const kernel = normalizeName(
+  item.kernel ||
+  item.kernel_type ||
+  ''
+ );
 
-    if (name.includes('LINEAR') && name.includes('SVM')) {
-        return 'SVM';
-    }
+ if(name.includes('SIGMOID')) return 'SVM_SIGMOID';
 
-    if (name === 'SVM' && kernel) {
-        if (kernel.includes('SIGMOID')) return 'SVM_SIGMOID';
-        if (kernel.includes('POLY')) return 'SVM_POLY';
-        if (kernel.includes('RBF')) return 'SVM_RBF';
-        if (kernel.includes('LINEAR')) return 'SVM';
-    }
+ if(
+  name.includes('POLYNOMIAL') ||
+  name.includes('POLY')
+ ) return 'SVM_POLY';
 
-    if (name === 'SVM') return 'SVM';
-    if (name.includes('LDA')) return 'LDA';
-    if (name.includes('KNN')) return 'KNN';
+ if(name.includes('RBF')) return 'SVM_RBF';
 
-    return null;
+ if(
+  name.includes('LINEAR') &&
+  name.includes('SVM')
+ ) return 'SVM';
+
+ if(name==='SVM' && kernel){
+
+  if(kernel.includes('SIGMOID')) return 'SVM_SIGMOID';
+
+  if(kernel.includes('POLY')) return 'SVM_POLY';
+
+  if(kernel.includes('RBF')) return 'SVM_RBF';
+
+  if(kernel.includes('LINEAR')) return 'SVM';
+ }
+
+ if(name==='SVM') return 'SVM';
+
+ if(name.includes('LDA')) return 'LDA';
+
+ if(name.includes('KNN')) return 'KNN';
+
+ return null;
 }
 
+function showToast(message){
 
-/* ========================================
-   3. THÔNG BÁO
-======================================== */
+ const toast = $('toast');
 
-function showToast(message) {
-    const toast = $('toast');
-    toast.textContent = message;
-    toast.classList.add('show');
+ toast.textContent = message;
+ toast.classList.add('show');
 
-    clearTimeout(showToast.timer);
+ clearTimeout(showToast.timer);
 
-    showToast.timer = setTimeout(() => {
-        toast.classList.remove('show');
-    }, 3500);
-}
+ showToast.timer = setTimeout(()=>{
+  toast.classList.remove('show');
+ },3500);
 
-
-/* ========================================
-   4. TẢI VÀ HIỂN THỊ ĐÁNH GIÁ
-======================================== */
-
-function renderEvaluation(models) {
-
-    Object.values(modelConfig).forEach(config => {
-        $(config.accuracyId).textContent = 'Chưa có dữ liệu';
-        $(config.f1Id).textContent = 'Chưa có dữ liệu';
-    });
-
-    models.forEach(item => {
-        const key = getModelKey(item);
-        const config = modelConfig[key];
-
-        if (!config) return;
-
-        $(config.accuracyId).textContent =
-            fmtPct(item.accuracy);
-
-        $(config.f1Id).textContent =
-            fmtPct(item.f1_score);
-    });
-}
-
-function showSections() {
-    $('pageLoading').style.display = 'none';
-    $('pageError').style.display = 'none';
-    $('models').style.display = 'block';
-    $('prediction').style.display = 'block';
-}
-
-async function loadEvaluation() {
-    try {
-        const response = await fetch('/model-evaluation', {
-            credentials: 'same-origin',
-            headers: { 'Accept': 'application/json' }
-        });
-
-        if (!response.ok) {
-            throw new Error('Không thể tải dữ liệu đánh giá mô hình.');
-        }
-
-        const data = await response.json();
-
-        if (!data.success || !Array.isArray(data.models)) {
-            throw new Error('Dữ liệu API không đúng định dạng.');
-        }
-
-        state.models = data.models;
-
-        renderEvaluation(state.models);
-        showSections();
-        setModelCard('SVM');
-
-    } catch (error) {
-        console.error(error);
-
-        $('pageLoading').style.display = 'none';
-        $('pageError').style.display = 'block';
-        $('pageError').textContent = error.message;
-    }
 }
 
 
-/* ========================================
-   5. CHỌN MÔ HÌNH
-======================================== */
+/* =====================================================
+   3. TẢI VÀ HIỂN THỊ ĐÁNH GIÁ
+===================================================== */
 
-function setModelCard(modelKey) {
-    if (!modelConfig[modelKey]) return;
+function renderEvaluation(models){
 
-    state.selected = modelKey;
-    updateSVMParameters(modelKey);
+ Object.values(modelConfig).forEach(config=>{
 
-    document.querySelectorAll('.model-card').forEach(card => {
-        card.classList.toggle(
-            'selected',
-            card.dataset.model === modelKey
-        );
-    });
+  if($(config.accuracyId)){
+   $(config.accuracyId).textContent='Chưa có dữ liệu';
+  }
 
-    $('selectedModelName').textContent =
-        modelConfig[modelKey].name;
+  if($(config.f1Id)){
+   $(config.f1Id).textContent='Chưa có dữ liệu';
+  }
 
-    $('resultContent').classList.remove('show');
-    $('resultPlaceholder').style.display = 'block';
-    $('loader').classList.remove('show');
+ });
 
-    $('resultPlaceholder').innerHTML =
-    '<span class="placeholder-flower">✿</span>' +
-    '<strong>Sẵn sàng dự đoán</strong>' +
-    'Chọn mô hình và nhập bốn đặc trưng của hoa.<br>' +
-    'Kết quả sẽ được trả về từ hệ thống phân loại.';
+ models.forEach(item=>{
+
+  const key = getModelKey(item);
+
+  const config = modelConfig[key];
+
+  if(!config) return;
+
+  const accuracy = fmtPct(item.accuracy);
+  const f1 = fmtPct(item.f1_score);
+
+  if($(config.accuracyId)){
+   $(config.accuracyId).textContent=accuracy;
+  }
+
+  if($(config.f1Id)){
+   $(config.f1Id).textContent=f1;
+  }
+
+ });
+
+
 }
 
-document.querySelectorAll('.select-model').forEach(button => {
-    button.addEventListener('click', event => {
-        const card = event.currentTarget.closest('.model-card');
+function showSections(){
 
-        if (!card) return;
+ $('pageLoading').style.display='none';
+ $('pageError').style.display='none';
 
-        setModelCard(card.dataset.model);
+}
 
-        $('prediction').scrollIntoView({
-            behavior: 'smooth',
-            block: 'center'
-        });
-    });
+async function loadEvaluation(){
+
+ try{
+
+  const response = await fetch('/model-evaluation',{
+   credentials:'same-origin',
+   headers:{
+    'Accept':'application/json'
+   }
+  });
+
+  if(!response.ok){
+
+   throw new Error(
+    'Không thể tải dữ liệu đánh giá mô hình (HTTP '+
+    response.status+').'
+   );
+
+  }
+
+  const data = await response.json();
+
+  if(!data.success || !Array.isArray(data.models)){
+   throw new Error('Dữ liệu API không đúng định dạng.');
+  }
+
+  state.models = data.models;
+
+  renderEvaluation(state.models);
+
+  showSections();
+
+  setModelCard('SVM');
+
+ }catch(error){
+
+  console.error(error);
+
+  $('pageLoading').style.display='none';
+
+  $('pageError').style.display='block';
+
+  $('pageError').textContent =
+   error.message+
+   ' Kiểm tra API /model-evaluation trong backend.';
+
+ }
+
+}
+
+
+/* =====================================================
+   4. CHỌN MÔ HÌNH
+===================================================== */
+
+function updateSVMParameters(modelKey){
+
+ const isSVM = modelKey.startsWith('SVM');
+
+ $('svmParameters').style.display =
+  isSVM ? 'block' : 'none';
+
+ $('gammaField').classList.toggle(
+  'hidden',
+  !['SVM_RBF','SVM_POLY','SVM_SIGMOID'].includes(modelKey)
+ );
+
+ $('degreeField').classList.toggle(
+  'hidden',
+  modelKey!=='SVM_POLY'
+ );
+
+}
+
+function setModelCard(modelKey){
+
+ if(!modelConfig[modelKey]) return;
+
+ state.selected = modelKey;
+
+ updateSVMParameters(modelKey);
+
+ $('selectedModelName').textContent =
+  modelConfig[modelKey].name;
+
+ document.querySelectorAll('[data-nav-model]').forEach(el=>{
+
+  el.classList.toggle(
+   'active',
+   el.dataset.navModel===modelKey
+  );
+
+ });
+
+ document.querySelectorAll('[data-chip-model]').forEach(el=>{
+
+  el.classList.toggle(
+   'active',
+   el.dataset.chipModel===modelKey
+  );
+
+ });
+
+ $('resultContent').classList.remove('show');
+
+ $('resultPlaceholder').style.display='block';
+
+ $('loader').classList.remove('show');
+$('resultPlaceholder').innerHTML =
+ '<strong>Sẵn sàng dự đoán</strong>' +
+ 'Chọn mô hình và nhập bốn đặc trưng của hoa.<br>' +
+ 'Kết quả sẽ được trả về từ hệ thống phân loại.';
+
+}
+
+document.querySelectorAll(
+ '[data-nav-model],[data-chip-model]'
+).forEach(el=>{
+
+ el.addEventListener('click',event=>{
+
+  event.preventDefault();
+
+  setModelCard(
+   el.dataset.navModel ||
+   el.dataset.chipModel
+  );
+
+  $('prediction').scrollIntoView({
+   behavior:'smooth',
+   block:'start'
+  });
+
+ });
+
 });
 
-/* SVM PARAMETER SETTINGS */
 
-function updateSVMParameters(modelKey) {
-    const isSVM = modelKey.startsWith('SVM');
+/* =====================================================
+   5. KIỂM TRA ĐẦU VÀO
+===================================================== */
 
-    $('svmParameters').style.display = isSVM ? 'block' : 'none';
+function getInputValues(){
 
-    $('gammaField').classList.toggle(
-        'hidden',
-        !['SVM_RBF', 'SVM_POLY', 'SVM_SIGMOID'].includes(modelKey)
-    );
+ const ids = [
+  'sepal_length',
+  'sepal_width',
+  'petal_length',
+  'petal_width'
+ ];
 
-    $('degreeField').classList.toggle(
-        'hidden',
-        modelKey !== 'SVM_POLY'
-    );
+ const values = {};
+
+ for(const id of ids){
+
+  const raw = $(id).value.trim();
+
+  const value = Number(raw);
+
+  if(
+   raw==='' ||
+   !Number.isFinite(value) ||
+   value<=0
+  ){
+
+   throw new Error(
+    'Vui lòng nhập đầy đủ bốn thông số lớn hơn 0.'
+   );
+
+  }
+
+  values[id] = value;
+
+ }
+
+ return values;
+
 }
 
 
-/* ========================================
-   6. THỬ MÔ HÌNH KHÁC
-======================================== */
+/* =====================================================
+   6. HIỂN THỊ KẾT QUẢ
+===================================================== */
 
-$('tryAnother').addEventListener('click', () => {
-    $('models').scrollIntoView({
-        behavior: 'smooth',
-        block: 'center'
-    });
-});
+function showPredictionResult(data){
 
+ const classId = Number(
+  data.class_id !== undefined
+   ? data.class_id
+   : data.prediction
+ );
 
-/* ========================================
-   7. KIỂM TRA ĐẦU VÀO
-======================================== */
+ const flower = species[classId];
 
-function getInputValues() {
-    const ids = [
-        'sepal_length',
-        'sepal_width',
-        'petal_length',
-        'petal_width'
-    ];
+ if(!flower){
+  throw new Error('Mã loài hoa trả về không hợp lệ.');
+ }
 
-    const values = {};
+ $('resultImage').src = flower.image;
 
-    for (const id of ids) {
-        const raw = $(id).value.trim();
-        const value = Number(raw);
+ $('resultName').textContent = flower.name;
 
-        if (raw === '' || !Number.isFinite(value) || value <= 0) {
-            throw new Error(
-                'Vui lòng nhập đầy đủ bốn thông số lớn hơn 0.'
-            );
-        }
+ $('resultScientific').textContent = flower.scientific;
 
-        values[id] = value;
-    }
+ $('resultModel').textContent =
+  data.model_name ||
+  modelConfig[state.selected].name;
 
-    return values;
+ $('resultRuntime').textContent =
+  fmtSec(data.execution_time);
+
+ $('resultPlaceholder').style.display='none';
+
+ $('loader').classList.remove('show');
+
+ $('resultContent').classList.add('show');
+
 }
 
-
-/* ========================================
-   8. HIỂN THỊ KẾT QUẢ
-======================================== */
-
-function showPredictionResult(data) {
-    const classId = Number(
-        data.class_id !== undefined
-            ? data.class_id
-            : data.prediction
-    );
-
-    const flower = species[classId];
-
-    if (!flower) {
-        throw new Error('Mã loài hoa trả về không hợp lệ.');
-    }
-
-    $('resultImage').src = flower.image;
-    $('resultName').textContent = flower.name;
-    $('resultScientific').textContent = flower.scientific;
-
-    $('resultModel').textContent =
-        data.model_name || modelConfig[state.selected].name;
-
-    $('resultRuntime').textContent =
-        fmtSec(data.execution_time);
-
-    $('resultPlaceholder').style.display = 'none';
-    $('loader').classList.remove('show');
-    $('resultContent').classList.add('show');
-}
-
-
-/* ========================================
-   9. DỰ ĐOÁN
-======================================== */
 
 $('predictButton').addEventListener('click', async () => {
+
     if (state.isPredicting) return;
 
     const button = $('predictButton');
+    const hadPreviousResult = $('resultContent').classList.contains('show');
 
     try {
         const inputs = getInputValues();
 
+        // Kiểm tra đăng nhập
         const meResponse = await fetch('/me', {
-            credentials: 'same-origin'
+            method: 'GET',
+            credentials: 'same-origin',
+            headers: { 'Accept': 'application/json' }
         });
 
-        if (!meResponse.ok) {
-            throw new Error('Không thể xác thực tài khoản.');
+        const meText = await meResponse.text();
+        let meData;
+
+        try {
+            meData = JSON.parse(meText);
+        } catch {
+            throw new Error('API /me không trả về JSON. Hãy kiểm tra session đăng nhập.');
         }
 
-        const meData = await meResponse.json();
-
-        if (!meData.success) {
-            alert('Vui lòng đăng nhập trước khi dự đoán!');
+        if (!meResponse.ok || !meData.success) {
+            alert('Phiên đăng nhập không hợp lệ hoặc đã hết hạn. Em hãy đăng nhập lại nhé!');
             return;
         }
 
-       const payload = {
-    model_name: state.selected,
-    ...inputs
-};
+        // Tạo dữ liệu gửi backend
+        const payload = {
+            model_name: state.selected,
+            ...inputs
+        };
 
-if (state.selected.startsWith('SVM')) {
-    const C = Number($('svmC').value);
+        if (state.selected.startsWith('SVM')) {
+            const C = Number($('svmC').value);
 
-    if (!Number.isFinite(C) || C <= 0) {
-        throw new Error('Giá trị C phải lớn hơn 0.');
-    }
+            if (!Number.isFinite(C) || C <= 0) {
+                throw new Error('Giá trị C phải lớn hơn 0.');
+            }
 
-    payload.C = C;
+            payload.C = C;
 
-    if (['SVM_RBF', 'SVM_POLY', 'SVM_SIGMOID'].includes(state.selected)) {
-        payload.gamma = $('svmGamma').value;
-    }
+            if (['SVM_RBF', 'SVM_POLY', 'SVM_SIGMOID'].includes(state.selected)) {
+                payload.gamma = $('svmGamma').value;
+            }
 
-    if (state.selected === 'SVM_POLY') {
-        const degree = Number($('svmDegree').value);
+            if (state.selected === 'SVM_POLY') {
+                const degree = Number($('svmDegree').value);
 
-        if (!Number.isInteger(degree) || degree < 1) {
-            throw new Error('Degree phải là số nguyên dương.');
+                if (!Number.isInteger(degree) || degree < 1) {
+                    throw new Error('Degree phải là số nguyên dương.');
+                }
+
+                payload.degree = degree;
+            }
         }
 
-        payload.degree = degree;
-    }
-}
-
+        // Bắt đầu gửi yêu cầu
         state.isPredicting = true;
         button.disabled = true;
         button.textContent = 'ĐANG XỬ LÝ...';
 
         $('resultPlaceholder').style.display = 'none';
-        $('resultContent').classList.remove('show');
         $('loader').classList.add('show');
 
+        // Gọi API cùng origin với trang web
         const response = await fetch('/predict-model', {
             method: 'POST',
             credentials: 'same-origin',
@@ -1805,65 +2197,70 @@ if (state.selected.startsWith('SVM')) {
             body: JSON.stringify(payload)
         });
 
-        const data = await response.json();
+        const responseText = await response.text();
+        let data;
 
-        if (!response.ok || data.success === false) {
+        try {
+            data = JSON.parse(responseText);
+        } catch {
             throw new Error(
-                data.message ||
-                'Dự đoán thất bại. HTTP ' + response.status
+                'API dự đoán không trả về JSON. HTTP ' + response.status
             );
         }
 
+        if (!response.ok || data.success !== true) {
+            throw new Error(
+                data.message || data.detail || 'Dự đoán thất bại. HTTP ' + response.status
+            );
+        }
+
+        // Chỉ cập nhật kết quả khi API thành công
         showPredictionResult(data);
+
+        showToast('Dự đoán thành công!');
 
     } catch (error) {
         console.error('Lỗi dự đoán:', error);
 
-        $('loader').classList.remove('show');
-        $('resultContent').classList.remove('show');
-        $('resultPlaceholder').style.display = 'block';
+        if (!hadPreviousResult) {
+            $('resultContent').classList.remove('show');
+            $('resultPlaceholder').style.display = 'block';
+            $('resultPlaceholder').innerHTML =
+ '<strong>Không thể dự đoán</strong>' +
+ error.message;
+        }
 
-       $('resultPlaceholder').innerHTML =
-    '<span class="placeholder-flower">✿</span>' +
-    '<strong>Không thể dự đoán</strong>' +
-    error.message;
+        showToast(error.message || 'Đã xảy ra lỗi khi dự đoán.');
 
     } finally {
         state.isPredicting = false;
         button.disabled = false;
         button.textContent = '✦ PHÂN LOẠI HOA';
+        $('loader').classList.remove('show');
     }
 });
 
 
-/* ========================================
-   10. THAY ĐỔI INPUT
-======================================== */
+/* =====================================================
+   8. LỊCH SỬ VÀ KHỞI ĐỘNG
+===================================================== */
 
-document.querySelectorAll('.field input').forEach(input => {
-    input.addEventListener('input', () => {
-        $('resultContent').classList.remove('show');
-        $('loader').classList.remove('show');
-        $('resultPlaceholder').style.display = 'block';
-    });
+
+document.querySelectorAll('.field input').forEach(input=>{
+
+ input.addEventListener('input',()=>{
+
+  $('resultContent').classList.remove('show');
+
+  $('loader').classList.remove('show');
+
+  $('resultPlaceholder').style.display='block';
+
+ });
+
 });
 
-
-/* ========================================
-   11. LỊCH SỬ MÔ HÌNH
-======================================== */
-
-$('historyButton').addEventListener('click', () => {
-    window.location.href = '/model-history-page';
-});
-
-
-/* ========================================
-   12. KHỞI ĐỘNG
-======================================== */
-
-document.addEventListener('DOMContentLoaded', loadEvaluation);
-
+document.addEventListener('DOMContentLoaded',loadEvaluation);
 
 </script>
 

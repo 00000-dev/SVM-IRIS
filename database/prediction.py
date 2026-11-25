@@ -319,5 +319,74 @@ def permanently_delete_all_prediction_history(ma_nguoi_dung):
                 "da_xoa": True
             }
         )
-
         return result.rowcount
+
+# =========================================================
+# 9. ADMIN: LẤY TOÀN BỘ LỊCH SỬ DỰ ĐOÁN
+# =========================================================
+
+def get_all_prediction_history():
+    sql = text("""
+        SELECT
+            l.ma_du_doan,
+            l.ma_nguoi_dung,
+            n.ten_dang_nhap,
+            l.sepal_length,
+            l.sepal_width,
+            l.petal_length,
+            l.petal_width,
+            l.ket_qua,
+            l.ten_mo_hinh,
+            l.thoi_gian_chay,
+            l.thoi_gian_du_doan,
+            l.da_xoa
+        FROM lich_su_du_doan AS l
+        INNER JOIN nguoi_dung AS n
+            ON l.ma_nguoi_dung = n.ma_nguoi_dung
+        WHERE l.da_xoa = 0
+        ORDER BY l.thoi_gian_du_doan DESC
+    """)
+
+    with engine.connect() as connection:
+        result = connection.execute(sql)
+
+        return [
+            {
+                "ma_du_doan": row.ma_du_doan,
+                "ma_nguoi_dung": row.ma_nguoi_dung,
+                "ten_dang_nhap": row.ten_dang_nhap,
+                "sepal_length": row.sepal_length,
+                "sepal_width": row.sepal_width,
+                "petal_length": row.petal_length,
+                "petal_width": row.petal_width,
+                "ket_qua": row.ket_qua,
+                "ten_mo_hinh": row.ten_mo_hinh,
+                "thoi_gian_chay": row.thoi_gian_chay,
+                "thoi_gian_du_doan": row.thoi_gian_du_doan,
+                "da_xoa": row.da_xoa
+            }
+            for row in result
+        ]
+
+
+# =========================================================
+# 10. ADMIN: THỐNG KÊ LƯỢT DỰ ĐOÁN
+# =========================================================
+
+def get_prediction_statistics():
+    sql = text("""
+        SELECT
+            COUNT(*) AS tong_luot_du_doan,
+            COUNT(DISTINCT ma_nguoi_dung) AS so_nguoi_da_du_doan
+        FROM lich_su_du_doan
+        WHERE da_xoa = 0
+    """)
+
+    with engine.connect() as connection:
+        row = connection.execute(sql).fetchone()
+
+        return {
+            "tong_luot_du_doan": row.tong_luot_du_doan or 0,
+            "so_nguoi_da_du_doan": row.so_nguoi_da_du_doan or 0
+        }
+

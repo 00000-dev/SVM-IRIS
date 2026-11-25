@@ -1,0 +1,1673 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IRIS BOTANICA | Admin Dashboard</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+:root {
+    --cream: #f3ede2;
+    --paper: #faf7f0;
+    --olive: #48503f;
+    --olive-dark: #343b2e;
+    --olive-light: #e4e5d9;
+    --purple: #76658b;
+    --purple-light: #ebe5f0;
+    --brown: #7d602d;
+    --text: #292820;
+    --muted: #827b6e;
+    --line: #e1d8c9;
+    --danger: #a65349;
+    --white: #fffdf8;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 25px;
+}
+
+body {
+    background: var(--cream);
+    color: var(--text);
+    font-family: "Montserrat", sans-serif;
+    min-height: 100vh;
+}
+
+button, input {
+    font-family: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+.dashboard {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* SIDEBAR */
+.sidebar {
+    width: 255px;
+    min-height: 100vh;
+    background: var(--olive-dark);
+    color: white;
+    padding: 30px 20px;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+}
+
+.brand {
+    padding: 5px 10px 35px;
+    border-bottom: 1px solid rgba(255,255,255,.15);
+}
+
+.brand-icon {
+    font-size: 27px;
+    color: #d7c8a8;
+}
+
+.brand-name {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    margin-top: 5px;
+}
+
+.brand-sub {
+    font-size: 8px;
+    letter-spacing: 2px;
+    color: #c9c7b7;
+    margin-top: 5px;
+}
+
+.sidebar-label {
+    color: #aaa995;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    margin: 32px 10px 13px;
+}
+
+.side-link {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    padding: 14px 13px;
+    margin-bottom: 5px;
+    border: none;
+    border-radius: 5px;
+    background: transparent;
+    color: #e8e6dc;
+    font-size: 10px;
+    font-weight: 600;
+    text-align: left;
+    text-decoration: none;
+    transition: .2s;
+}
+
+.side-link span {
+    font-size: 17px;
+    width: 20px;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+.side-link:hover,
+.side-link.active {
+    background: rgba(255,255,255,.13);
+    color: #fff;
+}
+
+.side-link.active {
+    border-left: 3px solid #c5b28b;
+}
+
+.sidebar-bottom {
+    margin-top: auto;
+    border-top: 1px solid rgba(255,255,255,.15);
+    padding-top: 20px;
+}
+
+.admin-profile {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    padding: 10px;
+}
+
+.avatar {
+    width: 37px;
+    height: 37px;
+    border-radius: 50%;
+    background: #d8cfb9;
+    color: var(--olive-dark);
+    display: grid;
+    place-items: center;
+    font-family: Georgia, serif;
+    font-weight: bold;
+    flex-shrink: 0;
+}
+
+.profile-name {
+    font-size: 10px;
+    font-weight: 700;
+}
+
+.profile-role {
+    color: #c7c4b5;
+    font-size: 9px;
+    margin-top: 4px;
+}
+
+/* MAIN */
+.main {
+    flex: 1;
+    min-width: 0;
+}
+
+.topbar {
+    height: 78px;
+    padding: 0 4%;
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(250,247,240,.8);
+}
+
+.topbar-title {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 25px;
+    font-weight: 700;
+}
+
+.topbar-right {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.system-status {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 9px;
+    font-weight: 700;
+    color: var(--olive);
+}
+
+.status-dot {
+    width: 7px;
+    height: 7px;
+    background: #82936a;
+    border-radius: 50%;
+}
+
+.home-link {
+    border: 1px solid #c9bea9;
+    padding: 9px 13px;
+    color: var(--olive);
+    border-radius: 4px;
+    font-size: 9px;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.content {
+    padding: 35px 4%;
+    max-width: 1600px;
+    margin: auto;
+}
+
+.welcome {
+    margin-bottom: 30px;
+}
+
+.eyebrow {
+    color: var(--brown);
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 2.5px;
+    margin-bottom: 8px;
+}
+
+.welcome h1 {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 39px;
+    line-height: 1.1;
+}
+
+.welcome p {
+    color: var(--muted);
+    font-size: 11px;
+    margin-top: 8px;
+}
+
+/* NOTICE */
+.notice {
+    padding: 13px 17px;
+    margin-bottom: 20px;
+    border-radius: 4px;
+    background: #eee8d9;
+    color: #65583e;
+    font-size: 10px;
+    line-height: 1.6;
+    display: none;
+}
+
+/* STATISTICS */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 17px;
+    margin-bottom: 28px;
+}
+
+.stat-card {
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: 7px;
+    padding: 21px;
+    min-height: 135px;
+}
+
+.stat-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.stat-label {
+    color: var(--muted);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.stat-icon {
+    width: 34px;
+    height: 34px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    font-size: 17px;
+}
+
+.icon-olive { background: var(--olive-light); }
+.icon-purple { background: var(--purple-light); }
+.icon-brown { background: #eee6d7; }
+.icon-pink { background: #f1e2df; }
+
+.stat-number {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 34px;
+    font-weight: 700;
+    margin-top: 13px;
+}
+
+.stat-note {
+    font-size: 9px;
+    color: var(--muted);
+    margin-top: 2px;
+}
+
+/* PANELS */
+.panel {
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: 7px;
+    margin-bottom: 25px;
+    overflow: hidden;
+    min-width: 0;
+}
+
+.panel-header {
+    padding: 21px 23px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--line);
+    gap: 15px;
+}
+
+.panel-title {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.panel-description {
+    font-size: 9px;
+    color: var(--muted);
+    margin-top: 4px;
+}
+
+.panel-tools {
+    display: flex;
+    gap: 9px;
+    align-items: center;
+}
+
+.search-box {
+    height: 36px;
+    width: 210px;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    background: var(--paper);
+    padding: 0 11px;
+    outline: none;
+    font-size: 10px;
+}
+
+.search-box:focus {
+    border-color: var(--brown);
+}
+
+.refresh-btn {
+    height: 36px;
+    padding: 0 13px;
+    border: 1px solid #bcb19d;
+    border-radius: 4px;
+    color: var(--olive);
+    background: transparent;
+    font-size: 9px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.refresh-btn:hover {
+    background: var(--olive-light);
+}
+
+/* TABLE */
+.table-wrap {
+    width: 100%;
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    white-space: nowrap;
+}
+
+th {
+    padding: 15px 20px;
+    text-align: left;
+    color: #827b6e;
+    background: #f8f5ed;
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+
+td {
+    padding: 16px 20px;
+    border-top: 1px solid #eee8dd;
+    font-size: 10px;
+}
+
+tbody tr:hover {
+    background: #faf8f2;
+}
+
+.user-cell {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.user-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--purple-light);
+    color: var(--purple);
+    display: grid;
+    place-items: center;
+    font-weight: 800;
+}
+
+.user-name {
+    font-weight: 700;
+}
+
+.user-id {
+    color: var(--muted);
+    font-size: 9px;
+    margin-top: 3px;
+}
+
+.role {
+    display: inline-block;
+    padding: 6px 10px;
+    border-radius: 20px;
+    font-size: 9px;
+    font-weight: 700;
+}
+
+.role-admin {
+    color: #6c5484;
+    background: var(--purple-light);
+}
+
+.role-user {
+    color: #566247;
+    background: var(--olive-light);
+}
+
+.status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 9px;
+    font-weight: 700;
+}
+
+.status::before {
+    content: "";
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #82936a;
+}
+
+.status.inactive::before {
+    background: #b66d61;
+}
+
+.action-btn {
+    padding: 7px 11px;
+    border: 1px solid #c9bea9;
+    border-radius: 3px;
+    background: transparent;
+    color: var(--olive);
+    font-size: 9px;
+    font-weight: 700;
+}
+
+.action-btn:hover {
+    background: var(--olive-light);
+}
+
+.action-btn.danger {
+    color: var(--danger);
+    border-color: #d9b8b1;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 35px 15px;
+    color: var(--muted);
+    font-size: 10px;
+}
+
+/* LOWER GRID */
+.lower-grid {
+    display: grid;
+    grid-template-columns: 1.2fr .8fr;
+    gap: 20px;
+}
+
+.activity-item {
+    padding: 17px 22px;
+    display: flex;
+    gap: 13px;
+    border-bottom: 1px solid #eee8dd;
+    align-items: flex-start;
+}
+
+.activity-icon {
+    width: 33px;
+    height: 33px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: var(--olive-light);
+    flex-shrink: 0;
+}
+
+.activity-text {
+    font-size: 10px;
+    line-height: 1.6;
+}
+
+.activity-time {
+    color: var(--muted);
+    font-size: 9px;
+    margin-top: 4px;
+}
+
+.model-card {
+    padding: 23px;
+}
+
+.model-card h3 {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 25px;
+}
+
+.model-card p {
+    color: var(--muted);
+    font-size: 10px;
+    line-height: 1.7;
+    margin: 8px 0 18px;
+}
+
+.model-link {
+    display: inline-block;
+    background: var(--olive);
+    color: white;
+    text-decoration: none;
+    padding: 11px 15px;
+    border-radius: 4px;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+/* RESPONSIVE */
+@media(max-width: 1050px) {
+    .sidebar {
+        width: 210px;
+    }
+
+    .stats-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media(max-width: 750px) {
+    .sidebar {
+        width: 65px;
+        padding: 20px 8px;
+    }
+
+    .brand {
+        padding: 5px 0 20px;
+        text-align: center;
+    }
+
+    .brand-name,
+    .brand-sub,
+    .sidebar-label,
+    .side-link .link-text,
+    .admin-profile .profile-info {
+        display: none;
+    }
+
+    .side-link {
+        justify-content: center;
+        padding: 13px 5px;
+    }
+
+    .side-link span {
+        width: auto;
+    }
+
+    .admin-profile {
+        justify-content: center;
+        padding: 5px 0;
+    }
+
+    .content {
+        padding: 25px 17px;
+    }
+
+    .topbar {
+        padding: 0 17px;
+    }
+
+    .topbar-title {
+        font-size: 20px;
+    }
+
+    .system-status {
+        display: none;
+    }
+
+    .lower-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media(max-width: 480px) {
+    .stats-grid {
+        gap: 9px;
+    }
+
+    .stat-card {
+        padding: 14px;
+    }
+
+    .stat-number {
+        font-size: 28px;
+    }
+
+    .panel-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .panel-tools {
+        width: 100%;
+    }
+
+    .search-box {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .welcome h1 {
+        font-size: 32px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="dashboard">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+        <div class="brand">
+            <div class="brand-icon">❧</div>
+            <div class="brand-name">IRIS BOTANICA</div>
+            <div class="brand-sub">ADMINISTRATION SYSTEM</div>
+        </div>
+
+        <div class="sidebar-label">WORKSPACE</div>
+
+        <button class="side-link active" data-section="overview">
+            <span>⌂</span>
+            <span class="link-text">Tổng quan</span>
+        </button>
+
+        <button class="side-link" data-section="users">
+            <span>♙</span>
+            <span class="link-text">Quản lý người dùng</span>
+        </button>
+
+        <button class="side-link" data-section="loginHistory">
+            <span>◷</span>
+            <span class="link-text">Lịch sử đăng nhập</span>
+        </button>
+
+        <button class="side-link" data-section="predictionHistory">
+            <span>◈</span>
+            <span class="link-text">Lịch sử dự đoán</span>
+        </button>
+
+        <button class="side-link" data-section="models">
+            <span>✿</span>
+            <span class="link-text">Mô hình AI</span>
+        </button>
+
+        <div class="sidebar-label">WEBSITE</div>
+
+        <a class="side-link" href="/">
+            <span>↗</span>
+            <span class="link-text">Xem trang chủ</span>
+        </a>
+
+        <a class="side-link" href="/model-evaluation-page">
+            <span>◈</span>
+            <span class="link-text">Đánh giá mô hình</span>
+        </a>
+
+        <div class="sidebar-bottom">
+
+            <div class="admin-profile">
+                <div class="avatar">A</div>
+                <div class="profile-info">
+                    <div class="profile-name" id="adminName">Administrator</div>
+                    <div class="profile-role">QUẢN TRỊ VIÊN</div>
+                </div>
+            </div>
+
+            <button class="side-link" id="logoutButton">
+                <span>⇥</span>
+                <span class="link-text">Đăng xuất</span>
+            </button>
+
+        </div>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="main">
+
+        <header class="topbar">
+            <div class="topbar-title">Admin Dashboard</div>
+
+            <div class="topbar-right">
+                <div class="system-status">
+                    <span class="status-dot"></span>
+                    IRIS BOTANICA SYSTEM
+                </div>
+
+                <a href="/" class="home-link">TRANG CHỦ ↗</a>
+            </div>
+        </header>
+
+        <div class="content">
+
+            <!-- WELCOME -->
+            <div class="welcome">
+                <div class="eyebrow">BOTANICAL INTELLIGENCE · ADMIN</div>
+                <h1>Không gian quản trị</h1>
+                <p>
+                    Quản lý người dùng và theo dõi hoạt động của hệ thống Iris Botanica AI.
+                </p>
+            </div>
+
+            <div class="notice" id="apiNotice"></div>
+
+            <!-- DASHBOARD STATISTICS -->
+            <section class="stats-grid" id="overview">
+
+                <div class="stat-card">
+                    <div class="stat-top">
+                        <div class="stat-label">TỔNG NGƯỜI DÙNG</div>
+                        <div class="stat-icon icon-olive">♙</div>
+                    </div>
+                    <div class="stat-number" id="totalUsers">—</div>
+                    <div class="stat-note">Tài khoản trong hệ thống</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-top">
+                        <div class="stat-label">QUẢN TRỊ VIÊN</div>
+                        <div class="stat-icon icon-purple">♔</div>
+                    </div>
+                    <div class="stat-number" id="totalAdmins">—</div>
+                    <div class="stat-note">Tài khoản có quyền quản trị</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-top">
+                        <div class="stat-label">ĐANG HOẠT ĐỘNG</div>
+                        <div class="stat-icon icon-brown">✿</div>
+                    </div>
+                    <div class="stat-number" id="activeUsers">—</div>
+                    <div class="stat-note">Tài khoản đang được kích hoạt</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-top">
+                        <div class="stat-label">ĐÃ VÔ HIỆU HÓA</div>
+                        <div class="stat-icon icon-pink">⌑</div>
+                    </div>
+                    <div class="stat-number" id="inactiveUsers">—</div>
+                    <div class="stat-note">Tài khoản bị khóa</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-top">
+                        <div class="stat-label">TỔNG LƯỢT DỰ ĐOÁN</div>
+                        <div class="stat-icon icon-purple">◈</div>
+                    </div>
+                    <div class="stat-number" id="totalPredictions">—</div>
+                    <div class="stat-note">Tổng số lần hệ thống thực hiện dự đoán</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-top">
+                        <div class="stat-label">NGƯỜI ĐÃ DỰ ĐOÁN</div>
+                        <div class="stat-icon icon-olive">♙</div>
+                    </div>
+                    <div class="stat-number" id="usersPredicted">—</div>
+                    <div class="stat-note">Số người dùng đã sử dụng AI</div>
+                </div>
+
+            </section>
+
+            <!-- USER MANAGEMENT -->
+            <section class="panel" id="users">
+
+                <div class="panel-header">
+                    <div>
+                        <div class="panel-title">Quản lý người dùng</div>
+                        <div class="panel-description">
+                            Danh sách tài khoản đã đăng ký trên Iris Botanica AI
+                        </div>
+                    </div>
+
+                    <div class="panel-tools">
+                        <input
+                            type="text"
+                            id="searchUser"
+                            class="search-box"
+                            placeholder="Tìm tên đăng nhập..."
+                        >
+
+                        <button class="refresh-btn" id="refreshUsers">
+                            ↻ LÀM MỚI
+                        </button>
+                    </div>
+                </div>
+
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>NGƯỜI DÙNG</th>
+                                <th>NGÀY TẠO</th>
+                                <th>VAI TRÒ</th>
+                                <th>TRẠNG THÁI</th>
+                                <th>THAO TÁC</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="userTable">
+                            <tr>
+                                <td colspan="5" class="empty-state">
+                                    Đang tải danh sách người dùng...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </section>
+
+            <!-- LOGIN HISTORY -->
+            <section class="panel" id="loginHistory">
+
+                <div class="panel-header">
+                    <div>
+                        <div class="panel-title">Lịch sử đăng nhập</div>
+                        <div class="panel-description">
+                            Theo dõi thời gian và tài khoản truy cập hệ thống
+                        </div>
+                    </div>
+
+                    <button class="refresh-btn" id="refreshLoginHistory">
+                        ↻ LÀM MỚI
+                    </button>
+                </div>
+
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>MÃ ĐĂNG NHẬP</th>
+                                <th>TÊN ĐĂNG NHẬP</th>
+                                <th>VAI TRÒ</th>
+                                <th>THỜI GIAN ĐĂNG NHẬP</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="loginHistoryTable">
+                            <tr>
+                                <td colspan="4" class="empty-state">
+                                    Đang tải lịch sử đăng nhập...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </section>
+
+            <!-- PREDICTION HISTORY -->
+            <section class="panel" id="predictionHistory">
+
+                <div class="panel-header">
+                    <div>
+                        <div class="panel-title">Lịch sử dự đoán</div>
+                        <div class="panel-description">
+                            Theo dõi các lượt dự đoán của hệ thống Iris Botanica AI
+                        </div>
+                    </div>
+
+                    <button class="refresh-btn" id="refreshPredictionHistory">
+                        ↻ LÀM MỚI
+                    </button>
+                </div>
+
+                <div class="table-wrap">
+                    <table>
+                        <thead id="predictionHistoryHead">
+                            <tr>
+                                <th>LỊCH SỬ DỰ ĐOÁN</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="predictionHistoryTable">
+                            <tr>
+                                <td class="empty-state">
+                                    Đang tải lịch sử dự đoán...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </section>
+
+            <!-- LOWER CONTENT -->
+            <div class="lower-grid">
+
+                <section class="panel">
+                    <div class="panel-header">
+                        <div>
+                            <div class="panel-title">Hoạt động hệ thống</div>
+                            <div class="panel-description">
+                                Các khu vực quản lý chính
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="activity-item">
+                        <div class="activity-icon">♙</div>
+                        <div>
+                            <div class="activity-text">
+                                <strong>Quản lý tài khoản</strong><br>
+                                Theo dõi, kiểm soát trạng thái và vai trò người dùng.
+                            </div>
+                            <div class="activity-time">USER MANAGEMENT</div>
+                        </div>
+                    </div>
+
+                    <div class="activity-item">
+                        <div class="activity-icon">✿</div>
+                        <div>
+                            <div class="activity-text">
+                                <strong>Hệ thống phân loại Iris</strong><br>
+                                Theo dõi và đánh giá hiệu quả các mô hình học máy.
+                            </div>
+                            <div class="activity-time">AI MODEL EVALUATION</div>
+                        </div>
+                    </div>
+
+                    <div class="activity-item">
+                        <div class="activity-icon">◈</div>
+                        <div>
+                            <div class="activity-text">
+                                <strong>Lịch sử hoạt động</strong><br>
+                                Theo dõi lịch sử đăng nhập và dữ liệu dự đoán.
+                            </div>
+                            <div class="activity-time">ACTIVITY HISTORY</div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="panel" id="models">
+
+                    <div class="panel-header">
+                        <div>
+                            <div class="panel-title">AI Model Center</div>
+                            <div class="panel-description">
+                                Không gian đánh giá mô hình
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="model-card">
+                        <h3>Iris Classification</h3>
+
+                        <p>
+                            Theo dõi kết quả đánh giá các mô hình SVM, LDA và KNN.
+                            Xem các chỉ số hiệu suất và so sánh khả năng phân loại
+                            ba loài hoa Iris.
+                        </p>
+
+                        <a href="/model-evaluation-page" class="model-link">
+                            XEM ĐÁNH GIÁ MÔ HÌNH →
+                        </a>
+                    </div>
+
+                </section>
+
+            </div>
+
+        </div>
+    </main>
+</div>
+
+<script>
+"use strict";
+
+/* ========================================
+   1. DOM ELEMENTS & DATA
+======================================== */
+
+const userTable = document.getElementById("userTable");
+const searchUser = document.getElementById("searchUser");
+const apiNotice = document.getElementById("apiNotice");
+
+let users = [];
+let loginHistory = [];
+let predictionHistory = [];
+
+
+/* ========================================
+   2. COMMON FUNCTIONS
+======================================== */
+
+function showNotice(message) {
+    apiNotice.textContent = message;
+    apiNotice.style.display = "block";
+}
+
+function hideNotice() {
+    apiNotice.style.display = "none";
+}
+
+function formatDateTime(value) {
+    if (!value) return "—";
+
+    const date = new Date(value);
+
+    if (Number.isNaN(date.getTime())) {
+        return String(value);
+    }
+
+    return date.toLocaleString("vi-VN");
+}
+
+function formatDate(value) {
+    if (!value) return "—";
+
+    const date = new Date(value);
+
+    if (Number.isNaN(date.getTime())) {
+        return String(value);
+    }
+
+    return date.toLocaleDateString("vi-VN");
+}
+
+function formatColumnName(key) {
+    const names = {
+        ma_du_doan: "MÃ DỰ ĐOÁN",
+        ma_nguoi_dung: "MÃ NGƯỜI DÙNG",
+        ten_dang_nhap: "TÊN ĐĂNG NHẬP",
+        loai_hoa: "LOÀI HOA",
+        ten_hoa: "TÊN HOA",
+        ket_qua: "KẾT QUẢ",
+        mo_hinh: "MÔ HÌNH",
+        ten_mo_hinh: "TÊN MÔ HÌNH",
+        thoi_gian_du_doan: "THỜI GIAN DỰ ĐOÁN",
+        thoi_gian_chay: "THỜI GIAN CHẠY"
+    };
+
+    return names[key] || key.replaceAll("_", " ").toUpperCase();
+}
+
+async function fetchAdminAPI(url, options = {}) {
+    const response = await fetch(url, {
+        credentials: "same-origin",
+        cache: "no-store",
+        ...options
+    });
+
+    let data;
+
+    try {
+        data = await response.json();
+    } catch {
+        throw new Error("Máy chủ trả về dữ liệu không hợp lệ.");
+    }
+
+    if (!response.ok || data.success === false) {
+        throw new Error(
+            data.message || `Yêu cầu thất bại (${response.status}).`
+        );
+    }
+
+    return data;
+}
+
+
+/* ========================================
+   3. DASHBOARD STATISTICS
+======================================== */
+
+async function loadDashboard() {
+    try {
+        const data = await fetchAdminAPI("/admin/dashboard");
+
+        document.getElementById("totalUsers").textContent =
+            data.total_users ?? 0;
+
+        document.getElementById("totalAdmins").textContent =
+            data.admin_count ?? 0;
+
+        document.getElementById("activeUsers").textContent =
+            data.active_users ?? 0;
+
+        document.getElementById("inactiveUsers").textContent =
+            data.locked_users ?? 0;
+
+        document.getElementById("totalPredictions").textContent =
+            data.total_predictions ?? 0;
+
+        document.getElementById("usersPredicted").textContent =
+            data.users_who_predicted ?? 0;
+
+    } catch (error) {
+        console.error("Dashboard error:", error);
+        showNotice("Không thể tải dữ liệu thống kê Dashboard.");
+    }
+}
+
+
+/* ========================================
+   4. USER MANAGEMENT
+======================================== */
+
+function renderUsers(keyword = "") {
+    const filtered = users.filter(user =>
+        String(user.ten_dang_nhap || "")
+            .toLowerCase()
+            .includes(keyword.toLowerCase())
+    );
+
+    if (!filtered.length) {
+        userTable.innerHTML = `
+            <tr>
+                <td colspan="5" class="empty-state">
+                    Không tìm thấy tài khoản phù hợp.
+                </td>
+            </tr>
+        `;
+        return;
+    }
+
+    userTable.innerHTML = "";
+
+    filtered.forEach(user => {
+        const isAdmin =
+            String(user.vai_tro || "").toLowerCase() === "admin";
+
+        const isActive =
+            user.trang_thai === true ||
+            user.trang_thai === 1 ||
+            user.trang_thai === "1";
+
+        const tr = document.createElement("tr");
+
+        // USER
+        const userCell = document.createElement("td");
+        const userWrap = document.createElement("div");
+        userWrap.className = "user-cell";
+
+        const avatar = document.createElement("div");
+        avatar.className = "user-avatar";
+        avatar.textContent =
+            (user.ten_dang_nhap || "?").charAt(0).toUpperCase();
+
+        const nameWrap = document.createElement("div");
+
+        const name = document.createElement("div");
+        name.className = "user-name";
+        name.textContent = user.ten_dang_nhap || "Không rõ";
+
+        const id = document.createElement("div");
+        id.className = "user-id";
+        id.textContent = "ID: " + (user.ma_nguoi_dung ?? "—");
+
+        nameWrap.append(name, id);
+        userWrap.append(avatar, nameWrap);
+        userCell.append(userWrap);
+
+        // CREATED DATE
+        const dateCell = document.createElement("td");
+        dateCell.textContent = formatDate(user.ngay_tao);
+
+        // ROLE
+        const roleCell = document.createElement("td");
+        const role = document.createElement("span");
+
+        role.className =
+            "role " + (isAdmin ? "role-admin" : "role-user");
+
+        role.textContent = isAdmin ? "ADMIN" : "USER";
+        roleCell.append(role);
+
+        // STATUS
+        const statusCell = document.createElement("td");
+        const status = document.createElement("span");
+
+        status.className = "status " + (isActive ? "" : "inactive");
+        status.textContent = isActive ? "Hoạt động" : "Đã khóa";
+
+        statusCell.append(status);
+
+        // ACTION
+        const actionCell = document.createElement("td");
+
+        if (isAdmin) {
+            actionCell.textContent = "—";
+        } else {
+            const button = document.createElement("button");
+
+            button.className =
+                "action-btn " + (isActive ? "danger" : "");
+
+            button.textContent =
+                isActive ? "Vô hiệu hóa" : "Kích hoạt";
+
+            button.addEventListener("click", () => {
+                updateUserStatus(user.ma_nguoi_dung, !isActive);
+            });
+
+            actionCell.append(button);
+        }
+
+        tr.append(
+            userCell,
+            dateCell,
+            roleCell,
+            statusCell,
+            actionCell
+        );
+
+        userTable.append(tr);
+    });
+}
+
+
+async function loadUsers() {
+    userTable.innerHTML = `
+        <tr>
+            <td colspan="5" class="empty-state">
+                Đang tải dữ liệu...
+            </td>
+        </tr>
+    `;
+
+    try {
+        const data = await fetchAdminAPI("/admin/users");
+
+        users = data.users || [];
+
+        renderUsers(searchUser.value);
+
+    } catch (error) {
+        console.error("Load users error:", error);
+
+        users = [];
+
+        userTable.innerHTML = `
+            <tr>
+                <td colspan="5" class="empty-state">
+                    Không thể tải danh sách người dùng.
+                </td>
+            </tr>
+        `;
+
+        showNotice(
+            "Không thể tải danh sách người dùng. Kiểm tra đăng nhập Admin và API /admin/users ở backend."
+        );
+    }
+}
+
+
+async function updateUserStatus(userId, newStatus) {
+    const message = newStatus
+        ? "Bạn muốn kích hoạt lại tài khoản này?"
+        : "Bạn muốn vô hiệu hóa tài khoản này?";
+
+    if (!confirm(message)) return;
+
+    try {
+        const data = await fetchAdminAPI(
+            `/admin/users/${userId}/status`,
+            {
+                method: "PATCH"
+            }
+        );
+
+        alert(data.message || "Cập nhật trạng thái thành công!");
+
+        await Promise.all([
+            loadUsers(),
+            loadDashboard()
+        ]);
+
+    } catch (error) {
+        console.error("Update status error:", error);
+        alert(error.message || "Không thể cập nhật trạng thái.");
+    }
+}
+
+
+/* ========================================
+   5. LOGIN HISTORY
+======================================== */
+
+async function loadLoginHistory() {
+    const table = document.getElementById("loginHistoryTable");
+
+    table.innerHTML = `
+        <tr>
+            <td colspan="4" class="empty-state">
+                Đang tải dữ liệu...
+            </td>
+        </tr>
+    `;
+
+    try {
+        const data = await fetchAdminAPI("/admin/login-history");
+
+        loginHistory = data.history || [];
+
+        if (loginHistory.length === 0) {
+            table.innerHTML = `
+                <tr>
+                    <td colspan="4" class="empty-state">
+                        Chưa có lịch sử đăng nhập.
+                    </td>
+                </tr>
+            `;
+            return;
+        }
+
+        table.innerHTML = "";
+
+        loginHistory.forEach(item => {
+            const tr = document.createElement("tr");
+
+            const values = [
+                item.ma_dang_nhap,
+                item.ten_dang_nhap,
+                item.vai_tro,
+                formatDateTime(item.thoi_gian_dang_nhap)
+            ];
+
+            values.forEach((value, index) => {
+                const td = document.createElement("td");
+
+                if (index === 2) {
+                    const role = document.createElement("span");
+
+                    const isAdmin =
+                        String(value || "").toLowerCase() === "admin";
+
+                    role.className =
+                        "role " + (isAdmin ? "role-admin" : "role-user");
+
+                    role.textContent = isAdmin ? "ADMIN" : "USER";
+
+                    td.append(role);
+                } else {
+                    td.textContent = value ?? "—";
+                }
+
+                tr.append(td);
+            });
+
+            table.append(tr);
+        });
+
+    } catch (error) {
+        console.error("Login history error:", error);
+
+        table.innerHTML = `
+            <tr>
+                <td colspan="4" class="empty-state">
+                    Không thể tải lịch sử đăng nhập.
+                </td>
+            </tr>
+        `;
+    }
+}
+
+
+/* ========================================
+   6. PREDICTION HISTORY
+======================================== */
+
+async function loadPredictionHistory() {
+    const table = document.getElementById("predictionHistoryTable");
+    const head = document.getElementById("predictionHistoryHead");
+
+    table.innerHTML = `
+        <tr>
+            <td class="empty-state">Đang tải dữ liệu...</td>
+        </tr>
+    `;
+
+    try {
+        const data = await fetchAdminAPI("/admin/prediction-history");
+
+        predictionHistory = data.history || [];
+
+        if (predictionHistory.length === 0) {
+            head.innerHTML = `
+                <tr>
+                    <th>LỊCH SỬ DỰ ĐOÁN</th>
+                </tr>
+            `;
+
+            table.innerHTML = `
+                <tr>
+                    <td class="empty-state">
+                        Chưa có dữ liệu dự đoán.
+                    </td>
+                </tr>
+            `;
+
+            return;
+        }
+
+        const columns = Object.keys(predictionHistory[0]);
+
+        head.innerHTML = "";
+
+        const headerRow = document.createElement("tr");
+
+        columns.forEach(key => {
+            const th = document.createElement("th");
+            th.textContent = formatColumnName(key);
+            headerRow.append(th);
+        });
+
+        head.append(headerRow);
+
+        table.innerHTML = "";
+
+        predictionHistory.forEach(item => {
+            const tr = document.createElement("tr");
+
+            columns.forEach(key => {
+                const td = document.createElement("td");
+                let value = item[key];
+
+                if (key.toLowerCase().includes("thoi_gian")) {
+                    value = formatDateTime(value);
+                } else if (
+                    value === null ||
+                    value === undefined ||
+                    value === ""
+                ) {
+                    value = "—";
+                } else if (typeof value === "object") {
+                    value = JSON.stringify(value);
+                }
+
+                td.textContent = String(value);
+                tr.append(td);
+            });
+
+            table.append(tr);
+        });
+
+    } catch (error) {
+        console.error("Prediction history error:", error);
+
+        head.innerHTML = `
+            <tr>
+                <th>LỊCH SỬ DỰ ĐOÁN</th>
+            </tr>
+        `;
+
+        table.innerHTML = `
+            <tr>
+                <td class="empty-state">
+                    Không thể tải lịch sử dự đoán.
+                </td>
+            </tr>
+        `;
+    }
+}
+
+
+/* ========================================
+   7. SEARCH & REFRESH
+======================================== */
+
+searchUser.addEventListener("input", () => {
+    renderUsers(searchUser.value);
+});
+
+document.getElementById("refreshUsers")
+    .addEventListener("click", loadUsers);
+
+document.getElementById("refreshLoginHistory")
+    .addEventListener("click", loadLoginHistory);
+
+document.getElementById("refreshPredictionHistory")
+    .addEventListener("click", loadPredictionHistory);
+
+
+/* ========================================
+   8. SIDEBAR NAVIGATION
+======================================== */
+
+document.querySelectorAll(".side-link[data-section]")
+    .forEach(link => {
+        link.addEventListener("click", () => {
+            document.querySelectorAll(".side-link[data-section]")
+                .forEach(item => item.classList.remove("active"));
+
+            link.classList.add("active");
+
+            const target = document.getElementById(link.dataset.section);
+
+            if (target) {
+                target.scrollIntoView({
+                    behavior: "smooth",
+                    block: "start"
+                });
+            }
+        });
+    });
+
+
+/* ========================================
+   9. LOGOUT
+======================================== */
+
+document.getElementById("logoutButton")
+    .addEventListener("click", async () => {
+
+        if (!confirm("Em muốn đăng xuất khỏi trang quản trị?")) {
+            return;
+        }
+
+        try {
+            const response = await fetch("/logout", {
+                method: "POST",
+                credentials: "same-origin"
+            });
+
+            const data = await response.json();
+
+            if (response.ok && data.success) {
+                window.location.href = "/";
+            } else {
+                alert(data.message || "Đăng xuất thất bại.");
+            }
+
+        } catch (error) {
+            console.error("Logout error:", error);
+            alert("Không thể kết nối máy chủ.");
+        }
+    });
+
+
+/* ========================================
+   10. CHECK ADMIN AUTHENTICATION
+======================================== */
+
+async function checkAdmin() {
+    try {
+        const response = await fetch("/me", {
+            credentials: "same-origin",
+            cache: "no-store"
+        });
+
+        const data = await response.json();
+
+        if (
+            !response.ok ||
+            !data.success ||
+            !data.logged_in
+        ) {
+            alert("Em cần đăng nhập để truy cập trang này.");
+            window.location.href = "/account";
+            return;
+        }
+
+        if (
+            String(data.vai_tro || "").toLowerCase() !== "admin"
+        ) {
+            alert("Tài khoản không có quyền quản trị.");
+            window.location.href = "/";
+            return;
+        }
+
+        document.getElementById("adminName").textContent =
+            data.ten_dang_nhap || "Administrator";
+
+        await Promise.all([
+            loadUsers(),
+            loadDashboard(),
+            loadLoginHistory(),
+            loadPredictionHistory()
+        ]);
+
+    } catch (error) {
+        console.error("Authentication error:", error);
+
+        showNotice(
+            "Không thể xác minh quyền quản trị. Kiểm tra API /me và kết nối máy chủ."
+        );
+    }
+}
+
+
+/* ========================================
+   11. INITIALIZE
+======================================== */
+
+checkAdmin();
+
+</script>
+
+</body>
+</html>
